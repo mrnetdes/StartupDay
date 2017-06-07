@@ -1,0 +1,16 @@
+{
+    "yearbook" : [
+        {
+            "price" : 10,
+            "description" : "",
+            "rules" : ""
+        }
+    ],
+    "lanyard" : [
+        {
+            "price" : 10,
+            "description" : "",
+            "rules" : ""
+        }
+    ]
+}
