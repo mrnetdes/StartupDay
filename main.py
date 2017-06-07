@@ -7,7 +7,12 @@ from items import *
 
 
 def main():
-    print(yearbook.price)
+
+    # Collecting ID number
+    userInput = input("Please scan an ID number")
+    
+    # Adding items to transaction
+    
 
 
 main()
