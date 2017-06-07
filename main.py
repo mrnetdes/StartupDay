@@ -1,17 +1,24 @@
-import sys
-sys.path.insert(0, "/Users/Stephen/Github/StartupDay/packages")
-from items import *
+# Author: Stephen Ritchie
+# Date: 06/07/2017
+# Version: Pre-Alpha 1.0
+
 
 
 
 
 
 def main():
-
-    # Collecting ID number
-    userInput = input("Please scan an ID number")
+    exitFlag = False
     
-    # Adding items to transaction
+    # Main program loop
+    while (!exitFlag):
+        userInput = input("Please scan an ID number")
+    
+    
+    
+    
+def cleanShutdown():
+    print("Performing a clean shutdown...")
     
 
 
