@@ -3,14 +3,14 @@
         {
             "price" : 10,
             "description" : "",
-            "rules" : ""
+            "rules" : "A senior should get their first yearbook for free."
         }
     ],
     "lanyard" : [
         {
             "price" : 10,
             "description" : "",
-            "rules" : ""
+            "rules" : "First lanyard for each student in free."
         }
     ]
 }
