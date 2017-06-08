@@ -20,7 +20,7 @@ class User(object):
         self.year = year
         
         # Inventory information (key=item name, value=units being purchased)
-        self.items = {'_yearbook':0, '_lanyard':0, '_pacdues':0, '_spiritlife':0, '_other':0}
+        self.items = {'YEARBOOK':0, 'QUARTER_AD':0, 'HALF_ADD':0, 'FULL_AD':0, 'CAFETERIA':0, 'OTHER':0, 'LANYARD':0, 'AGENDA':0, 'PARKING_PASS':0, 'SERVICE_CLUB':0, 'PAC_DUES':0, 'OTHER':0}
         
      
 
