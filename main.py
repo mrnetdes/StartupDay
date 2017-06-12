@@ -42,12 +42,16 @@ def main():
         # Adding items to transaction/adding new user to transaction
               
         # Determining payment methods
+        print("WARNING: a 3% fee will be applied to credit card purchases")
         split_count = input("How many ways is this transaction being split?") # this needs validation
         for x in range (1, split_count+1):
               print("Payment number ", x
               payment_type = get_payment_type()
               payment_amount = get_payment_amount()
-              
+                    
+                    
+        # Totaling up all items
+        # include 3% charge for cc
               
         # Creating Receipt
               
@@ -78,9 +82,13 @@ def check_operator(id):
 # These functions need validation
 def get_payment_type():
     userInput = input("Type:")
+    while (userInput != "cc" || userInput != "cash" || userInput != "check"):
+        userInput = input("INVALID: Type:")
     return userInput
 def get_payment_amount():
     userInput = input("Amount:")
+    while (userInput < 0):
+        userInput = input("INVALID: Amount:")
     return userInput
     
 
