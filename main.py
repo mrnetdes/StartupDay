@@ -18,13 +18,14 @@ def main():
         items = json.load(data_file)
     pprint(items)
      
+        
     #header.title()
+    
     
     # Getting a valid operator id
     userInput = input("Please enter your operator id:")
     while (!check_operator(userInput)):
-        print("Invalid operator...")
-        userInput = input("Please enter your operator id:)
+        userInput = input("INVALID ID: Please enter your operator id:)
     operator_id = userInput
         
     
@@ -34,8 +35,27 @@ def main():
         # Getting a valid user id
         userInput = input("Please scan an ID number")
         while(!check_id(userInput):
-              print("Invalid ID...")
-              userInput = input("Please scan an ID number:")
+              userInput = input("INVALID ID: Please scan an ID number:")
+              
+        # Creating user
+              
+        # Adding items to transaction/adding new user to transaction
+              
+        # Determining payment methods
+        split_count = input("How many ways is this transaction being split?") # this needs validation
+        for x in range (1, split_count+1):
+              print("Payment number ", x
+              payment_type = get_payment_type()
+              payment_amount = get_payment_amount()
+              
+              
+        # Creating Receipt
+              
+              
+        # Storing Receipt Locally and in Database
+              
+              
+        # Printing Receipt
               
               
     
@@ -43,15 +63,25 @@ def main():
     
 #--------------------------------------------------------------------------------------    
 def cleanShutdown():
-    exit("Performing a clean shutdown...")
+    
   
 # check for exit command              
-def check_id(id):
-    return True
+def check_for_exit(id):
+    if (id == "exit"):
+        exit("Performing a clean shutdown...")
+    return
 
 # check for exit command
 def check_operator(id):
     return True
+
+# These functions need validation
+def get_payment_type():
+    userInput = input("Type:")
+    return userInput
+def get_payment_amount():
+    userInput = input("Amount:")
+    return userInput
     
 
 
