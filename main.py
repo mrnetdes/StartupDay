@@ -45,7 +45,7 @@ def main():
 
         # Determining payment methods
         if (DEBUGGING): print(bcolors.HEADER + "\n--Determining payment methods--" + bcolors.ENDC)
-        print(bcolors.WARNING + "WARNING: a 3% fee will be applied to credit card purchases!" + bcolors.ENDC)
+        print(bcolors.WARNING + "WARNING: a 3% fee will be applied to credit card purchases!" + bcolors.ENDC) # cc surcharge warning
         split_count = input("How many ways is this transaction being split?: ") # this needs validation
         for x in range (1, split_count+1):
               print("\tPayment number " + str(x))
