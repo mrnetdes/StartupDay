@@ -49,8 +49,8 @@ def main():
         split_count = input("How many ways is this transaction being split?: ") # this needs validation
         for x in range (1, split_count+1):
               print("\tPayment number " + str(x))
-              payment_type = get_payment_type("Type: ")
-              payment_amount = get_payment_amount("Amount: ")
+              payment_type = validation.get_payment_type("Type: ")
+              payment_amount = validation.get_payment_amount("Amount: ")
 
 
         # Totaling up all items
