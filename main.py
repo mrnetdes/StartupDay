@@ -49,8 +49,8 @@ def main():
         split_count = input("How many ways is this transaction being split?: ") # this needs validation
         for x in range (1, split_count+1):
               print("\tPayment number " + str(x))
-              #payment_type = get_payment_type()
-              #payment_amount = get_payment_amount()
+              payment_type = get_payment_type("Type: ")
+              payment_amount = get_payment_amount("Amount: ")
 
 
         # Totaling up all items
@@ -99,7 +99,31 @@ def check_for_exit(id):
 def check_operator(id):
     return True
 
-# These functions need validation
+# purpose:
+# precondition: string that is prompt user sees
+# postcondition:
+def get_payment_type(prompt):
+    while True:
+        # Exception handling for string type
+        try:
+            userInput = str(input(prompt))
+        except ValueError:
+            print(bcolors.FAIL + "INVALID INPUT " + prompt + bcolors.ENDC)
+            continue
+        # Custom validation for cash, check, or credit card   
+        if (userInput != "cash" or userInput != "check" or userInput != "creditcard"):
+            print(bcolors.FAIL + "INVALID INPUT " + prompt + bcolors.ENDC)
+            continue
+        else:
+            break
+            
+    return userInput
+            
+# purpose:
+# precondition:
+# postcondition:
+def get_payment_amount(prompt):
+    
 
 
 
