@@ -24,12 +24,11 @@ def main():
         items = json.load(data_file)
     #pprint(items) # this doesn't work correctly yet
 
-
-    #header.title()
+    header.title() # title graphic
 
 
     # Getting a valid operator id
-
+    operator_id = validation.get_operator("Enter operator ID:")
 
 
     # Main program loop
@@ -42,6 +41,7 @@ def main():
         # Creating user
 
         # Adding items to transaction/adding new user to transaction
+        header.transaction("TEST") # printing transaction text to screen
 
         # Determining payment methods
         if (DEBUGGING): print(bcolors.HEADER + "\n--Determining payment methods--" + bcolors.ENDC)
