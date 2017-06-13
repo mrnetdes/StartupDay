@@ -20,6 +20,7 @@ class validation:
             
         return userInput
     
+    
     # purpose:
     # precondition: string that is prompt user sees
     # postcondition:
@@ -39,5 +40,28 @@ class validation:
             else:
                 break
                 
-            return userInput
+        return userInput
+     
+        
+    # purpose:
+    # precondition:
+    # postcondition:
+    def get_operator(prompt):
+        while True:
+            # Exception handling for string
+            try:
+                userInput = str(input(prompt))
+            except ValueError:
+                print(bcolors.FAIL + "INVALID INPUT " + prompt + bcolors.ENDC)
+                continue
+                
+            # Custom validation for proper operator ID
+            if (userInput != "SR"):
+                print(bcolors.FAIL + "INVALID INPUT " + prompt + bcolors.ENDC)
+                continue
+            else:
+                break
+                
+        return userInput
+                
   
