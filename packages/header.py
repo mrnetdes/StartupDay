@@ -1,7 +1,9 @@
 import bcolors
 
 title():
-    print("TITLE")
+    print(bcolors.HEADER + "///////////////////////////////////////////////")
+    print("//   LEXINGTON CATHOLIC HIGH SCHOOL         //")
+    print("///////////////////////////////////////////////" + bcolors.ENDC)
     
-transaction():
-    print(bcolors.HEADER + "------------------ Transaction " + transaction_number + " ------------------" + bcolors.ENDC)
+transaction(number):
+    print(bcolors.HEADER + "------------------ Transaction " + number + " ------------------" + bcolors.ENDC)
