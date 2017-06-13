@@ -19,6 +19,25 @@ class validation:
                 break
             
         return userInput
-      
+    
+    # purpose:
+    # precondition: string that is prompt user sees
+    # postcondition:
     def get_payment_amount(prompt):
+        while True:
+            # Exception handling for float
+            try:
+                userInput = float(input(prompt))
+            except ValueError:
+                print(bcolors.FAIL + "INVALID INPUT " + prompt + bcolors.ENDC)
+                continue
+                
+            # Custom validation minimum amount...NEED TO SEE WHAT MIN AND MAX SHOULD BE
+            if (userInput < 0):
+                print(bcolors.FAIL + "INVALID INPUT " + prompt + bcolors.ENDC)
+                continue
+            else:
+                break
+                
+            return userInput
   
