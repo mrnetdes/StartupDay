@@ -26,6 +26,7 @@ def main():
         items = json.load(data_file)
     #pprint(items) # this doesn't work correctly yet
 
+    header.title() # title graphic
     
     # Getting a valid operator id
     operator_id = validation.get_operator("Enter operator ID: ")
@@ -33,7 +34,6 @@ def main():
 
     # Main program loop
     while (exitFlag == False):
-        header.title() # title graphic
         
         # Getting a valid user id
         if (DEBUGGING): print(bcolors.HEADER + "\n--Getting a valid user id--" + bcolors.ENDC)
