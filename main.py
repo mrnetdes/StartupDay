@@ -7,6 +7,7 @@
 import json
 from pprint import pprint
 
+# Importing all the custom pancakes
 from packages import *
 
 
@@ -17,26 +18,26 @@ DEBUGGING = True
 
 
 def main():
-    exitFlag = False # boolean to control main exiting of main program loop
+    exitFlag = False # boolean to control exiting of main program loop
 
     # Importing item list
+    if (DEBUGGING): print(bcolors.HEADER + "\n--Importing item list--" + bcolors.ENDC)
     with open('packages/items.json') as data_file:
         items = json.load(data_file)
     #pprint(items) # this doesn't work correctly yet
 
-    header.title() # title graphic
-
-
+    
     # Getting a valid operator id
-    operator_id = validation.get_operator("Enter operator ID:")
+    operator_id = validation.get_operator("Enter operator ID: ")
 
 
     # Main program loop
     while (exitFlag == False):
-
+        header.title() # title graphic
+        
         # Getting a valid user id
         if (DEBUGGING): print(bcolors.HEADER + "\n--Getting a valid user id--" + bcolors.ENDC)
-        userInput = get_id("Please enter id: ")
+        userInput = validation.get_id("Please SCAN Student Number: ")
 
         # Creating user
 
@@ -73,59 +74,6 @@ def main():
 
 
 #--------------------------------------------------------------------------------------
-#def cleanShutdown():
-
-# purpose:
-# precondition:
-# postcondition:
-def get_id(prompt):
-    userInput = input(prompt)
-    while True:
-        if (userInput != 999):
-            userInput = input(bcolors.FAIL + "INVALID ID: " + prompt + bcolors.ENDC)
-        else:
-            break
-    return userInput
-
-
-
-# check for exit command
-def check_for_exit(id):
-    if (id == "exit"):
-        exit("Performing a clean shutdown...")
-    return
-
-# check for exit command
-def check_operator(id):
-    return True
-
-# purpose:
-# precondition: string that is prompt user sees
-# postcondition:
-def get_payment_type(prompt):
-    while True:
-        # Exception handling for string type
-        try:
-            userInput = str(input(prompt))
-        except ValueError:
-            print(bcolors.FAIL + "INVALID INPUT " + prompt + bcolors.ENDC)
-            continue
-        # Custom validation for cash, check, or credit card   
-        if (userInput != "cash" or userInput != "check" or userInput != "creditcard"):
-            print(bcolors.FAIL + "INVALID INPUT " + prompt + bcolors.ENDC)
-            continue
-        else:
-            break
-            
-    return userInput
-            
-# purpose:
-# precondition:
-# postcondition:
-def get_payment_amount(prompt):
-    
-
-
 
 
 main()
