@@ -21,6 +21,7 @@ class User(object):
         
         # Inventory information (key=item name, value=units being purchased)
         self.items = {'YEARBOOK':0, 'QUARTER_AD':0, 'HALF_ADD':0, 'FULL_AD':0, 'CAFETERIA':0, 'OTHER':0, 'LANYARD':0, 'AGENDA':0, 'PARKING_PASS':0, 'SERVICE_CLUB':0, 'PAC_DUES':0, 'OTHER':0}
+        self.total = 0
         
      
 
