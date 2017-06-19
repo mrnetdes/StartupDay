@@ -11,10 +11,7 @@ from pprint import pprint
 from packages import *
 
 
-
-
 DEBUGGING = True
-
 
 
 def main():
@@ -51,6 +48,7 @@ def main():
         if (DEBUGGING): print("\n--Determining payment methods--")
         print("WARNING: a 3% fee will be applied to credit card purchases!") # cc surcharge warning
         split_count = input("How many ways is this transaction being split?: ") # this needs validation
+        # Getting information on each payment split
         for x in range (1, split_count+1):
               print("\tPayment number " + str(x))
               payment_type = validation.get_payment_type("Type: ")
@@ -63,14 +61,20 @@ def main():
 
         # Creating Receipt
         if (DEBUGGING): print("\n--Creating receipt--")
+        # Create header...
+        # Create body...
+        # Create footer...
 
 
         # Storing Receipt Locally and in Database
         if (DEBUGGING): print("\n--Storing receipt locally and in database--")
+        # Storing locally...
+        # Storing in database
 
 
         # Printing Receipt
         if (DEBUGGING): print("\n--Printing receipt--")
+        # NEED ABILITY TO REPRINT RECEIPT
 
 
 
