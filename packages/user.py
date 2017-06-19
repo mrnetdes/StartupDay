@@ -20,7 +20,7 @@ class User(object):
         self.year = year
         
         # Inventory information (key=item name, value=units being purchased)
-        self.items = {'YEARBOOK':0, 'QUARTER_AD':0, 'HALF_ADD':0, 'FULL_AD':0, 'CAFETERIA':0, 'OTHER':0, 'LANYARD':0, 'AGENDA':0, 'PARKING_PASS':0, 'SERVICE_CLUB':0, 'PAC_DUES':0, 'OTHER':0}
+        self.inventory = {'YEARBOOK':0, 'QUARTER_AD':0, 'HALF_ADD':0, 'FULL_AD':0, 'CAFETERIA':0, 'OTHER':0, 'LANYARD':0, 'AGENDA':0, 'PARKING_PASS':0, 'SERVICE_CLUB':0, 'PAC_DUES':0, 'OTHER':0}
         self.total = 0
         
      
@@ -29,6 +29,11 @@ class User(object):
         return self.userid
     def set_userid(self, id):
         self.userid = id
+    
+    # Gets the total of the items in the user's inventory
+    def get_total(self):
+        for key in self.inventory:
+            print(key ,"corresponds to ", self.inventory[key])
         
     
     
