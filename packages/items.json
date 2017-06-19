@@ -1,12 +1,19 @@
 {
-    "yearbook" : [
+    "YEARBOOK" : [
         {
             "price" : 10,
             "description" : "",
             "rules" : "A senior should get their first yearbook for free."
         }
     ],
-    "lanyard" : [
+    "QUARTER_AD" : [
+        {
+            "price" : 10,
+            "description" : "",
+            "rules" : "First lanyard for each student in free."
+        }
+    ],
+    "HALF_AD" : [
         {
             "price" : 10,
             "description" : "",
