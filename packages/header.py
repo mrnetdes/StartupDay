@@ -1,10 +1,10 @@
-import bcolors
+from packages.bcolors import *
 
-title():
-    print(bcolors.HEADER + "///////////////////////////////////////////////////////////////////////")
+def title():
+    print("///////////////////////////////////////////////////////////////////////")
     print("////                       STARTUP DAY TOOL                        ////")
     print("////       LICENSED TO LEXINGTON CATHOLIC HIGH SCHOOL - 2017       ////")
-    print("///////////////////////////////////////////////////////////////////////" + bcolors.ENDC)
-    
-transaction(number):
+    print("///////////////////////////////////////////////////////////////////////")
+
+def transaction(number):
     print(bcolors.HEADER + "------------------ Transaction " + number + " ------------------" + bcolors.ENDC)

@@ -7,8 +7,14 @@
 import json
 from pprint import pprint
 
+
+
 # Importing all the custom pancakes
-from packages import *
+from packages.bcolors import *
+from packages.header import *
+from packages.colorama import Fore, Back, Style
+
+
 
 
 DEBUGGING = True
@@ -18,21 +24,21 @@ def main():
     exitFlag = False # boolean to control exiting of main program loop
 
     # Importing item list
-    if (DEBUGGING): print("\n--Importing item list--")
-    with open('packages/items.json') as data_file:
-        items = json.load(data_file)
+    if (DEBUGGING): print(Fore.RED + "\n--Importing item list--" + Style.RESET_ALL)
+    #with open('packages/items.json') as data_file:
+    #    items = json.load(data_file)
     #pprint(items) # this doesn't work correctly yet
 
-    header.title() # title graphic
-    
+    title()
+
     # Getting a valid operator id
-    operator_id = validation.get_operator("Enter operator ID: ")
+    #operator_id = Validation.get_operator("Enter operator ID: ")
 
     #------------------------------------------------------------------
     # Main program loop
     #------------------------------------------------------------------
     while (exitFlag == False):
-        
+
         # Getting a valid user id
         if (DEBUGGING): print("\n--Getting a valid user id--")
         userid = validation.get_id("Please SCAN Student Number: ")
