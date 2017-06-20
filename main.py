@@ -10,8 +10,12 @@ from pprint import pprint
 
 
 # Importing all the custom pancakes
-from packages.bcolors import *
 from packages.header import *
+from packages.validation import *
+
+# Getting the pretty colors
+from packages.colorama import init
+init()
 from packages.colorama import Fore, Back, Style
 
 
@@ -23,16 +27,23 @@ DEBUGGING = True
 def main():
     exitFlag = False # boolean to control exiting of main program loop
 
+
     # Importing item list
-    if (DEBUGGING): print(Fore.RED + "\n--Importing item list--" + Style.RESET_ALL)
-    #with open('packages/items.json') as data_file:
-    #    items = json.load(data_file)
-    #pprint(items) # this doesn't work correctly yet
+    if (DEBUGGING): print(Fore.MAGENTA + "\n--Importing item list--" + Style.RESET_ALL)
+    with open('items.json', "r") as data_file:
+        parsed = json.load(data_file)
+    #print json.dumps(parsed, indent=4, sort_keys=True)
+    #print("A " + str(parsed['items'][0]['name']) + " costs " + str(parsed['items'][0]['price']))
+
 
     title()
 
+
     # Getting a valid operator id
-    #operator_id = Validation.get_operator("Enter operator ID: ")
+    if (DEBUGGING): print(Fore.MAGENTA + "\n--Getting a valid operator id--" + Style.RESET_ALL)
+    operator_id = get_operator("Enter operator ID: ")
+    print(Fore.GREEN + "Hello " + str(operator_id) + "!" + Style.RESET_ALL)
+
 
     #------------------------------------------------------------------
     # Main program loop
@@ -40,8 +51,8 @@ def main():
     while (exitFlag == False):
 
         # Getting a valid user id
-        if (DEBUGGING): print("\n--Getting a valid user id--")
-        userid = validation.get_id("Please SCAN Student Number: ")
+        if (DEBUGGING): print(Fore.MAGENTA + "\n--Getting a valid user id--" + Style.RESET_ALL)
+        user_id = get_id("Please SCAN Student Number: ")
 
         # Creating user
         # ...

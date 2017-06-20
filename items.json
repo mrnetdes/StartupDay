@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "name": "yearbook",
+      "price": 10
+    },
+    {
+      "name": "lanyard",
+      "price": 10
+    }
+  ]
+}
