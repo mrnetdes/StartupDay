@@ -53,7 +53,7 @@ def get_operator(prompt):
         try:
             userInput = str(raw_input(prompt))
         except ValueError:
-            print(Fore.RED + "INVALID INPUT " + Style.RESET_ALL)
+            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
 
         if (userInput != "SR"):
@@ -72,14 +72,14 @@ def get_id(prompt):
     while True:
         # Exception handling for string
         try:
-            userInput = int(input(prompt))
+            userInput = int(raw_input(prompt))
         except ValueError:
-            print(bcolors.FAIL + "INVALID INPUT " + bcolors.ENDC + prompt)
+            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
 
         # Custom validation for proper ID number
         if (userInput != 9):
-            print(bcolors.FAIL + "STUDENT NUMBER NOT FOUND " + bcolors.ENDC + prompt)
+            print(Fore.RED + "STUDENT NUMBER NOT FOUND " + Style.RESET_ALL)
             continue
         else:
             break
