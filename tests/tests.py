@@ -7,6 +7,10 @@ def get_version():
   else:
     return True
 
-# Ensures that an internet connection is present
+# Purpose: checks that an internet connection is present
 def internet_connection():
+  return True
+
+# Purpose: check that a connection to the specified database can be made
+def db_connection():
   return True
