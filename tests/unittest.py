@@ -1,4 +1,5 @@
 import unittest
+from . import tests
 
 class FullTest(unittest.TestCase):
   def setUp(self):
