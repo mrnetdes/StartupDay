@@ -3,22 +3,17 @@
 # Version: Pre-Alpha 1.0
 
 
-# Importing modules to allow for JSON manipulation
+# Making JSON play nice
 import json
-from pprint import pprint
 
-
-
-# Importing all the custom pancakes
+# Importing all the custom packages
 from packages.header import *
 from packages.validation import *
 
-# Getting the pretty colors
+# Getting the pretty colors set up
 from packages.colorama import init
 init()
 from packages.colorama import Fore, Back, Style
-
-
 
 
 DEBUGGING = True
@@ -27,23 +22,21 @@ DEBUGGING = True
 def main():
     exitFlag = False # boolean to control exiting of main program loop
 
-
     # Importing item list
     if (DEBUGGING): print(Fore.MAGENTA + "\n--Importing item list--" + Style.RESET_ALL)
+    # Reading in JSON file to be parsed
     with open('items.json', "r") as data_file:
-        parsed = json.load(data_file)
-    #print json.dumps(parsed, indent=4, sort_keys=True)
-    #print("A " + str(parsed['items'][0]['name']) + " costs " + str(parsed['items'][0]['price']))
-
+        parsed = json.load(data_file) # parsing file
+    if (DEBUGGING):
+        print json.dumps(parsed, indent=4, sort_keys=True)
+        print("A " + str(parsed['items'][0]['name']) + " costs " + str(parsed['items'][0]['price']))
 
     title()
-
 
     # Getting a valid operator id
     if (DEBUGGING): print(Fore.MAGENTA + "\n--Getting a valid operator id--" + Style.RESET_ALL)
     operator_id = get_operator("Enter operator ID: ")
     print(Fore.GREEN + "Hello " + str(operator_id) + "!" + Style.RESET_ALL)
-
 
     #------------------------------------------------------------------
     # Main program loop
@@ -53,7 +46,7 @@ def main():
         # Getting a valid user id
         if (DEBUGGING): print(Fore.MAGENTA + "\n--Getting a valid user id--" + Style.RESET_ALL)
         user_id = get_id("Please SCAN Student Number: ")
-
+#*******************************************************************************
         # Creating user
         # ...
 
