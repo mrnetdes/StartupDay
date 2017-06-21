@@ -21,11 +21,10 @@ DEBUGGING = True
 
 def main():
     exitFlag = False # boolean to control exiting of main program loop
-
+    
     # Importing item list
     if (DEBUGGING): print(Fore.MAGENTA + "\n--Importing item list--" + Style.RESET_ALL)
-    # Reading in JSON file to be parsed
-    with open('items.json', "r") as data_file:
+    with open('items.json', "r") as data_file: # Reading in JSON file to be parsed
         parsed = json.load(data_file) # parsing file
     if (DEBUGGING):
         print json.dumps(parsed, indent=4, sort_keys=True)
@@ -42,22 +41,28 @@ def main():
     # Main program loop
     #------------------------------------------------------------------
     while (exitFlag == False):
+        
+        userList = [] # array that contains all the users on a transaction - this is reset for each new transaction
 
         # Getting a valid user id
         if (DEBUGGING): print(Fore.MAGENTA + "\n--Getting a valid user id--" + Style.RESET_ALL)
         user_id = get_id("Please SCAN Student Number: ")
-#*******************************************************************************
-        # Creating user
+        
+        # Getting user informatiom
         # ...
-
+        
+        # Creating user
+        userList.extend(User(user_id, fname, lname, propername, year)) # need to figure out approach to get rest of information
+        
+#*******************************************************************************
         # Adding items to transaction/adding new user to transaction
         header.transaction("TEST") # printing transaction text to screen
         # ...
 
         # Determining payment methods
-        if (DEBUGGING): print("\n--Determining payment methods--")
-        print("WARNING: a 3% fee will be applied to credit card purchases!") # cc surcharge warning
-        split_count = input("How many ways is this transaction being split?: ") # this needs validation
+        if (DEBUGGING): print(Fore.MAGENTA + "\n--Determining payment methods--" + Style.RESET_ALL)
+        print(Fore.yellow + "WARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
+        split_count = int(raw_input("How many ways is this transaction being split?: ")) # this needs validation
         # Getting information on each payment split
         for x in range (1, split_count+1):
               print("\tPayment number " + str(x))
