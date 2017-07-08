@@ -44,9 +44,9 @@ def get_payment_amount(prompt):
     return userInput
 
 
-# purpose
-# precondition:
-# postcondition:
+# purpose: To validate that a given operator id exists...should be done with mysql
+# precondition: string that is prompt user sees
+# postcondition: returns the operator id once a valid one is given
 def get_operator(prompt):
     while True:
         # Exception handling for string
