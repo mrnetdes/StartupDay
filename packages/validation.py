@@ -1,25 +1,53 @@
-from packages.colorama import Fore, Back, Style
+"""
+get_payment_type():
+NOT DONE
 
-# purpose:
-# precondition: string that is prompt user sees
-# postcondition:
+get_payment_amount():
+NOT DONE
+
+get_operator():
+NOT DONE
+
+get_id():
+NOT DONE
+
+other:
+
+"""
+
+
+# Getting pretty colors
+from packages.colorama import Fore, Back, Style
+import json
+
+# Importing config file
+with open('items.json', "r") as data_file: # Reading in JSON file to be parsed
+    jsonObject = json.load(data_file) # parsing file
+
 def get_payment_type(prompt):
+    """
+    purpose:
+    precondition: prompt that the user sees
+    postcondition: string of the payment type selected
+    """
     while True:
         # Exception handling for string type
         try:
-            userInput = str(input(prompt))
+            userInput = str(raw_input(prompt))
         except ValueError:
-            print(Fore.RED + "INVALID INPUT " + Style.RESET_ALL + prompt)
+            print(Fore.RED + "\tINVALID INPUT " + Style.RESET_ALL)
             continue
 
         # Custom validation for cash, check, or credit card
-        if (userInput != "cash" or userInput != "check" or userInput != "creditcard"):
-            print(bcolors.FAIL + "INVALID INPUT " + bcolors.ENDC + prompt)
+        if ((userInput != str(jsonObject['payment'][0]['type'])) and (userInput != str(jsonObject['payment'][1]['type'])) and (userInput != str(jsonObject['payment'][2]['type']))):
+            print(Fore.RED + "\tINVALID PAYMENT TYPE " + Style.RESET_ALL)
             continue
         else:
+            if (userInput == "check"):
+                check_number = int(raw_input("\tPlease enter check number: "))
             break
 
-    return userInput
+    return str(userInput)
 
 
 # purpose:
@@ -31,12 +59,12 @@ def get_payment_amount(prompt):
         try:
             userInput = float(input(prompt))
         except ValueError:
-            print(bcolors.FAIL + "INVALID PAYMENT TYPE " + bcolors.ENDC + prompt)
+            print(Fore.RED + "INVALID PAYMENT TYPE " + Style.RESET_ALL)
             continue
 
         # Custom validation minimum amount...NEED TO SEE WHAT MIN AND MAX SHOULD BE
         if (userInput < 0):
-            print(bcolors.FAIL + "INVALID AMOUNT " + bcolors.ENDC + prompt)
+            print(Fore.RED + "INVALID AMOUNT " + Style.RESET_ALL)
             continue
         else:
             break
@@ -77,7 +105,7 @@ def get_id(prompt):
             print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
 
-        # Custom validation for proper ID number
+        # Custom validation for proper ID number - NOT DONE YET
         if (userInput != 9):
             print(Fore.RED + "STUDENT NUMBER NOT FOUND " + Style.RESET_ALL)
             continue

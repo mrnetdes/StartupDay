@@ -2,11 +2,41 @@
   "items": [
     {
       "name": "yearbook",
-      "price": 10
+      "price": 10,
+      "description": "",
+      "notes": ""
     },
     {
       "name": "lanyard",
-      "price": 10
+      "price": 5,
+      "description": "",
+      "notes": ""
+    },
+    {
+      "name": "parkingpass",
+      "price": 20,
+      "description": "",
+      "notes": ""
+    },
+    {
+      "name": "pacdues",
+      "price": 20,
+      "description": "",
+      "notes": ""
+    }
+  ],
+  "payment": [
+    {
+      "type": "cash",
+      "notes": ""
+    },
+    {
+      "type": "check",
+      "notes": ""
+    },
+    {
+      "type": "card",
+      "notes": ""
     }
   ]
 }

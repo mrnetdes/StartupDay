@@ -1,10 +1,10 @@
 import mysql.connector
 
 config = {
-  'user': 'test',
-  'password': 'test',
-  'host': 'test',
-  'database': 'employees'
+  'user': 'root',
+  'password': 'root',
+  'host': '127.0.0.1',
+  'database': ''
 }
 
 def mysql_test_connection():
@@ -19,4 +19,9 @@ def mysql_test_connection():
       print(err)
   else:
     cnx.close()
-    
+
+
+"""--------------------------------------------------------------------------"""
+def main():
+    mysql_test_connection()
+main()
