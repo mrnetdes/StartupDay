@@ -1,27 +1,51 @@
+#import mysql.connector
 import mysql.connector
+from mysql.connector import errorcode
 
-config = {
-  'user': 'root',
-  'password': 'root',
-  'host': '127.0.0.1',
-  'database': ''
-}
 
-def mysql_test_connection():
-  try:
-    cnx = mysql.connector.connect(**config)
-  except mysql.connector.Error as err:
-    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-      print("Something is wrong with your username or password")
-    elif erro.errno == errorcode.ER_BAD_DB_ERROR:
-      print("Database does not exist")
-    else:
-      print(err)
-  else:
-    cnx.close()
+class Mysql(object):
+    """Mysql has the following properties:
+    """
+    def __init__(self):
+        self.user = "root"
+        self.pw = "root"
+        self.host = "localhost"
+        self.port = 3306
+        self.database = ""
+
+    def test_connection(self):
+        """
+        Attempts to connect to the host, ensuring there is a connection
+        """
+        config = {
+            'user': self.user,
+            'password': self.pw,
+            'host': self.host,
+            'port': self.port,
+            'database': self.database
+        }
+        print ("Testing MySQL connection..."),
+        try:
+            cnx = mysql.connector.connect(**config)
+            print("success!")
+            cnx.close()
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("FAIL! Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("FAIL! Database does not exist")
+            else:
+                print(err)
+
+
+
 
 
 """--------------------------------------------------------------------------"""
 def main():
-    mysql_test_connection()
+    LCHS = Mysql()
+    LCHS.test_connection()
+
+
+
 main()

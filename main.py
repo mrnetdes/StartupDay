@@ -10,6 +10,7 @@ import json
 from packages.header import *
 from packages.validation import *
 from packages.user import *
+from packages.mysql import *
 
 # Getting the pretty colors set up
 from packages.colorama import init
@@ -21,7 +22,7 @@ DEBUGGING = True
 
 # Importing item list
 if (DEBUGGING): print(Fore.MAGENTA + "\n--Importing item list--" + Style.RESET_ALL)
-with open('items.json', "r") as data_file: # Reading in JSON file to be parsed
+with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 if (DEBUGGING):
     pass

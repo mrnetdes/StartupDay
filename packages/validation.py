@@ -21,7 +21,7 @@ from packages.colorama import Fore, Back, Style
 import json
 
 # Importing config file
-with open('items.json', "r") as data_file: # Reading in JSON file to be parsed
+with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 
 def get_payment_type(prompt):
