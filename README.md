@@ -1,17 +1,17 @@
 # StartupDay Tool
 This tool was commisioned to myself by Lexington Catholic High School to be used on their Startup Day.
 ## Getting Started
-### Prerequisites
+### System Requirements
 ```
-Python 2.7.10
+Client:
+Windows 7 or 10 with Python 2.7.10
+OSX with Python 2.7.10
+Linux with Python 2.7.10
 ```
+```
+Server:
+```
+#### Server
 ### Installing
-### Running the tests
-### Deployment
-### Built With
-### Contributing
-### Versioning
-### Authors
-### License
-### Acknowledgements
+
 
