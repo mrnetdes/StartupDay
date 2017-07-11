@@ -18,6 +18,8 @@ other:
 
 # Getting pretty colors
 from packages.colorama import Fore, Back, Style
+
+# Support for json config file
 import json
 
 # Importing config file
@@ -108,6 +110,31 @@ def get_id(prompt):
         # Custom validation for proper ID number - NOT DONE YET
         if (userInput != 9):
             print(Fore.RED + "STUDENT NUMBER NOT FOUND " + Style.RESET_ALL)
+            continue
+        else:
+            break
+
+    return userInput
+
+
+def get_split_count(prompt):
+    """
+    purpose: to get a valid integer in the range 1-10 which is used as the
+             amount of ways a transaction can be split
+    precondtion: prompt that user will see
+    postcondition: returns integer from 1-10
+    """
+    while True:
+        # Exception handling for int type
+        try:
+            userInput = int(raw_input(prompt))
+        except ValueError:
+            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
+            continue
+
+        # Custom validation for integer from 1-10
+        if (userInput <= 0 or userInput > 10):
+            print(Fore.RED + "SPLIT MUST BE AT LEAST ONE " + Style.RESET_ALL)
             continue
         else:
             break

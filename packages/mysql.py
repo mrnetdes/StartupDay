@@ -1,17 +1,22 @@
-#import mysql.connector
+# MySQL functionality
 import mysql.connector
 from mysql.connector import errorcode
 
 
 class Mysql(object):
-    """Mysql has the following properties:
+    """ Mysql has the following properties:
+        user:
+        pw:
+        host:
+        port:
+        database:
     """
-    def __init__(self):
-        self.user = "root"
-        self.pw = "root"
-        self.host = "localhost"
-        self.port = 3306
-        self.database = ""
+    def __init__(self, user = "root", pw = "root", host = "localhost", port = 3306, database = ""):
+        self.user = user
+        self.pw = pw
+        self.host = host
+        self.port = port
+        self.database = database
 
     def test_connection(self):
         """

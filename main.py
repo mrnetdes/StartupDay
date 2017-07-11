@@ -82,7 +82,7 @@ def main():
         # Determining payment methods
         if (DEBUGGING): print(Fore.MAGENTA + "\n--Determining payment methods--" + Style.RESET_ALL)
         print(Fore.YELLOW + "WARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
-        split_count = int(raw_input("How many ways is this transaction being split?: ")) # this needs validation
+        split_count = get_split_count("How many ways is this transaction being split?: ")
 
         # Getting information on each split
         for x in range (1, split_count+1):
