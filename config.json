@@ -1,28 +1,24 @@
 {
   "items": [
     {
-      "name": "yearbook",
+      "name": "Yearbook",
       "price": 10,
-      "description": "",
-      "notes": ""
+      "UPC": 1
     },
     {
-      "name": "lanyard",
+      "name": "Lanyard",
       "price": 5,
-      "description": "",
-      "notes": ""
+      "UPC": 2
     },
     {
-      "name": "parkingpass",
+      "name": "Parking Pass",
       "price": 20,
-      "description": "",
-      "notes": ""
+      "UPC": 3
     },
     {
-      "name": "pacdues",
+      "name": "PAC dues",
       "price": 20,
-      "description": "",
-      "notes": ""
+      "UPC": 4
     }
   ],
   "payment": [

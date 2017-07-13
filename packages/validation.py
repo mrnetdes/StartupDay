@@ -26,6 +26,9 @@ import json
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 
+with open('config_test.json', "r") as data_file: # Reading in JSON file to be parsed
+    jsonObject_test = json.load(data_file) # parsing file
+
 def get_payment_type(prompt):
     """
     purpose:
@@ -138,5 +141,27 @@ def get_split_count(prompt):
             continue
         else:
             break
+
+    return userInput
+
+
+def get_item(prompt):
+    """
+    """
+    while True:
+        # Exception handling for string type
+        try:
+            userInput = str(raw_input(prompt))
+        except ValueError:
+            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
+            continue
+
+        # Custom validation for item names
+        if userInput in jsonObject_test['UPC']:
+            print(str(jsonObject_test['UPC'][userInput]['name']) + "is in list")
+            break
+        else:
+            print("item not found!")
+            continue
 
     return userInput

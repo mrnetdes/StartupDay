@@ -1,0 +1,13 @@
+{
+  "UPC": {
+    "yearbook": {
+      "name": "Yearbook"
+    },
+    "lanyard": {
+      "name": {}
+    },
+    "parking_pass": {
+      "name": {}
+    }
+  }
+}

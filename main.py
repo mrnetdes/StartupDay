@@ -69,12 +69,13 @@ def main():
         # Creating user
         userList.append(User(user_id, fname, lname, propername, year, enrolled, jsonObject)) # need to figure out approach to get rest of information
         userList[0].print_all()
+        print(userList[0])
 
 
         # Adding items to transaction/adding new user to transaction
         if (DEBUGGING): print(Fore.MAGENTA + "\n--Adding items to transaction/adding new user to transaction--" + Style.RESET_ALL)
-        #header.transaction("TEST") # printing transaction text to screen
-        #userInput =
+
+        userInput = get_item("Please SCAN and Item or Student Number:")
 
 
         #*******************************************************************************
