@@ -1,38 +1,27 @@
 {
-  "items": [
-    {
+  "UPC": {
+    "yearbook": {
       "name": "Yearbook",
-      "price": 10,
-      "UPC": 1
+      "price": 20
     },
-    {
+    "lanyard": {
       "name": "Lanyard",
-      "price": 5,
-      "UPC": 2
+      "price": 5
     },
-    {
+    "parking_pass": {
       "name": "Parking Pass",
-      "price": 20,
-      "UPC": 3
-    },
-    {
-      "name": "PAC dues",
-      "price": 20,
-      "UPC": 4
+      "price": 50
     }
-  ],
-  "payment": [
-    {
-      "type": "cash",
-      "notes": ""
+  },
+  "VALID_PAYMENT":{
+    "cash": {
+      "name": "Cash"
     },
-    {
-      "type": "check",
-      "notes": ""
+    "card": {
+      "name": "Credit/Debit Card"
     },
-    {
-      "type": "card",
-      "notes": ""
+    "check": {
+      "name": "Check"
     }
-  ]
+  }
 }

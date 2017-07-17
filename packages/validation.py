@@ -22,12 +22,11 @@ from packages.colorama import Fore, Back, Style
 # Support for json config file
 import json
 
+import logging
+
 # Importing config file
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
-
-with open('config_test.json', "r") as data_file: # Reading in JSON file to be parsed
-    jsonObject_test = json.load(data_file) # parsing file
 
 def get_payment_type(prompt):
     """
@@ -87,10 +86,12 @@ def get_operator(prompt):
             userInput = str(raw_input(prompt))
         except ValueError:
             print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
+            logging.info("invaid operator id")
             continue
 
         if (userInput != "SR"):
             print(Fore.RED + "Invalid Operator!" + Style.RESET_ALL)
+            logging.info("invaid operator id")
             continue
         else:
             break
@@ -157,11 +158,11 @@ def get_item(prompt):
             continue
 
         # Custom validation for item names
-        if userInput in jsonObject_test['UPC']:
-            print(str(jsonObject_test['UPC'][userInput]['name']) + "is in list")
+        if userInput in jsonObject['UPC']:
+            #print(str(jsonObject['UPC'][userInput]['name']) + "is in list")
             break
         else:
-            print("item not found!")
+            print(Fore.RED + "Could not find item\t" + str(userInput) + Style.RESET_ALL)
             continue
 
     return userInput

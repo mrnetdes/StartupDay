@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "name": "Yearbook",
+      "price": 10,
+      "UPC": 1
+    },
+    {
+      "name": "Lanyard",
+      "price": 5,
+      "UPC": 2
+    },
+    {
+      "name": "Parking Pass",
+      "price": 20,
+      "UPC": 3
+    },
+    {
+      "name": "PAC dues",
+      "price": 20,
+      "UPC": 4
+    }
+  ],
+  "payment": [
+    {
+      "type": "cash",
+      "notes": ""
+    },
+    {
+      "type": "check",
+      "notes": ""
+    },
+    {
+      "type": "card",
+      "notes": ""
+    }
+  ]
+}

@@ -2,9 +2,14 @@
 # Date: 06/07/2017
 # Version: Pre-Alpha 1.0
 
+DEBUGGING = True
+
 
 # Making JSON play nice
 import json
+
+# Getting logging ability
+import logging
 
 # Importing all the custom packages
 from packages.header import *
@@ -18,22 +23,23 @@ init()
 from packages.colorama import Fore, Back, Style
 
 
-DEBUGGING = True
-
 # Importing item list
-if (DEBUGGING): print(Fore.MAGENTA + "\n--Importing item list--" + Style.RESET_ALL)
+if (DEBUGGING): print(Fore.CYAN + "\n--Memorizing the config file..." + Style.RESET_ALL)
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 if (DEBUGGING):
     pass
-    #print json.dumps(jsonObject, indent=4, sort_keys=True)
+    print json.dumps(jsonObject, indent=4, sort_keys=True)
     #print("A " + str(parsed['items'][0]['name']) + " costs " + str(parsed['items'][0]['price']))
 
 
 def main():
+    logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s', filename='run.log', level=logging.DEBUG)
+    logging.info('Program Started')
+
+
+
     exitFlag = False # boolean to control exiting of main program loop
-
-
 
 
     # Displaying program title
@@ -41,9 +47,10 @@ def main():
 
 
     # Getting a valid operator id
-    if (DEBUGGING): print(Fore.MAGENTA + "\n--Getting a valid operator id--" + Style.RESET_ALL)
+    if (DEBUGGING): print(Fore.CYAN + "\n--Attempting to get operator id from the operator..." + Style.RESET_ALL)
     operator_id = get_operator("Enter operator ID: ")
     print(Fore.GREEN + "Hello " + str(operator_id) + "!\n" + Style.RESET_ALL)
+
 
     #------------------------------------------------------------------
     # Main program loop
@@ -65,17 +72,14 @@ def main():
         year = "2020"
         enrolled = "2016"
 
-
         # Creating user
         userList.append(User(user_id, fname, lname, propername, year, enrolled, jsonObject)) # need to figure out approach to get rest of information
-        userList[0].print_all()
-        print(userList[0])
-
 
         # Adding items to transaction/adding new user to transaction
         if (DEBUGGING): print(Fore.MAGENTA + "\n--Adding items to transaction/adding new user to transaction--" + Style.RESET_ALL)
-
-        userInput = get_item("Please SCAN and Item or Student Number:")
+        while True:
+            userInput = get_item("Please SCAN an Item or Student Number:")
+            print(Fore.GREEN + userInput + " added to cart\n" + Style.RESET_ALL)
 
 
         #*******************************************************************************
@@ -115,7 +119,5 @@ def main():
         # NEED ABILITY TO REPRINT RECEIPT
 
 
-
-
-
-main()
+if __name__ == '__main__':
+    main()

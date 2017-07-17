@@ -28,8 +28,8 @@ class User(object):
 
 
         # Adding items to cart - initializing with 0 units of each item
-        for item in self.jsonObject['items']:
-            self.cart[str(item['name'])] = 0
+        for item in self.jsonObject['UPC']:
+            self.cart[str(item)] = 0
 
 
     def get_total(self):
