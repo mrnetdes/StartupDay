@@ -40,11 +40,13 @@ def get_payment_type(prompt):
             userInput = str(raw_input(prompt))
         except ValueError:
             print(Fore.RED + "\tINVALID INPUT " + Style.RESET_ALL)
+            logging.exception("Invalid input was used for payment type: " + str(userInput)")
             continue
 
         # Custom validation for cash, check, or credit card
         if ((userInput != str(jsonObject['payment'][0]['type'])) and (userInput != str(jsonObject['payment'][1]['type'])) and (userInput != str(jsonObject['payment'][2]['type']))):
             print(Fore.RED + "\tINVALID PAYMENT TYPE " + Style.RESET_ALL)
+            logging.error("Invalid payment type was entered: " + str(userInput))
             continue
         else:
             if (userInput == "check"):
