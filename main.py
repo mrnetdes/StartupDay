@@ -36,6 +36,10 @@ if (DEBUGGING):
 def main():
     logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s', filename='run.log', level=logging.DEBUG)
     logging.info('Program Started')
+    
+    if (DEBUGGING):
+        print(Fore.YELLOW + "WARNING: program is running in debug mode" + Style.RESET_ALL)
+        logging.warning('Program is running in debugging mode')
 
 
 
