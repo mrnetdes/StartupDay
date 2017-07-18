@@ -49,6 +49,7 @@ def main():
     # Getting a valid operator id
     if (DEBUGGING): print(Fore.CYAN + "\n--Attempting to get operator id from the operator..." + Style.RESET_ALL)
     operator_id = get_operator("Enter operator ID: ")
+    logging.info("Operator" + str(operator_id) + " signed in")
     print(Fore.GREEN + "Hello " + str(operator_id) + "!\n" + Style.RESET_ALL)
 
 
