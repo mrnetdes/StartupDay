@@ -2,6 +2,8 @@
 import mysql.connector
 from mysql.connector import errorcode
 
+import logging
+
 
 class Mysql(object):
     """ Mysql has the following properties:
@@ -33,6 +35,7 @@ class Mysql(object):
         try:
             cnx = mysql.connector.connect(**config)
             print("success!")
+            logging.info("MySQL: test connection to ___ was successfull")
             cnx.close()
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
