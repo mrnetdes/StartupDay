@@ -32,20 +32,19 @@ class Mysql(object):
         try:
             cnx = mysql.connector.connect(**config)
             cursor = cnx.cursor()
-            logging.info("MySQL: connection to " + str(self.host) + " was successfull")
+            logging.info("MySQL: connection to " + str(self.host) + " was opened")
         except mysql.connector.Error as err:
+            print("Uh oh :( Please show this message to your IT Administrator")
+            logging.exception("MySQL: attempting to connect to " + str(self.host))
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print("Uh oh :( Please show this message to your IT Administrator")
                 print(str(errorcode.ER_ACCESS_DENIED_ERROR))
-                logging.exception("MySQL: Attempting to connect to " + str(self.host) + ":" + str(errorcode.ER_ACCESS_DENIED_ERROR))
+                logging.exception(str(errorcode.ER_ACCESS_DENIED_ERROR))
             elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                print("Uh oh :( Please show this message to your IT Administrator")
                 print(str(errorcode.ER_ACCESS_DENIED_ERROR))
-                logging.exception("MySQL: " + str(errorcode.ER_BAD_DB_ERROR))
+                logging.exception(str(errorcode.ER_BAD_DB_ERROR))
             else:
-                print("Uh oh :( Please show this message to your IT Administrator")
                 print(err)
-                logging.exception("MySQL: " + str(err))
+                logging.exception(str(err))
 
                 
     def test_connection(self):
@@ -55,8 +54,7 @@ class Mysql(object):
         print ("Testing MySQL connection..."),
         try:
             cnx = mysql.connector.connect(**config)
-            print("success!")
-            logging.info("MySQL: test connection to ___ was successfull")
+            print("Connection to " + str(self.host) + " successful")
             cnx.close()
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -70,6 +68,7 @@ class Mysql(object):
     def close_connection(self):
         cursor.close()
         cnx.close()
+        logging.info("MySQL: connection to " + str(self.host) + " was closed")
         
 
 
