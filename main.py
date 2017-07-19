@@ -86,6 +86,8 @@ def main():
         # Adding items to transaction/adding new user to transaction
         if (DEBUGGING): print(Fore.MAGENTA + "\n--Adding items to transaction/adding new user to transaction--" + Style.RESET_ALL)
         while True:
+            
+
             userInput = get_item("Please SCAN an Item or Student Number: ")
 
             print(Fore.GREEN + userInput + " added to cart\n" + Style.RESET_ALL)
