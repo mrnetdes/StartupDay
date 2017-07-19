@@ -8,4 +8,4 @@ def title():
     print("///////////////////////////////////////////////////////////////////////" + Style.RESET_ALL)
 
 def transaction(number):
-    print(Fore.MAGENTA + "------------------ Transaction " + number + " ------------------" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "\n-------------------------- Transaction " + str(number) + " ---------------------------" + Style.RESET_ALL)

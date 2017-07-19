@@ -40,7 +40,7 @@ def get_payment_type(prompt):
             userInput = str(raw_input(prompt))
         except ValueError:
             print(Fore.RED + "\tINVALID INPUT " + Style.RESET_ALL)
-            logging.exception("Invalid input was used for payment type: " + str(userInput)")
+            logging.exception("Invalid input was used for payment type: " + str(userInput))
             continue
 
         # Custom validation for cash, check, or credit card

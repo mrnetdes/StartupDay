@@ -2,7 +2,7 @@
 # Date: 06/07/2017
 # Version: Pre-Alpha 1.0
 
-DEBUGGING = True
+DEBUGGING = False
 
 
 # Making JSON play nice
@@ -29,7 +29,7 @@ with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 if (DEBUGGING):
     pass
-    print json.dumps(jsonObject, indent=4, sort_keys=True)
+    #print json.dumps(jsonObject, indent=4, sort_keys=True)
     #print("A " + str(parsed['items'][0]['name']) + " costs " + str(parsed['items'][0]['price']))
 
 
@@ -38,7 +38,7 @@ def main():
     logging.info('Program Started')
 
     if (DEBUGGING):
-        print(Fore.YELLOW + "WARNING: program is running in debug mode" + Style.RESET_ALL)
+        print(Fore.YELLOW + "\nWARNING: program is running in debug mode" + Style.RESET_ALL)
         logging.warning('Program is running in debugging mode')
 
 
@@ -53,7 +53,7 @@ def main():
     # Getting a valid operator id
     if (DEBUGGING): print(Fore.CYAN + "\n--Attempting to get operator id from the operator..." + Style.RESET_ALL)
     operator_id = get_operator("Enter operator ID: ")
-    logging.info("Operator" + str(operator_id) + " signed in")
+    logging.info("Operator " + str(operator_id) + " signed in")
     print(Fore.GREEN + "Hello " + str(operator_id) + "!\n" + Style.RESET_ALL)
 
 
@@ -80,10 +80,14 @@ def main():
         # Creating user
         userList.append(User(user_id, fname, lname, propername, year, enrolled, jsonObject)) # need to figure out approach to get rest of information
 
+        # ...
+        transaction(1234)
+
         # Adding items to transaction/adding new user to transaction
         if (DEBUGGING): print(Fore.MAGENTA + "\n--Adding items to transaction/adding new user to transaction--" + Style.RESET_ALL)
         while True:
-            userInput = get_item("Please SCAN an Item or Student Number:")
+            userInput = get_item("Please SCAN an Item or Student Number: ")
+
             print(Fore.GREEN + userInput + " added to cart\n" + Style.RESET_ALL)
 
 
