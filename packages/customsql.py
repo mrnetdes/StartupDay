@@ -5,7 +5,7 @@ from mysql.connector import errorcode
 import logging
 
 
-class Mysql(object):
+class Customsql(object):
     """ Mysql has the following properties:
         user:
         pw:
@@ -19,20 +19,20 @@ class Mysql(object):
         self.host = host
         self.port = port
         self.database = database
-        
-        config = {
+
+        self.config = {
             'user': self.user,
             'password': self.pw,
             'host': self.host,
             'port': self.port,
             'database': self.database
         }
-        
+
     def open_connection(self):
         try:
-            cnx = mysql.connector.connect(**config)
+            cnx = mysql.connector.connect(**self.config)
             cursor = cnx.cursor()
-            logging.info("MySQL: connection to " + str(self.host) + " was opened")
+            logging.info("MySQL: connection was opened on " + str(self.host))
         except mysql.connector.Error as err:
             print("Uh oh :( Please show this message to your IT Administrator")
             logging.exception("MySQL: attempting to connect to " + str(self.host))
@@ -46,14 +46,14 @@ class Mysql(object):
                 print(err)
                 logging.exception(str(err))
 
-                
+
     def test_connection(self):
         """
         Attempts to connect to the host, ensuring there is a connection
         """
         print ("Testing MySQL connection..."),
         try:
-            cnx = mysql.connector.connect(**config)
+            cnx = mysql.connector.connect(**self.config)
             print("Connection to " + str(self.host) + " successful")
             cnx.close()
         except mysql.connector.Error as err:
@@ -63,15 +63,20 @@ class Mysql(object):
                 print("FAIL! Database does not exist")
             else:
                 print(err)
-                
-    
+
+    def is_operator(self, id):
+        '''
+        Returns True if the given id is a valid operator - returns False otherwise
+        '''
+        return True
+
+    def is_student(self, id):
+        '''
+        Returns True if the given id is a valid operator - returns False otherwise
+        '''
+        return True
+
     def close_connection(self):
         cursor.close()
         cnx.close()
         logging.info("MySQL: connection to " + str(self.host) + " was closed")
-        
-
-
-
-
-

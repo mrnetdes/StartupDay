@@ -22,11 +22,19 @@ from packages.colorama import Fore, Back, Style
 # Support for json config file
 import json
 
+# Mysql Support
+from packages.customsql import *
+
 import logging
 
 # Importing config file
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
+
+
+lchs_test = Customsql()
+lchs_test.open_connection()
+
 
 def get_payment_type(prompt):
     """
@@ -43,6 +51,15 @@ def get_payment_type(prompt):
             logging.exception("Invalid input was used for payment type: " + str(userInput))
             continue
 
+        # Custom validation
+        if userInput in jsonObject['VALID_PAYMENT']:
+            break
+        else:
+            print(Fore.RED + "\tINVALID PAYMENT TYPE " + Style.RESET_ALL)
+            logging.error("Invalid payment type was entered: " + str(userInput))
+            continue
+
+        '''
         # Custom validation for cash, check, or credit card
         if ((userInput != str(jsonObject['payment'][0]['type'])) and (userInput != str(jsonObject['payment'][1]['type'])) and (userInput != str(jsonObject['payment'][2]['type']))):
             print(Fore.RED + "\tINVALID PAYMENT TYPE " + Style.RESET_ALL)
@@ -52,6 +69,7 @@ def get_payment_type(prompt):
             if (userInput == "check"):
                 check_number = int(raw_input("\tPlease enter check number: "))
             break
+        '''
 
     return str(userInput)
 
@@ -78,26 +96,22 @@ def get_payment_amount(prompt):
     return userInput
 
 
-# purpose: To validate that a given operator id exists...should be done with mysql
-# precondition: string that is prompt user sees
-# postcondition: returns the operator id once a valid one is given
 def get_operator(prompt):
+    '''
+    '''
     while True:
         # Exception handling for string
         try:
             userInput = str(raw_input(prompt))
         except ValueError:
-            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
-            logging.info("invaid operator id")
+            print(Fore.RED + "Invalid Input" + Style.RESET_ALL)
             continue
-
-        if (userInput != "SR"):
-            print(Fore.RED + "Invalid Operator!" + Style.RESET_ALL)
-            logging.info("invaid operator id")
-            continue
-        else:
+        # Checking that operator is in database
+        if (lchs_test.is_operator(userInput)):
             break
-
+        else:
+            print(Fore.RED + "Invalid Operator" + Style.RESET_ALL)
+            continue
     return userInput
 
 
@@ -113,12 +127,13 @@ def get_id(prompt):
             print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
 
-        # Custom validation for proper ID number - NOT DONE YET
-        if (userInput != 9):
+        # Custom validation for proper ID number - NOT DONE YE
+        if (lchs_test.is_student(userInput)):
+            break
+        else:
             print(Fore.RED + "STUDENT NUMBER NOT FOUND " + Style.RESET_ALL)
             continue
-        else:
-            break
+
 
     return userInput
 
@@ -152,7 +167,7 @@ def get_item(prompt):
     """
     """
     while True:
-        # Exception handling for string type
+        # Exception handling for data type
         try:
             userInput = str(raw_input(prompt))
         except ValueError:
@@ -161,10 +176,17 @@ def get_item(prompt):
 
         # Custom validation for item names
         if userInput in jsonObject['UPC']:
-            #print(str(jsonObject['UPC'][userInput]['name']) + "is in list")
             break
         else:
-            print(Fore.RED + "Could not find item\t" + str(userInput) + Style.RESET_ALL)
-            continue
+            if (userInput == 'break'):
+                break
+            # Trying to cast as int to see if input is a student number
+            try:
+                userInput = int(userInput)
+                userInput = get_id("Please SCAN Student Number: ")
+                break
+            except:
+                print(Fore.RED + "Could not find item\t" + str(userInput) + Style.RESET_ALL)
+                continue
 
     return userInput

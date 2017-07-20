@@ -4,6 +4,7 @@
 
 DEBUGGING = False
 
+import time
 
 # Making JSON play nice
 import json
@@ -15,7 +16,7 @@ import logging
 from packages.header import *
 from packages.validation import *
 from packages.user import *
-from packages.mysql import *
+from packages.customsql import *
 
 # Getting the pretty colors set up
 from packages.colorama import init
@@ -27,34 +28,32 @@ from packages.colorama import Fore, Back, Style
 if (DEBUGGING): print(Fore.CYAN + "\n--Memorizing the config file..." + Style.RESET_ALL)
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
-if (DEBUGGING):
-    pass
-    #print json.dumps(jsonObject, indent=4, sort_keys=True)
-    #print("A " + str(parsed['items'][0]['name']) + " costs " + str(parsed['items'][0]['price']))
+#print json.dumps(jsonObject, indent=4, sort_keys=True)
 
 
 def main():
-    logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s', filename='run.log', level=logging.DEBUG)
-    logging.info('Program Started')
 
+    # Setting up log file
+    logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s', filename='run.log', level=logging.DEBUG)
+    logging.info('========Program Started========')
+
+    # Opening MySQL connection
+    lchs_test = Customsql()
+    lchs_test.open_connection()
+
+    # DEBUGGING
     if (DEBUGGING):
         print(Fore.YELLOW + "\nWARNING: program is running in debug mode" + Style.RESET_ALL)
-        logging.warning('Program is running in debugging mode')
-
-
+        logging.debug('program is running in debugging mode')
 
     exitFlag = False # boolean to control exiting of main program loop
 
-
-    # Displaying program title
-    title()
-
+    title() # Displaying program title
 
     # Getting a valid operator id
-    if (DEBUGGING): print(Fore.CYAN + "\n--Attempting to get operator id from the operator..." + Style.RESET_ALL)
     operator_id = get_operator("Enter operator ID: ")
-    logging.info("Operator " + str(operator_id) + " signed in")
     print(Fore.GREEN + "Hello " + str(operator_id) + "!\n" + Style.RESET_ALL)
+    logging.info("operator " + str(operator_id) + " signed in")
 
 
     #------------------------------------------------------------------
@@ -62,42 +61,69 @@ def main():
     #------------------------------------------------------------------
     while (exitFlag == False):
 
-        userList = [] # array that contains all the users on a transaction - this is reset for each new transaction
-
+        # Variable initialization
+        userList = {} # dictionary that contains all the users on a transaction - this is reset for each new transaction
+#*************************************************************************************************************************
         # Getting a valid user id
-        if (DEBUGGING): print(Fore.MAGENTA + "\n--Getting a valid user id--" + Style.RESET_ALL)
         user_id = get_id("Please SCAN Student Number: ")
+        fname = "Stephen" #debugging
+        lname = "Ritchie" #debugging
+        propername = "Stephen Frederick Ritchie" #debugging
+        year = "2020" #debugging
+        enrolled = "2016" #debugging
 
+        # Creating initial user and setting them as the current user
+        entry = {user_id: User(user_id, fname, lname, propername, year, enrolled, jsonObject)}
+        userList.update(entry)
+        current_user = user_id
 
-        # Getting user informatiom
-        # ...
-        fname = "John"
-        lname = "Doe"
-        propername = "Johnathan Doe"
-        year = "2020"
-        enrolled = "2016"
-
-        # Creating user
-        userList.append(User(user_id, fname, lname, propername, year, enrolled, jsonObject)) # need to figure out approach to get rest of information
-
-        # ...
-        transaction(1234)
+        # Generating transaction number
+        transaction_number = time.time()
+        transaction(transaction_number)
+        print(Fore.MAGENTA + "current user: " + str(userList[current_user].propername) + Style.RESET_ALL)
 
         # Adding items to transaction/adding new user to transaction
-        if (DEBUGGING): print(Fore.MAGENTA + "\n--Adding items to transaction/adding new user to transaction--" + Style.RESET_ALL)
+        '''while True:
+            userInput = get_item("\nPlease SCAN an Item or Student Number: ")
+            if (userInput == 'break'):
+                break
+            try:
+                userInput = int(userInput)
+                current_user = userInput
+                print(Fore.MAGENTA + "current user changed to: " + str(userList[current_user].propername) + Style.RESET_ALL)
+            except:
+                userList[current_user].add_item(userInput)
+                print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
+        '''
+        # Adding items to transaction/adding new user to transaction
         while True:
-            
+            userInput = raw_input("\nPlease SCAN an item or student number: ")
 
-            userInput = get_item("Please SCAN an Item or Student Number: ")
+            # Checking for quit command
+            if (userInput == 'break'): break
 
-            print(Fore.GREEN + userInput + " added to cart\n" + Style.RESET_ALL)
+            # Checking if input is an item in inventory
+            elif (userInput in jsonObject['UPC']):
+                userList[current_user].add_item(userInput)
+                print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
+
+            # Checking if input is a student ID
+            elif (lchs_test.is_student(userInput)):
+                print(Fore.MAGENTA + "current user changed to:" + str(userInput) + Style.RESET_ALL)
+
+            else:
+                print(Fore.RED + "invalid input" + Style.RESET_ALL)
 
 
-        #*******************************************************************************
+
+        #userList[current_user].print_all()
+
+        '''print(Fore.MAGENTA + "\nPrinting receipt..." + Style.RESET_ALL)
+        for person in userList:
+            userList[person].print_receipt()'''
 
         # Determining payment methods
-        if (DEBUGGING): print(Fore.MAGENTA + "\n--Determining payment methods--" + Style.RESET_ALL)
-        print(Fore.YELLOW + "WARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
+        print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
         split_count = get_split_count("How many ways is this transaction being split?: ")
 
         # Getting information on each split
@@ -129,6 +155,7 @@ def main():
         if (DEBUGGING): print(Fore.MAGENTA + "\n--Printing receipt--" + Style.RESET_ALL)
         # NEED ABILITY TO REPRINT RECEIPT
 
+        print(Fore.MAGENTA + "___________end of transaction__________" + Style.RESET_ALL)
 
 if __name__ == '__main__':
     main()
