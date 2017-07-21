@@ -1,11 +1,11 @@
 class User(object):
     """Users have the following properties:
     Attributes:
-        userid: a string holding a unique 5 digit number that corresponds to the database
-        fname:
-        lname:
-        propername:
-        year:
+        userid: unique id number of a user
+        fname: first name
+        lname: last name
+        propername: full propername, since sometimes fname is a nickname
+        year: the year that the user will r
         enrollment_year:
 
         jsonObject:
@@ -27,18 +27,13 @@ class User(object):
         self.cart = {} # user's cart to hold item/amount information
         self.credits = {} #user's cart to hold item/amount of item credits
 
-
         # Adding items to cart and credits- initializing with 0 units of each item
         for item in self.jsonObject['UPC']:
             self.cart[str(item)] = 0
             self.credits[str(item)] = 0
 
-
-
     def get_total(self):
-        """
-        Gets the total of the items in the user's cart
-        """
+        """ Gets the total of the items in the user's cart minus their credits """
         total = 0.0
         for item in self.cart:
             total += float(self.cart[item] * self.jsonObject['UPC'][item]['price'])
@@ -47,42 +42,18 @@ class User(object):
         return total
 
     def add_item(self, UPC):
+        """ Increments the quantity of the given UPC in the cart. """
         self.cart[str(UPC)] += 1
 
     def add_credit(self, UPC):
+        """ Increments the quantity of the given UPC in the credits cart """
         self.credits[str(UPC)] += 1
 
-    def print_all(self):
-        """
-        Prints all information about the user
-        """
-        print("")
-        print("userid\t" + str(self.userid))
-        print("fname\t" + str(self.fname))
-        print("lname\t" + str(self.lname))
-        print("proper\t" + str(self.propername))
-        print("year\t" + str(self.year))
-        print("enrolled\t" + str(self.enrollment_year))
-        # Printing contents of cart
-        for x in self.cart:
-            print(str(x) + '\t' + str(self.cart[x]))
-        print("Total\t" + str(self.get_total()))
-        print("")
-
     def print_receipt(self):
-        '''
-        print("-------" + str(self.propername) + "-------")
-        print("Grade:" + str(self.year))
-        for x in self.cart:
-            price = self.cart[x] * self.jsonObject['UPC'][x]['price']
-            print(str(self.jsonObject['UPC'][x]['name']) + "\t" + str(price))
-            print("\t" + str(self.cart[x]) + " @ " + str(self.jsonObject['UPC'][x]['price']))
-
-        print("TOTAL:" + str(self.get_total()))
-        '''
         print('Name: ' + str(self.propername))
         print("ID: " + str(self.userid))
         print('Grade: ' + str(self.year))
+        print('Enrollment: ' + str(self.enrollment_year))
         print("Total\t" + str(self.get_total()))
         print "-"*60
         print(" {: <20}{: <25}{: <18}".format("Item", "Amount", "Cost"))
@@ -97,10 +68,3 @@ class User(object):
             price = str(self.cart[x] * self.jsonObject['UPC'][x]['credit_price'])
             quantity = str(self.cart[x])
             print(" {: <20}{: <25}{: <18}".format(name, quantity, price))
-
-
-
-
-
-
-        #
