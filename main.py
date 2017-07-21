@@ -2,7 +2,7 @@
 # Date: 06/07/2017
 # Version: Pre-Alpha 1.0
 
-DEBUGGING = False
+DEBUGGING = True
 
 import time
 
@@ -67,11 +67,20 @@ def main():
     #------------------------------------------------------------------
     while (exitFlag == False):
 
+        #----------------------------------------------
         # Variable initialization
+        #----------------------------------------------
+        """ This isn't required in python, but I think should always be done for proper programming """
         userList = {} # dictionary that contains all the users on a transaction - this is reset for each new transaction
-#*************************************************************************************************************************
+        transaction_number = None # used to hold a unique transaction value
+        user_id = None #
+        entry = None #
+        
+        #----------------------------------------------
         # Getting a valid user id
+        #----------------------------------------------
         user_id = get_id("Please SCAN Student Number: ")
+        # Checking for shutdown command
         if (user_id == jsonObject['KILL_COMMANDS']['kill_session']['name']):
             clean_shutdown()
         fname = "Stephen" #debugging
@@ -80,46 +89,60 @@ def main():
         year = "2020" #debugging
         enrolled = "2016" #debugging
 
-        # Creating initial user and setting them as the current user
-        entry = {user_id: User(user_id, fname, lname, propername, year, enrolled, jsonObject)}
-        userList.update(entry)
-        current_user = user_id
+        #----------------------------------------------
+        # Creating initial user 
+        #----------------------------------------------
+        entry = {user_id: User(user_id, fname, lname, propername, year, enrolled, jsonObject)} # putting info into a dict to update userList
+        userList.update(entry) # updating userList with new user
+        current_user = user_id # setting them as the current user
 
+        #----------------------------------------------
         # Generating transaction number
+        #----------------------------------------------
         transaction_number = time.time()
         transaction(transaction_number)
+        
         print(Fore.MAGENTA + "current user: " + str(userList[current_user].propername) + Style.RESET_ALL)
 
-        # Adding items to transaction/adding new user to transaction
+        #------------------------------------------------------------------
+        # Main scanning loop
+        #------------------------------------------------------------------
+        """ This loop allows the operator to scan items, or scan an id number and create a new user. """
         while True:
             userInput = raw_input("\nPlease SCAN an item or student number: ")
+            
+            #----------------------------------------------
+            # Determining what was entered
+            #----------------------------------------------
+            # Checking for shutdown command
             if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
                 clean_shutdown()
 
-            # Checking for quit command
-            if (userInput == 'break'): break
+            # Checking for break command
+            elif (userInput == jsonObject['KILL_COMMANDS']['read_for_payment']['name']): break
 
-            # Checking if input is an item in inventory and adding it
+            # Checking if input is an item in inventory 
             elif (userInput in jsonObject['UPC']):
-                userList[current_user].add_item(userInput)
-                userList[current_user].add_credit(userInput)
+                userList[current_user].add_item(userInput) # adding item to user's cart
+                userList[current_user].add_credit(userInput) # adding credit for item to user's cart
                 print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
 
             # Checking if input is a student ID
             elif (lchs_test.is_student(userInput)):
-                entry = {userInput: User(userInput, "fname", "lname", "propername", "year", "enrolled", jsonObject)}
-                userList.update(entry)
-                current_user = userInput
+                entry = {userInput: User(userInput, "fname", "lname", "propername", "year", "enrolled", jsonObject)} # creating new user
+                userList.update(entry) # adding user to userList
+                current_user = userInput # making new user the current user
                 print(Fore.MAGENTA + "current user changed to:" + str(userInput) + Style.RESET_ALL)
 
             else:
                 print(Fore.RED + "invalid input" + Style.RESET_ALL)
 
         # DEBUGGING
-        print("")
-        for person in userList:
-            userList[person].print_receipt()
+        if (DEBUGGING):
             print("")
+            for person in userList:
+                userList[person].print_receipt()
+                print("")
 
         # Determining payment methods
         print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
@@ -136,21 +159,11 @@ def main():
               print("")"""
 
         # Totaling up all items
-        if (DEBUGGING): print(Fore.MAGENTA + "\n--Totaling up all items--" + Style.RESET_ALL)
         # include 3% charge for cc
 
         # Creating Receipt
-        if (DEBUGGING): print(Fore.MAGENTA + "\n--Creating receipt--" + Style.RESET_ALL)
-        # Create header...
-        # Create body...
-        # Create footer...
-
 
         # Storing Receipt Locally and in Database
-        if (DEBUGGING): print(Fore.MAGENTA + "\n--Storing receipt locally and in database--" + Style.RESET_ALL)
-        # Storing locally...
-        # Storing in database
-
 
         # Printing Receipt
         print(Fore.MAGENTA + "Printing receipt..." + Style.RESET_ALL)
