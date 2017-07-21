@@ -2,15 +2,18 @@
   "UPC": {
     "yearbook": {
       "name": "Yearbook",
-      "price": 20
+      "price": 20,
+      "credit_price": -20
     },
     "lanyard": {
       "name": "Lanyard",
-      "price": 5
+      "price": 5,
+      "credit_price": -5
     },
     "parking_pass": {
       "name": "Parking Pass",
-      "price": 50
+      "price": 50,
+      "credit_price": -50
     }
   },
   "VALID_PAYMENT":{
@@ -22,6 +25,14 @@
     },
     "check": {
       "name": "Check"
+    }
+  },
+  "KILL_COMMANDS":{
+    "kill_session":{
+      "name": "kill"
+    },
+    "ready_for_payment":{
+      "name": "break"
     }
   }
 }

@@ -31,7 +31,7 @@ import logging
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 
-
+# Connecting to Mysql database
 lchs_test = Customsql()
 lchs_test.open_connection()
 
@@ -43,9 +43,15 @@ def get_payment_type(prompt):
     postcondition: string of the payment type selected
     """
     while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            break
+
         # Exception handling for string type
         try:
-            userInput = str(raw_input(prompt))
+            userInput = str(userInput)
         except ValueError:
             print(Fore.RED + "\tINVALID INPUT " + Style.RESET_ALL)
             logging.exception("Invalid input was used for payment type: " + str(userInput))
@@ -59,18 +65,6 @@ def get_payment_type(prompt):
             logging.error("Invalid payment type was entered: " + str(userInput))
             continue
 
-        '''
-        # Custom validation for cash, check, or credit card
-        if ((userInput != str(jsonObject['payment'][0]['type'])) and (userInput != str(jsonObject['payment'][1]['type'])) and (userInput != str(jsonObject['payment'][2]['type']))):
-            print(Fore.RED + "\tINVALID PAYMENT TYPE " + Style.RESET_ALL)
-            logging.error("Invalid payment type was entered: " + str(userInput))
-            continue
-        else:
-            if (userInput == "check"):
-                check_number = int(raw_input("\tPlease enter check number: "))
-            break
-        '''
-
     return str(userInput)
 
 
@@ -79,9 +73,15 @@ def get_payment_type(prompt):
 # postcondition:
 def get_payment_amount(prompt):
     while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            break
+
         # Exception handling for float
         try:
-            userInput = float(input(prompt))
+            userInput = float(userInput)
         except ValueError:
             print(Fore.RED + "INVALID PAYMENT TYPE " + Style.RESET_ALL)
             continue
@@ -98,31 +98,46 @@ def get_payment_amount(prompt):
 
 def get_operator(prompt):
     '''
+    Ready for final review
     '''
     while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            break
+
         # Exception handling for string
         try:
-            userInput = str(raw_input(prompt))
+            userInput = str(userInput)
         except ValueError:
             print(Fore.RED + "Invalid Input" + Style.RESET_ALL)
             continue
+
         # Checking that operator is in database
         if (lchs_test.is_operator(userInput)):
             break
         else:
             print(Fore.RED + "Invalid Operator" + Style.RESET_ALL)
             continue
+
     return userInput
 
 
-# purpose:
-# precondition:
-# postcondition:
 def get_id(prompt):
+    '''
+    Ready for final review
+    '''
     while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            break
+
         # Exception handling for string
         try:
-            userInput = int(raw_input(prompt))
+            userInput = int(userInput)
         except ValueError:
             print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
@@ -134,21 +149,23 @@ def get_id(prompt):
             print(Fore.RED + "STUDENT NUMBER NOT FOUND " + Style.RESET_ALL)
             continue
 
-
     return userInput
 
 
 def get_split_count(prompt):
     """
-    purpose: to get a valid integer in the range 1-10 which is used as the
-             amount of ways a transaction can be split
-    precondtion: prompt that user will see
-    postcondition: returns integer from 1-10
+    Ready for final review
     """
     while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            break
+
         # Exception handling for int type
         try:
-            userInput = int(raw_input(prompt))
+            userInput = int(userInput)
         except ValueError:
             print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
@@ -167,9 +184,15 @@ def get_item(prompt):
     """
     """
     while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            break
+
         # Exception handling for data type
         try:
-            userInput = str(raw_input(prompt))
+            userInput = str(userInput)
         except ValueError:
             print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue

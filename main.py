@@ -23,6 +23,10 @@ from packages.colorama import init
 init()
 from packages.colorama import Fore, Back, Style
 
+def clean_shutdown():
+    print(Back.RED + "shutting down..." + Style.RESET_ALL)
+    exit()
+
 
 # Importing item list
 if (DEBUGGING): print(Fore.CYAN + "\n--Memorizing the config file..." + Style.RESET_ALL)
@@ -52,6 +56,8 @@ def main():
 
     # Getting a valid operator id
     operator_id = get_operator("Enter operator ID: ")
+    if (operator_id == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+        clean_shutdown()
     print(Fore.GREEN + "Hello " + str(operator_id) + "!\n" + Style.RESET_ALL)
     logging.info("operator " + str(operator_id) + " signed in")
 
@@ -66,6 +72,8 @@ def main():
 #*************************************************************************************************************************
         # Getting a valid user id
         user_id = get_id("Please SCAN Student Number: ")
+        if (user_id == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            clean_shutdown()
         fname = "Stephen" #debugging
         lname = "Ritchie" #debugging
         propername = "Stephen Frederick Ritchie" #debugging
@@ -83,56 +91,49 @@ def main():
         print(Fore.MAGENTA + "current user: " + str(userList[current_user].propername) + Style.RESET_ALL)
 
         # Adding items to transaction/adding new user to transaction
-        '''while True:
-            userInput = get_item("\nPlease SCAN an Item or Student Number: ")
-            if (userInput == 'break'):
-                break
-            try:
-                userInput = int(userInput)
-                current_user = userInput
-                print(Fore.MAGENTA + "current user changed to: " + str(userList[current_user].propername) + Style.RESET_ALL)
-            except:
-                userList[current_user].add_item(userInput)
-                print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
-        '''
-        # Adding items to transaction/adding new user to transaction
         while True:
             userInput = raw_input("\nPlease SCAN an item or student number: ")
+            if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+                clean_shutdown()
 
             # Checking for quit command
             if (userInput == 'break'): break
 
-            # Checking if input is an item in inventory
+            # Checking if input is an item in inventory and adding it
             elif (userInput in jsonObject['UPC']):
                 userList[current_user].add_item(userInput)
+                userList[current_user].add_credit(userInput)
                 print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
 
             # Checking if input is a student ID
             elif (lchs_test.is_student(userInput)):
+                entry = {userInput: User(userInput, "fname", "lname", "propername", "year", "enrolled", jsonObject)}
+                userList.update(entry)
+                current_user = userInput
                 print(Fore.MAGENTA + "current user changed to:" + str(userInput) + Style.RESET_ALL)
 
             else:
                 print(Fore.RED + "invalid input" + Style.RESET_ALL)
 
-
-
-        #userList[current_user].print_all()
-
-        '''print(Fore.MAGENTA + "\nPrinting receipt..." + Style.RESET_ALL)
+        # DEBUGGING
+        print("")
         for person in userList:
-            userList[person].print_receipt()'''
+            userList[person].print_receipt()
+            print("")
 
         # Determining payment methods
         print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
-        split_count = get_split_count("How many ways is this transaction being split?: ")
+
+        """split_count = get_split_count("How many ways is this transaction being split?: ")
+        if (split_count == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            clean_shutdown()
 
         # Getting information on each split
         for x in range (1, split_count+1):
               print("\tPayment number " + str(x))
               payment_type = get_payment_type("\tType: ")
               payment_amount = get_payment_amount("\tAmount: ")
-              print("")
-
+              print("")"""
 
         # Totaling up all items
         if (DEBUGGING): print(Fore.MAGENTA + "\n--Totaling up all items--" + Style.RESET_ALL)
@@ -152,8 +153,8 @@ def main():
 
 
         # Printing Receipt
-        if (DEBUGGING): print(Fore.MAGENTA + "\n--Printing receipt--" + Style.RESET_ALL)
-        # NEED ABILITY TO REPRINT RECEIPT
+        print(Fore.MAGENTA + "Printing receipt..." + Style.RESET_ALL)
+
 
         print(Fore.MAGENTA + "___________end of transaction__________" + Style.RESET_ALL)
 

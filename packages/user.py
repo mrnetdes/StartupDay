@@ -25,11 +25,13 @@ class User(object):
         # Inventory and cart information
         self.jsonObject = jsonObject # item information as json object
         self.cart = {} # user's cart to hold item/amount information
+        self.credits = {} #user's cart to hold item/amount of item credits
 
 
-        # Adding items to cart - initializing with 0 units of each item
+        # Adding items to cart and credits- initializing with 0 units of each item
         for item in self.jsonObject['UPC']:
             self.cart[str(item)] = 0
+            self.credits[str(item)] = 0
 
 
 
@@ -40,10 +42,15 @@ class User(object):
         total = 0.0
         for item in self.cart:
             total += float(self.cart[item] * self.jsonObject['UPC'][item]['price'])
+        for item in self.credits:
+            total += float(self.credits[item] * self.jsonObject['UPC'][item]['credit_price'])
         return total
 
     def add_item(self, UPC):
         self.cart[str(UPC)] += 1
+
+    def add_credit(self, UPC):
+        self.credits[str(UPC)] += 1
 
     def print_all(self):
         """
@@ -73,14 +80,25 @@ class User(object):
 
         print("TOTAL:" + str(self.get_total()))
         '''
-        print('-'*50)
-        print('Name:' + str(self.propername))
-        print('Grade:' + str(self.year))
+        print('Name: ' + str(self.propername))
+        print("ID: " + str(self.userid))
+        print('Grade: ' + str(self.year))
+        print("Total\t" + str(self.get_total()))
+        print "-"*60
+        print(" {: <20}{: <25}{: <18}".format("Item", "Amount", "Cost"))
+        print "-"*60
         for x in self.cart:
             name = str(self.jsonObject['UPC'][x]['name'])
             price = str(self.cart[x] * self.jsonObject['UPC'][x]['price'])
             quantity = str(self.cart[x])
             print(" {: <20}{: <25}{: <18}".format(name, quantity, price))
+        for x in self.credits:
+            name = str("cred: ") + str(self.jsonObject['UPC'][x]['name'])
+            price = str(self.cart[x] * self.jsonObject['UPC'][x]['credit_price'])
+            quantity = str(self.cart[x])
+            print(" {: <20}{: <25}{: <18}".format(name, quantity, price))
+
+
 
 
 
