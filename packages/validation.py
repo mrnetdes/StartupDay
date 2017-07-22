@@ -36,42 +36,11 @@ lchs_test = Customsql()
 lchs_test.open_connection()
 
 
-def get_payment_type(prompt):
-    """
-    purpose:
-    precondition: prompt that the user sees
-    postcondition: string of the payment type selected
-    """
-    while True:
-        userInput = raw_input(prompt)
-
-        # Checking for kill command
-        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            break
-
-        # Exception handling for string type
-        try:
-            userInput = str(userInput)
-        except ValueError:
-            print(Fore.RED + "\tINVALID INPUT " + Style.RESET_ALL)
-            logging.exception("Invalid input was used for payment type: " + str(userInput))
-            continue
-
-        # Custom validation
-        if userInput in jsonObject['VALID_PAYMENT']:
-            break
-        else:
-            print(Fore.RED + "\tINVALID PAYMENT TYPE " + Style.RESET_ALL)
-            logging.error("Invalid payment type was entered: " + str(userInput))
-            continue
-
-    return str(userInput)
 
 
-# purpose:
-# precondition: string that is prompt user sees
-# postcondition:
 def get_payment_amount(prompt):
+    """
+    """
     while True:
         userInput = raw_input(prompt)
 
@@ -93,7 +62,7 @@ def get_payment_amount(prompt):
         else:
             break
 
-    return userInput
+    return float(round(userInput,2))
 
 
 def get_operator(prompt):
@@ -211,5 +180,25 @@ def get_item(prompt):
             except:
                 print(Fore.RED + "Could not find item\t" + str(userInput) + Style.RESET_ALL)
                 continue
+
+    return userInput
+
+
+def get_payment_method(prompt):
+    """
+    """
+    while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            break
+
+        # Custom validation for item names
+        if userInput in jsonObject['VALID_PAYMENT']:
+            break
+        else:
+            print(Fore.RED + "Invalid Payment Type" + Style.RESET_ALL)
+            continue
 
     return userInput

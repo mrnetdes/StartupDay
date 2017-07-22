@@ -2,9 +2,11 @@
 # Date: 06/07/2017
 # Version: Pre-Alpha 1.0
 
-DEBUGGING = True
+DEBUGGING = False
 
 import time
+
+# Importing Decimal for monetary floating point
 
 # Making JSON play nice
 import json
@@ -17,6 +19,7 @@ from packages.header import *
 from packages.validation import *
 from packages.user import *
 from packages.customsql import *
+from packages.payment import *
 
 # Getting the pretty colors set up
 from packages.colorama import init
@@ -75,7 +78,7 @@ def main():
         transaction_number = None # used to hold a unique transaction value
         user_id = None #
         entry = None #
-        
+
         #----------------------------------------------
         # Getting a valid user id
         #----------------------------------------------
@@ -90,7 +93,7 @@ def main():
         enrolled = "2016" #debugging
 
         #----------------------------------------------
-        # Creating initial user 
+        # Creating initial user
         #----------------------------------------------
         entry = {user_id: User(user_id, fname, lname, propername, year, enrolled, jsonObject)} # putting info into a dict to update userList
         userList.update(entry) # updating userList with new user
@@ -101,7 +104,7 @@ def main():
         #----------------------------------------------
         transaction_number = time.time()
         transaction(transaction_number)
-        
+
         print(Fore.MAGENTA + "current user: " + str(userList[current_user].propername) + Style.RESET_ALL)
 
         #------------------------------------------------------------------
@@ -110,7 +113,7 @@ def main():
         """ This loop allows the operator to scan items, or scan an id number and create a new user. """
         while True:
             userInput = raw_input("\nPlease SCAN an item or student number: ")
-            
+
             #----------------------------------------------
             # Determining what was entered
             #----------------------------------------------
@@ -119,12 +122,12 @@ def main():
                 clean_shutdown()
 
             # Checking for break command
-            elif (userInput == jsonObject['KILL_COMMANDS']['read_for_payment']['name']): break
+            elif (userInput == jsonObject['KILL_COMMANDS']['ready_for_payment']['name']): break
 
-            # Checking if input is an item in inventory 
+            # Checking if input is an item in inventory
             elif (userInput in jsonObject['UPC']):
                 userList[current_user].add_item(userInput) # adding item to user's cart
-                userList[current_user].add_credit(userInput) # adding credit for item to user's cart
+                #userList[current_user].add_credit(userInput) # adding credit for item to user's cart
                 print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
 
             # Checking if input is a student ID
@@ -137,16 +140,9 @@ def main():
             else:
                 print(Fore.RED + "invalid input" + Style.RESET_ALL)
 
-        # DEBUGGING
-        if (DEBUGGING):
-            print("")
-            for person in userList:
-                userList[person].print_receipt()
-                print("")
+
 
         # Determining payment methods
-        print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
-
         """split_count = get_split_count("How many ways is this transaction being split?: ")
         if (split_count == jsonObject['KILL_COMMANDS']['kill_session']['name']):
             clean_shutdown()
@@ -157,13 +153,50 @@ def main():
               payment_type = get_payment_type("\tType: ")
               payment_amount = get_payment_amount("\tAmount: ")
               print("")"""
+        SUBTOTAL = 0
 
-        # Totaling up all items
-        # include 3% charge for cc
+        for person in userList:
+            print("")
+            userList[person].print_info()
+            SUBTOTAL += userList[person].get_total()
+        print("SUBTOTAL = " + str(SUBTOTAL))
 
-        # Creating Receipt
 
-        # Storing Receipt Locally and in Database
+        #----------------------------------------------
+        # Getting payment information
+        #----------------------------------------------
+        paymentInfo = []
+        outstanding = float(round(SUBTOTAL,2))
+        print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
+        while (outstanding > round(0.0,2)):
+            pay_method = get_payment_method("Method of payment? (" + str(outstanding) + " outstanding): ")
+            amount = get_payment_amount("\tamount: ")
+
+            if (pay_method == jsonObject['VALID_PAYMENT']['cash']['UPC']):
+                outstanding = outstanding - float(round(amount,2))
+                paymentInfo.append(Payment(pay_method, amount))
+
+            elif (pay_method == jsonObject['VALID_PAYMENT']['check']['UPC']):
+                outstanding = outstanding - float((round(amount,2)))
+                comment = raw_input("\tCheck number: ")
+                paymentInfo.append(Payment(pay_method, amount, comment))
+
+            elif (pay_method == jsonObject['VALID_PAYMENT']['credit']['UPC']):
+                upcharge = float(amount * 0.03)
+                print(Fore.YELLOW + "\t3% charge of " + str(upcharge) + " being applied" + Style.RESET_ALL)
+                comment = raw_input("\tLast four digits on card: ")
+                outstanding -= amount
+                outstanding += round(upcharge,2)
+                paymentInfo.append(Payment(pay_method, amount, comment))
+
+        #print paymentInfo
+        print("-"*55)
+        print("{0:25} {1:20} {2:7}".format("Type", "Amount", "Comment"))
+        print("-"*55)
+        for x in paymentInfo:
+            x.printInfo()
+
+
 
         # Printing Receipt
         print(Fore.MAGENTA + "Printing receipt..." + Style.RESET_ALL)

@@ -1,30 +1,112 @@
 {
   "UPC": {
-    "yearbook": {
+    "YEARBOOK": {
       "name": "Yearbook",
-      "price": 20,
-      "credit_price": -20
+      "description": "class yearbook",
+      "rules": "first is free for all seniors - all other pay",
+      "price": 100,
+      "credit_price": -100,
+      "first_free": 0,
+      "limit": "99999"
     },
-    "lanyard": {
-      "name": "Lanyard",
-      "price": 5,
-      "credit_price": -5
+    "QUARTER_AD": {
+      "name": "Quarter Ad",
+      "description": "yearbook AD - quarter page",
+      "rules": "only seniors can order",
+      "price": 25,
+      "credit_price": -25,
+      "limit": "99999"
     },
-    "parking_pass": {
-      "name": "Parking Pass",
+    "HALF_AD": {
+      "name": "Half Ad",
+      "description": "yearbook AD - half page",
+      "rules": "only seniors can order",
       "price": 50,
-      "credit_price": -50
+      "credit_price": -50,
+      "limit": "99999"
+    },
+    "FULL_AD": {
+      "name": "Half Ad",
+      "description": "yearbook AD - full page",
+      "rules": "only seniors can order",
+      "price": 100,
+      "credit_price": -100,
+      "limit": "99999"
+    },
+    "CAFETERIA": {
+      "name": "Cafeteria",
+      "description": "cafeteria account",
+      "rules": "put up note that they only need to add it to the first student but can do them all if they want to - all goes to the same account)",
+      "price": 0,
+      "credit_price": 0,
+      "limit": "99999"
+    },
+    "LANYARD": {
+      "name": "Lanyard",
+      "description": "lanyard",
+      "rules": "first is free for freshman and new students only* - all others pay",
+      "price": 10,
+      "credit_price": -10,
+      "limit": "99999"
+    },
+    "AGENDA": {
+      "name": "Agenda",
+      "description": "agenda",
+      "rules": "first is free for all students",
+      "price": 10,
+      "credit_price": -10,
+      "limit": "99999"
+    },
+    "PARKING_PASS": {
+      "name": "Parking Pass",
+      "description": "parking lot pass",
+      "rules": "1 per student/only seniors can order",
+      "price": 30,
+      "credit_price": -30,
+      "limit": "1"
+    },
+    "SERVICE_CLUB": {
+      "name": "Service Club",
+      "description": "service club dues",
+      "rules": "1 per student",
+      "price": 20,
+      "credit_price": -20,
+      "limit": "1"
+    },
+    "PAC_DUES": {
+      "name": "Parent Action",
+      "description": "parent action corp dues",
+      "rules": "1 per family so only needs to be done on one kid",
+      "price": 40,
+      "credit_price": -40,
+      "limit": "1"
+    },
+    "UKNIGHTPATRON": {
+      "name": "UKnight Patron",
+      "description": "Hoagie sales voucher",
+      "rules": "1 per student",
+      "price": 0,
+      "credit_price": 0,
+      "limit": "1"
+    },
+    "IDBADGE": {
+      "name": "ID",
+      "description": "ID badge made",
+      "rules": "1 per student",
+      "price": 0,
+      "credit_price": 0,
+      "limit": "1"
     }
   },
   "VALID_PAYMENT":{
     "cash": {
-      "name": "Cash"
+      "UPC": "cash"
     },
-    "card": {
-      "name": "Credit/Debit Card"
+    "credit": {
+      "UPC": "credit"
     },
     "check": {
-      "name": "Check"
+      "UPC": "check"
     }
   },
   "KILL_COMMANDS":{
