@@ -30,7 +30,25 @@ class Customsql(object):
             'database': self.database
         }
 
-        open_conneciton()
+        try:
+            self.cnx = mysql.connector.connect(**self.config)
+            self.cursor = self.cnx.cursor()
+            logging.info("MySQL: connection was opened on " + str(self.host))
+        except mysql.connector.Error as err:
+            print("Uh oh :( Please show this message to your IT Administrator")
+            logging.exception("MySQL: attempting to connect to " + str(self.host))
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                #print(str(errorcode.ER_ACCESS_DENIED_ERROR))
+                logging.exception(str(errorcode.ER_ACCESS_DENIED_ERROR))
+                sys.exit()
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                #print(str(errorcode.ER_ACCESS_DENIED_ERROR))
+                logging.exception(str(errorcode.ER_BAD_DB_ERROR))
+                sys.exit()
+            else:
+                #print(err)
+                logging.exception(str(err))
+                sys.exit()
 
     def open_connection(self):
         try:
@@ -75,13 +93,7 @@ class Customsql(object):
         '''
         Returns True if the given id is a valid operator - returns False otherwise
         '''
-        query = "SELECT COUNT(*) FROM People WHERE IDNum=" + str(id) + " AND Status=\"Active\""
-        self.cursor.execute(query)
-        rows = self.cursor.fetchone()[0]
-        if rows == 0:
-            return False
-        else:
-            return True
+        return True
 
     def is_student(self, id):
         '''

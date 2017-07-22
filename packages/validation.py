@@ -32,7 +32,7 @@ with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 
 # Connecting to Mysql database
-lchs_test = Customsql(username, pw, host, port, database)
+lchs_test = Customsql()
 lchs_test.open_connection()
 
 
