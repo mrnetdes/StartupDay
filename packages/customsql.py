@@ -15,7 +15,7 @@ class Customsql(object):
         port:
         database:
     """
-    def __init__(self, user = "root", pw = "root", host = "localhost", port = 3306, database = ""):
+    def __init__(self, user = "startup", pw = "Lch$Startup", host = "lchsweb.lexingtoncatholic.local", port = 1433, database = "lchsdb_test"):
         self.user = user
         self.pw = pw
         self.host = host
@@ -26,7 +26,7 @@ class Customsql(object):
             'user': self.user,
             'password': self.pw,
             'host': self.host,
-            'port': self.port,
+            #'port': self.port,
             'database': self.database
         }
 
