@@ -4,6 +4,8 @@ from mysql.connector import errorcode
 
 import logging
 
+import sys
+
 
 class Customsql(object):
     """ Mysql has the following properties:
@@ -39,12 +41,15 @@ class Customsql(object):
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
                 print(str(errorcode.ER_ACCESS_DENIED_ERROR))
                 logging.exception(str(errorcode.ER_ACCESS_DENIED_ERROR))
+                sys.exit()
             elif err.errno == errorcode.ER_BAD_DB_ERROR:
                 print(str(errorcode.ER_ACCESS_DENIED_ERROR))
                 logging.exception(str(errorcode.ER_BAD_DB_ERROR))
+                sys.exit()
             else:
                 print(err)
                 logging.exception(str(err))
+                sys.exit()
 
 
     def test_connection(self):
