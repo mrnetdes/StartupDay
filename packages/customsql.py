@@ -30,6 +30,8 @@ class Customsql(object):
             'database': self.database
         }
 
+        open_conneciton()
+
     def open_connection(self):
         try:
             cnx = mysql.connector.connect(**self.config)
