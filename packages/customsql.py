@@ -75,19 +75,26 @@ class Customsql(object):
         '''
         Returns True if the given id is a valid operator - returns False otherwise
         '''
-        return True
+        query = "SELECT COUNT(*) FROM People WHERE IDNum=" + str(id) + " AND Status=\"Active\""
+        self.cursor.execute(query)
+        rows = self.cursor.fetchone()[0]
+        if rows == 0:
+            return False
+        else:
+            return True
 
     def is_student(self, id):
         '''
         Returns True if the given id is a valid operator - returns False otherwise
         '''
 
-        query = "SELECT COUNT(*) AS total FROM People WHERE IDNum=" + str(id) + "and Status=\"Active\""
-        cursor.execute(query, total)
-        if (total == 1):
-            return True
-        else:
+        query = "SELECT COUNT(*) FROM People WHERE IDNum=" + str(id) + " AND Status=\"Active\""
+        self.cursor.execute(query)
+        rows = self.cursor.fetchone()[0]
+        if rows == 0:
             return False
+        else:
+            return True
 
     def close_connection(self):
         cursor.close()
