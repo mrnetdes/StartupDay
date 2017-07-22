@@ -79,7 +79,13 @@ class Customsql(object):
         '''
         Returns True if the given id is a valid operator - returns False otherwise
         '''
-        return True
+
+        query = "SELECT COUNT(*) AS total FROM People WHERE IDNum=" + str(id) + "and Status=\"Active\""
+        cursor.execute(query, total)
+        if (total == 1):
+            return True
+        else:
+            return False
 
     def close_connection(self):
         cursor.close()
