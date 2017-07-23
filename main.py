@@ -45,6 +45,14 @@ def main():
 
     # Variables initialization
     jsonObject = None
+    lchs_test = None
+    exitFlag = None
+    operator_id = None
+    transaction_number = None
+    user_id = None
+    entry = None
+    userList = None
+    current_user = None
 
 
     # Importing item list
@@ -203,7 +211,7 @@ def main():
         outstanding = float(round(SUBTOTAL,2)) # the remaining balance due on the transaction
         print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
         while (outstanding > round(0.0,2)):
-            pay_method = get_payment_method("Method of payment? (" + str(outstanding) + " outstanding): ")
+            pay_method = get_payment_method("Method of payment? ($" + str(outstanding) + " outstanding): ")
 
             # Checking for kill command
             if (pay_method == jsonObject['KILL_COMMANDS']['kill_session']['name']):

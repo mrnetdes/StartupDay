@@ -6,3 +6,20 @@
 2017-07-23 15:15:59,985 INFO operator Sr signed in
 2017-07-23 15:16:01,073 INFO MySQL: connection to localhost was closed
 2017-07-23 15:16:01,073 INFO shutdown command was issued
+2017-07-23 15:18:09,582 INFO -----Program Started-----
+2017-07-23 15:18:10,484 INFO operator SR signed in
+2017-07-23 15:19:19,794 INFO MySQL: connection to localhost was closed
+2017-07-23 15:19:19,794 INFO shutdown command was issued
+2017-07-23 15:19:22,222 INFO -----Program Started-----
+2017-07-23 15:19:22,626 INFO operator SR signed in
+2017-07-23 15:21:45,793 INFO MySQL: connection to localhost was closed
+2017-07-23 15:21:45,794 INFO shutdown command was issued
+2017-07-23 15:21:47,901 INFO -----Program Started-----
+2017-07-23 15:21:56,534 INFO MySQL: connection to localhost was closed
+2017-07-23 15:21:56,534 INFO shutdown command was issued
+2017-07-23 15:21:58,244 INFO -----Program Started-----
+2017-07-23 15:21:59,494 INFO operator SR signed in
+2017-07-23 15:22:03,358 INFO MySQL: connection to localhost was closed
+2017-07-23 15:22:03,358 INFO shutdown command was issued
+2017-07-23 15:22:05,166 INFO -----Program Started-----
+2017-07-23 15:22:06,438 INFO operator  signed in
