@@ -7,7 +7,7 @@
       "price": 100,
       "credit_price": -100,
       "first_free": 0,
-      "limit": "99999"
+      "limit": 99999
     },
     "QUARTER_AD": {
       "name": "Quarter Ad",
@@ -16,7 +16,7 @@
       "price": 25,
       "credit_price": -25,
       "first_free": 0,
-      "limit": "99999"
+      "limit": 99999
     },
     "HALF_AD": {
       "name": "Half Ad",
@@ -25,7 +25,7 @@
       "price": 50,
       "credit_price": -50,
       "first_free": 0,
-      "limit": "99999"
+      "limit": 99999
     },
     "FULL_AD": {
       "name": "Half Ad",
@@ -34,7 +34,7 @@
       "price": 100,
       "credit_price": -100,
       "first_free": 0,
-      "limit": "99999"
+      "limit": 99999
     },
     "CAFETERIA": {
       "name": "Cafeteria",
@@ -43,7 +43,7 @@
       "price": 0,
       "credit_price": 0,
       "first_free": 0,
-      "limit": "99999"
+      "limit": 99999
     },
     "LANYARD": {
       "name": "Lanyard",
@@ -52,7 +52,7 @@
       "price": 10,
       "credit_price": -10,
       "first_free": 0,
-      "limit": "99999"
+      "limit": 99999
     },
     "AGENDA": {
       "name": "Agenda",
@@ -61,7 +61,7 @@
       "price": 10,
       "credit_price": -10,
       "first_free": 0,
-      "limit": "99999"
+      "limit": 99999
     },
     "PARKING_PASS": {
       "name": "Parking Pass",
@@ -79,7 +79,7 @@
       "price": 20,
       "credit_price": -20,
       "first_free": 0,
-      "limit": "1"
+      "limit": 1
     },
     "PAC_DUES": {
       "name": "Parent Action",
@@ -88,7 +88,7 @@
       "price": 40,
       "credit_price": -40,
       "first_free": 0,
-      "limit": "1"
+      "limit": 1
     },
     "UKNIGHTPATRON": {
       "name": "UKnight Patron",
@@ -97,7 +97,7 @@
       "price": 0,
       "credit_price": 0,
       "first_free": 0,
-      "limit": "1"
+      "limit": 1
     },
     "IDBADGE": {
       "name": "ID",
@@ -106,7 +106,7 @@
       "price": 0,
       "credit_price": 0,
       "first_free": 0,
-      "limit": "1"
+      "limit": 1
     }
   },
   "VALID_PAYMENT":{
