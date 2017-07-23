@@ -116,5 +116,6 @@
     "ready_for_payment":{
       "name": "break"
     }
-  }
+  },
+  "ENVIRONMENT": "local"
 }

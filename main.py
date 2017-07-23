@@ -26,9 +26,20 @@ from packages.colorama import init
 init()
 from packages.colorama import Fore, Back, Style
 
+
 def clean_shutdown():
     print(Back.RED + "shutting down..." + Style.RESET_ALL)
     exit()
+
+def show_total(userList):
+    SUBTOTAL = 0
+    for person in userList:
+        print("")
+        userList[person].print_receipt()
+        SUBTOTAL += userList[person].get_total()
+    print("\nSUBTOTAL = " + str(SUBTOTAL))
+
+
 
 
 # Importing item list
@@ -46,7 +57,7 @@ def main():
 
     # Opening MySQL connection
     lchs_test = Customsql()
-    lchs_test.open_connection()
+
 
     # DEBUGGING
     if (DEBUGGING):
@@ -153,38 +164,55 @@ def main():
               payment_type = get_payment_type("\tType: ")
               payment_amount = get_payment_amount("\tAmount: ")
               print("")"""
-        SUBTOTAL = 0
 
+        SUBTOTAL = 0
         for person in userList:
             print("")
-            userList[person].print_info()
+            userList[person].print_receipt()
             SUBTOTAL += userList[person].get_total()
-        print("SUBTOTAL = " + str(SUBTOTAL))
+        print("\nSUBTOTAL = " + str(SUBTOTAL))
+
+
 
 
         #----------------------------------------------
         # Getting payment information
         #----------------------------------------------
-        paymentInfo = []
-        outstanding = float(round(SUBTOTAL,2))
+        paymentInfo = [] # structure to hold the different payments' info
+        outstanding = float(round(SUBTOTAL,2)) # the remaining balance due on the transaction
         print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
         while (outstanding > round(0.0,2)):
             pay_method = get_payment_method("Method of payment? (" + str(outstanding) + " outstanding): ")
+
+            # Checking for kill command
+            if (pay_method == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+                clean_shutdown()
+
             amount = get_payment_amount("\tamount: ")
 
+            # Checking for kill command
+            if (amount == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+                clean_shutdown()
+
+            #----------------------------------------------
+            # Determining payment method
+            #----------------------------------------------
+            # Cash
             if (pay_method == jsonObject['VALID_PAYMENT']['cash']['UPC']):
                 outstanding = outstanding - float(round(amount,2))
                 paymentInfo.append(Payment(pay_method, amount))
 
+            # Check
             elif (pay_method == jsonObject['VALID_PAYMENT']['check']['UPC']):
                 outstanding = outstanding - float((round(amount,2)))
                 comment = raw_input("\tCheck number: ")
                 paymentInfo.append(Payment(pay_method, amount, comment))
 
+            # Card
             elif (pay_method == jsonObject['VALID_PAYMENT']['credit']['UPC']):
                 upcharge = float(amount * 0.03)
                 print(Fore.YELLOW + "\t3% charge of " + str(upcharge) + " being applied" + Style.RESET_ALL)
-                comment = raw_input("\tLast four digits on card: ")
+                comment = last_four("\tLast four digits on card: ")
                 outstanding -= amount
                 outstanding += round(upcharge,2)
                 paymentInfo.append(Payment(pay_method, amount, comment))
@@ -197,12 +225,20 @@ def main():
             x.printInfo()
 
 
+        ready_to_finish = get_yes_no("Do the above charges look correct?: ")
+        if (ready_to_finish == "n"):
+            clean_shutdown()
+        # Checking for kill command
+        if (ready_to_finish == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            clean_shutdown()
+
 
         # Printing Receipt
         print(Fore.MAGENTA + "Printing receipt..." + Style.RESET_ALL)
 
 
-        print(Fore.MAGENTA + "___________end of transaction__________" + Style.RESET_ALL)
+        transaction_end(transaction_number)
+        print("\n\n\n\n")
 
 if __name__ == '__main__':
     main()

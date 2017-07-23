@@ -9,3 +9,6 @@ def title():
 
 def transaction(number):
     print(Back.MAGENTA + "\n                      Transaction " + str(number) + "                        " + Style.RESET_ALL)
+
+def transaction_end(number):
+    print(Back.MAGENTA + "\n                      End Transaction " + str(number) + "                    " + Style.RESET_ALL)

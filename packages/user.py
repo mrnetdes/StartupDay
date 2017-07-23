@@ -69,15 +69,16 @@ class User(object):
             print("{0:25} {1:20} {2:7}".format(name, quantity, price))
 
     def print_receipt(self):
+        print(self.propername)
         for x in self.cart:
-            user = str(self.fname)
-            name = str(self.jsonObject['UPC'][x]['name'])
-            price = str(self.cart[x] * self.jsonObject['UPC'][x]['price'])
-            quantity = str(self.cart[x])
-            print("{0:20} {1:20} {2:10} {3:7}".format(user, name, quantity, price))
+            if (self.cart[x] > 0):
+                name = str(self.jsonObject['UPC'][x]['name'])
+                price = str(self.cart[x] * self.jsonObject['UPC'][x]['price'])
+                quantity = str(self.cart[x])
+                print("{0:20} {1:20} {2:10}".format(name, quantity, price))
         for x in self.credits:
-            user = str(self.fname)
-            name = str("cred: ") + str(self.jsonObject['UPC'][x]['name'])
-            price = str(self.cart[x] * self.jsonObject['UPC'][x]['credit_price'])
-            quantity = str(self.credits[x])
-            print("{0:20} {1:20} {2:10} {3:7}".format(user, name, quantity, price))
+            if (self.credits[x] > 0):
+                name = str("cred: ") + str(self.jsonObject['UPC'][x]['name'])
+                price = str(self.cart[x] * self.jsonObject['UPC'][x]['credit_price'])
+                quantity = str(self.credits[x])
+                print("{0:20} {1:20} {2:10}".format(name, quantity, price))

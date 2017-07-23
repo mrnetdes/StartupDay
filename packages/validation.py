@@ -32,8 +32,16 @@ with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 
 # Connecting to Mysql database
-lchs_test = Customsql()
-lchs_test.open_connection()
+if (jsonObject['ENVIRONMENT'] == "local"):
+    print('env is local')
+    lchs_test = Customsql()
+else:
+    user = "startup"
+    pw = "Lch$Startup"
+    host = "lchsweb.lexingtoncatholic.local"
+    database = "lchsdb_test"
+    lchs_test = Customsql(user, pw, host, database)
+
 
 
 
@@ -202,3 +210,39 @@ def get_payment_method(prompt):
             continue
 
     return userInput
+
+
+def get_yes_no(prompt):
+    """
+    """
+    while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            break
+
+        if (userInput == "y" or userInput == "n"):
+            break
+        else:
+            print(Fore.RED + "Invalid Input" + Style.RESET_ALL)
+            continue
+
+def last_four(prompt):
+    """
+    """
+    while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            break
+
+        # Exception handling for data type
+        try:
+            userInput = int(userInput)
+        except ValueError:
+            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
+            continue
+
+        if (len(userInput) == )
