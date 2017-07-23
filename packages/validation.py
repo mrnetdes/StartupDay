@@ -245,4 +245,5 @@ def last_four(prompt):
             print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
 
-        if (len(userInput) == )
+        #if (len(userInput) == )
+    return userInput

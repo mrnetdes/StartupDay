@@ -49,6 +49,10 @@ class User(object):
         """ Increments the quantity of the given UPC in the credits cart """
         self.credits[str(UPC)] += 1
 
+    def get_quantity(self, UPC):
+        """ """
+        return int(self.cart[str(UPC)])
+
     def print_info(self):
         print("ID: " + str(self.userid))
         print("Name: " + str(self.propername))

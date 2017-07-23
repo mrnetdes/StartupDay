@@ -15,6 +15,7 @@
       "rules": "only seniors can order",
       "price": 25,
       "credit_price": -25,
+      "first_free": 0,
       "limit": "99999"
     },
     "HALF_AD": {
@@ -23,6 +24,7 @@
       "rules": "only seniors can order",
       "price": 50,
       "credit_price": -50,
+      "first_free": 0,
       "limit": "99999"
     },
     "FULL_AD": {
@@ -31,6 +33,7 @@
       "rules": "only seniors can order",
       "price": 100,
       "credit_price": -100,
+      "first_free": 0,
       "limit": "99999"
     },
     "CAFETERIA": {
@@ -39,6 +42,7 @@
       "rules": "put up note that they only need to add it to the first student but can do them all if they want to - all goes to the same account)",
       "price": 0,
       "credit_price": 0,
+      "first_free": 0,
       "limit": "99999"
     },
     "LANYARD": {
@@ -47,6 +51,7 @@
       "rules": "first is free for freshman and new students only* - all others pay",
       "price": 10,
       "credit_price": -10,
+      "first_free": 0,
       "limit": "99999"
     },
     "AGENDA": {
@@ -55,6 +60,7 @@
       "rules": "first is free for all students",
       "price": 10,
       "credit_price": -10,
+      "first_free": 0,
       "limit": "99999"
     },
     "PARKING_PASS": {
@@ -63,7 +69,8 @@
       "rules": "1 per student/only seniors can order",
       "price": 30,
       "credit_price": -30,
-      "limit": "1"
+      "first_free": 0,
+      "limit": 1
     },
     "SERVICE_CLUB": {
       "name": "Service Club",
@@ -71,6 +78,7 @@
       "rules": "1 per student",
       "price": 20,
       "credit_price": -20,
+      "first_free": 0,
       "limit": "1"
     },
     "PAC_DUES": {
@@ -79,6 +87,7 @@
       "rules": "1 per family so only needs to be done on one kid",
       "price": 40,
       "credit_price": -40,
+      "first_free": 0,
       "limit": "1"
     },
     "UKNIGHTPATRON": {
@@ -87,6 +96,7 @@
       "rules": "1 per student",
       "price": 0,
       "credit_price": 0,
+      "first_free": 0,
       "limit": "1"
     },
     "IDBADGE": {
@@ -95,6 +105,7 @@
       "rules": "1 per student",
       "price": 0,
       "credit_price": 0,
+      "first_free": 0,
       "limit": "1"
     }
   },

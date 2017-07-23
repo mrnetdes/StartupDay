@@ -137,9 +137,27 @@ def main():
 
             # Checking if input is an item in inventory
             elif (userInput in jsonObject['UPC']):
-                userList[current_user].add_item(userInput) # adding item to user's cart
-                #userList[current_user].add_credit(userInput) # adding credit for item to user's cart
-                print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
+                #check if limit has been reached - this inlcudes cafeteria and packages
+                if (userList[current_user].get_quantity(userInput) >= int(jsonObject['UPC'][str(userInput)]['limit'])):
+                    print(Fore.YELLOW + "There is a limit of " + str(jsonObject['UPC'][str(userInput)]['limit']) + " for this item" + Style.RESET_ALL)
+
+                #yearbook
+                    #quarter ad
+                    #half ad
+                    # full ad
+                    # parking pass
+                # lanyard
+                # agenda
+                # service_club
+                    # cafeteria
+                    # pac dues
+
+                # uknight patron
+                # id badge
+                else:
+                    userList[current_user].add_item(userInput) # adding item to user's cart
+                    #userList[current_user].add_credit(userInput) # adding credit for item to user's cart
+                    print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
 
             # Checking if input is a student ID
             elif (lchs_test.is_student(userInput)):
@@ -152,18 +170,6 @@ def main():
                 print(Fore.RED + "invalid input" + Style.RESET_ALL)
 
 
-
-        # Determining payment methods
-        """split_count = get_split_count("How many ways is this transaction being split?: ")
-        if (split_count == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            clean_shutdown()
-
-        # Getting information on each split
-        for x in range (1, split_count+1):
-              print("\tPayment number " + str(x))
-              payment_type = get_payment_type("\tType: ")
-              payment_amount = get_payment_amount("\tAmount: ")
-              print("")"""
 
         SUBTOTAL = 0
         for person in userList:
