@@ -25,7 +25,6 @@ import json
 # Mysql Support
 from packages.customsql import *
 
-import logging
 
 # Importing config file
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
@@ -33,7 +32,7 @@ with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
 
 # Connecting to Mysql database
 if (jsonObject['ENVIRONMENT'] == "local"):
-    print('env is local')
+    print(Fore.CYAN + 'env is local' + Style.RESET_ALL)
     lchs_test = Customsql()
 else:
     user = "startup"
@@ -54,18 +53,21 @@ def get_payment_amount(prompt):
 
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            break
+            return
+
+        if (userInput == jsonObject['VALID_PAYMENT']['pay_in_full']['UPC']):
+            return str(userInput)
 
         # Exception handling for float
         try:
             userInput = float(userInput)
         except ValueError:
-            print(Fore.RED + "INVALID PAYMENT TYPE " + Style.RESET_ALL)
+            print(Fore.RED + "\tINVALID INPUT" + Style.RESET_ALL)
             continue
 
         # Custom validation minimum amount...NEED TO SEE WHAT MIN AND MAX SHOULD BE
         if (userInput < 0):
-            print(Fore.RED + "INVALID AMOUNT " + Style.RESET_ALL)
+            print(Fore.RED + "\tINVALID AMOUNT " + Style.RESET_ALL)
             continue
         else:
             break
@@ -128,11 +130,9 @@ def get_id(prompt):
 
     return userInput
 
-
+"""
 def get_split_count(prompt):
-    """
-    Ready for final review
-    """
+
     while True:
         userInput = raw_input(prompt)
 
@@ -155,7 +155,7 @@ def get_split_count(prompt):
             break
 
     return userInput
-
+"""
 
 def get_item(prompt):
     """
@@ -206,7 +206,7 @@ def get_payment_method(prompt):
         if userInput in jsonObject['VALID_PAYMENT']:
             break
         else:
-            print(Fore.RED + "Invalid Payment Type" + Style.RESET_ALL)
+            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
 
     return userInput
@@ -228,6 +228,8 @@ def get_yes_no(prompt):
             print(Fore.RED + "Invalid Input" + Style.RESET_ALL)
             continue
 
+    return str(userInput)
+
 def last_four(prompt):
     """
     """
@@ -242,8 +244,13 @@ def last_four(prompt):
         try:
             userInput = int(userInput)
         except ValueError:
-            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
+            print(Fore.RED + "\tINVALID INPUT" + Style.RESET_ALL)
             continue
 
-        #if (len(userInput) == )
-    return userInput
+        if (len(str(userInput)) == 4):
+            break
+        else:
+            print(Fore.RED + "\tINVALID INPUT" + Style.RESET_ALL)
+            continue
+
+    return int(userInput)

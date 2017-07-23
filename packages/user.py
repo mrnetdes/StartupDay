@@ -73,7 +73,7 @@ class User(object):
             print("{0:25} {1:20} {2:7}".format(name, quantity, price))
 
     def print_receipt(self):
-        print(self.propername)
+        print(self.userid)
         for x in self.cart:
             if (self.cart[x] > 0):
                 name = str(self.jsonObject['UPC'][x]['name'])

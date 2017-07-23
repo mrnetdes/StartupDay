@@ -118,6 +118,9 @@
     },
     "check": {
       "UPC": "check"
+    },
+    "pay_in_full": {
+      "UPC": "pay_in_full"
     }
   },
   "KILL_COMMANDS":{

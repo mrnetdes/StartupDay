@@ -8,7 +8,7 @@ def title():
     print("///////////////////////////////////////////////////////////////////////" + Style.RESET_ALL)
 
 def transaction(number):
-    print(Back.MAGENTA + "\n                      Transaction " + str(number) + "                        " + Style.RESET_ALL)
+    print(Back.MAGENTA + "\n                      Start Transaction " + str(number) + "                  " + Style.RESET_ALL)
 
 def transaction_end(number):
     print(Back.MAGENTA + "\n                      End Transaction " + str(number) + "                    " + Style.RESET_ALL)
