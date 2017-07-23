@@ -73,7 +73,12 @@ class User(object):
             print("{0:25} {1:20} {2:7}".format(name, quantity, price))
 
     def print_receipt(self):
-        print(self.userid)
+        print("ID: " + str(self.userid)),
+        print("Name: " + str(self.propername))
+        print("Year: " + str(self.year))
+        print "-"*50
+        print("{0:20} {1:20} {2:10}".format("Item", "Amount", "Cost"))
+        print "-"*50
         for x in self.cart:
             if (self.cart[x] > 0):
                 name = str(self.jsonObject['UPC'][x]['name'])
@@ -86,3 +91,4 @@ class User(object):
                 price = str(self.cart[x] * self.jsonObject['UPC'][x]['credit_price'])
                 quantity = str(self.credits[x])
                 print("{0:20} {1:20} {2:10}".format(name, quantity, price))
+        print("SUBTOTAL = " + str(self.get_total()))

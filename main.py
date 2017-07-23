@@ -194,14 +194,14 @@ def main():
                 print(person, userList[person]),
                 print(Style.RESET_ALL)
 
-        print("----------------------------------------------------")
+        print(Fore.MAGENTA + "--------------------------------------------------------------" + Style.RESET_ALL)
 
         SUBTOTAL = 0
         for person in userList:
             print("")
             userList[person].print_receipt()
             SUBTOTAL += userList[person].get_total()
-        print("\nSUBTOTAL = " + str(SUBTOTAL))
+        print("\nTOTAL = " + str(SUBTOTAL))
 
 
         #----------------------------------------------
@@ -210,6 +210,7 @@ def main():
         paymentInfo = [] # structure to hold the different payments' info
         outstanding = float(round(SUBTOTAL,2)) # the remaining balance due on the transaction
         print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
+        print(Fore.YELLOW + "True total may be up to $" + str(float(SUBTOTAL) * 1.03)+ Style.RESET_ALL)
         while (outstanding > round(0.0,2)):
             pay_method = get_payment_method("Method of payment? ($" + str(outstanding) + " outstanding): ")
 
@@ -257,11 +258,11 @@ def main():
                     upcharge = float(outstanding * 0.03)
                     amount = float(outstanding + upcharge)
                     outstanding = 0
-                    print(Fore.YELLOW + "\t3% charge of " + str(upcharge) + " being applied" + Style.RESET_ALL)
+                    print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     paymentInfo.append(Payment(pay_method, amount, comment))
                 else:
                     upcharge = float(amount * 0.03)
-                    print(Fore.YELLOW + "\t3% charge of " + str(upcharge) + " being applied" + Style.RESET_ALL)
+                    print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     outstanding -= amount
                     outstanding += round(upcharge,2)
                     paymentInfo.append(Payment(pay_method, amount, comment))

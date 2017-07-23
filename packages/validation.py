@@ -1,20 +1,3 @@
-"""
-get_payment_type():
-NOT DONE
-
-get_payment_amount():
-NOT DONE
-
-get_operator():
-NOT DONE
-
-get_id():
-NOT DONE
-
-other:
-
-"""
-
 
 # Getting pretty colors
 from packages.colorama import Fore, Back, Style
@@ -206,7 +189,7 @@ def get_payment_method(prompt):
         if userInput in jsonObject['VALID_PAYMENT']:
             break
         else:
-            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
+            print(Fore.RED + "\tINVALID INPUT" + Style.RESET_ALL)
             continue
 
     return userInput
