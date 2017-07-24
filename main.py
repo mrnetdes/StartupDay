@@ -211,7 +211,7 @@ def main():
                     print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
 
             else:
-                print(Fore.RED + "invalid input" + Style.RESET_ALL)
+                print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
 
 
         if (DEBUGGING):
