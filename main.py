@@ -41,6 +41,24 @@ def show_total(userList):
         SUBTOTAL += userList[person].get_total()
     print("\nSUBTOTAL = " + str(SUBTOTAL))
 
+def dev_print(userList, paymentInfo):
+    print("----DEV PRINT----")
+
+    # Printing all payment info
+    print("-"*55)
+    print("{0:25} {1:20} {2:7}".format("Payment", "Amount", "Comment"))
+    print("-"*55)
+    for x in paymentInfo:
+        x.printInfo()
+
+    print("")
+
+    # Printing all user information
+    for x in userList:
+        userList[x].print_info()
+        print("")
+
+
 def main():
 
     # Variables initialization
@@ -74,7 +92,7 @@ def main():
 
     title() # Displaying program title
 
-    # Getting a valid operator id
+    # Getting a valid operator id - THIS CAN BE ANY 4 characters
     operator_id = get_operator("Enter operator ID: ")
     if (operator_id == jsonObject['KILL_COMMANDS']['kill_session']['name']):
         clean_shutdown()
@@ -261,11 +279,20 @@ def main():
                     print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     paymentInfo.append(Payment(pay_method, amount, comment))
                 else:
+                    """
                     upcharge = float(amount * 0.03)
                     print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     outstanding -= amount
                     outstanding += round(upcharge,2)
                     paymentInfo.append(Payment(pay_method, amount, comment))
+                    """
+                    upcharge = float(amount * 0.03)
+                    outstanding -= amount
+                    #outstanding += round(upcharge,2)
+
+                    paymentInfo.append(Payment(pay_method, amount, comment))
+                    paymentInfo.append(Payment(str(comment) + "_fee", upcharge, comment))
+
 
         #print paymentInfo
         print("-"*55)
@@ -288,6 +315,7 @@ def main():
 
 
         transaction_end(transaction_number)
+        dev_print(userList, paymentInfo)
         print("\n\n\n\n")
 
 if __name__ == '__main__':
