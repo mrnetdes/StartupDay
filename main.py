@@ -28,6 +28,7 @@ logging.info("-----Program Started-----")
 
 
 def clean_shutdown():
+    """ Cleanly shuts down the program (replaces the use of control + C) """
     lchs_test.close_connection()
     logging.info("shutdown command was issued")
     print(Back.RED + "shutting down..." + Style.RESET_ALL)
@@ -79,10 +80,10 @@ def main():
     #print json.dumps(jsonObject, indent=4, sort_keys=True)
 
 
-
     # Opening MySQL connection
     lchs_test = Customsql()
 
+    
     # DEBUGGING
     if (DEBUGGING):
         print(Fore.YELLOW + "WARNING: program is running in debug mode" + Style.RESET_ALL)
@@ -163,9 +164,16 @@ def main():
 
             # Checking if input is an item in inventory
             elif (userInput in jsonObject['UPC']):
-                #check if limit has been reached - this inlcudes cafeteria and packages
+                # Checking if limit has been reached - this inlcudes cafeteria and packages
                 if (userList[current_user].get_quantity(userInput) >= int(jsonObject['UPC'][str(userInput)]['limit'])):
                     print(Fore.YELLOW + "There is a limit of " + str(jsonObject['UPC'][str(userInput)]['limit']) + " for this item" + Style.RESET_ALL)
+                    
+                # Checking family based things
+                # Checking for cafeteria
+                """ This should handle negative amounts as well """
+                if (userInput == jsonObject['UPC']['CAFETERIA']):
+                    cafe_amount = raw_input("Enter amount for cafe: ")
+                    userList[current_user].add_to_cafe(cafe_amount) # adding dollar amount to cafeteria balance
 
                 #yearbook
                     #quarter ad
