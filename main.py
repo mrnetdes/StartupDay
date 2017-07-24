@@ -138,7 +138,7 @@ def main():
         #----------------------------------------------
         # Generating transaction number
         #----------------------------------------------
-        transaction_number = 1234
+        transaction_number = str(operator_id) + "_" + str(time.time())
         transaction(transaction_number)
 
         print(Fore.MAGENTA + "current user: " + str(userList[current_user].userid) + Style.RESET_ALL)
