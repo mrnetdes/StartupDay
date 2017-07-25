@@ -3,6 +3,13 @@
 This tool was commisioned to myself by Lexington Catholic High School to be used on their Startup Day.
 ## Table of Contents
 ## Installation
+This program must be started from the command prompt. However, below are instructions for creating a Desktop icon to launch the program.
+#### Running from the Command Prompt
+From within a command prompt, run the following command:
+```bash
+python main.py
+```
+#### Creating a Desktop Icon
 ## Usage
 ## License
 
