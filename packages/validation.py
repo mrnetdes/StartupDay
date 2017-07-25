@@ -121,34 +121,9 @@ def get_id(prompt):
 
     return userInput
 
-"""
-def get_split_count(prompt):
 
-    while True:
-        userInput = raw_input(prompt)
 
-        # Checking for kill command
-        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            break
-
-        # Exception handling for int type
-        try:
-            userInput = int(userInput)
-        except ValueError:
-            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
-            continue
-
-        # Custom validation for integer from 1-10
-        if (userInput <= 0 or userInput > 10):
-            print(Fore.RED + "SPLIT MUST BE AT LEAST ONE " + Style.RESET_ALL)
-            continue
-        else:
-            break
-
-    return userInput
-"""
-
-def get_item(prompt):
+"""def get_item(prompt):
     """
     """
     while True:
@@ -156,7 +131,7 @@ def get_item(prompt):
 
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            break
+            clean_shutdown()
 
         # Exception handling for data type
         try:
@@ -180,7 +155,7 @@ def get_item(prompt):
                 print(Fore.RED + "Could not find item\t" + str(userInput) + Style.RESET_ALL)
                 continue
 
-    return userInput
+    return userInput"""
 
 
 def get_payment_method(prompt):

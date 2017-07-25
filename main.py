@@ -64,17 +64,14 @@ def main():
     # Importing item list
     with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
         jsonObject = json.load(data_file) # parsing file
-<<<<<<< HEAD
-=======
+
     #print json.dumps(jsonObject, indent=4, sort_keys=True)
 
 
-    # Opening MySQL connection
-    lchs_test = Customsql()
 
 
     # DEBUGGING
->>>>>>> origin/master
+
     if (DEBUGGING):
         print json.dumps(jsonObject, indent=4, sort_keys=True)
         print(Fore.YELLOW + "WARNING: program is running in debug mode" + Style.RESET_ALL)
@@ -144,19 +141,38 @@ def main():
         #------------------------------------------------------------------
         """ This loop allows the operator to scan items, or scan an id number and create a new user. """
         while True:
-            userInput = raw_input("\nPlease SCAN an item or student number: ")
-
-            #----------------------------------------------
-            # Determining what was entered
-            #----------------------------------------------
-            # Checking for shutdown command
-            if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-                clean_shutdown()
-
+            userInput = get_item("\nPlease SCAN an item or student number: ")
             # Checking for break command
-            elif (userInput == jsonObject['KILL_COMMANDS']['ready_for_payment']['name']): break
+            if (userInput == jsonObject['KILL_COMMANDS']['ready_for_payment']['name']): break
 
+
+            #----------------------------------------------
+            # Checking if input was integer (i.e student)
+            #----------------------------------------------
+            elif (int(userInput)):
+                if (is_student(userInput)):
+                    if userList.has_key(int(userInput)):
+                        print(Fore.MAGENTA + "user already exists" + Style.RESET_ALL)
+                        current_user = int(userInput)
+                        #print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
+                    # Adding new user since they don't already exist
+                    else:
+                        current_user = int(userInput) # making new user the current user
+                        for row in cursor:
+                            print (row)
+                            fname = row[0]
+                            lname = row[1]
+                            propername = row[2]
+                            year = row[3]
+                            enrolled = row[4]
+                        entry = {current_user: User(current_user, fname, lname, propername, year, enrolled, jsonObject)} # creating new user
+                        userList.update(entry) # adding user to userList
+
+                print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
+
+            #----------------------------------------------
             # Checking if input is an item in inventory
+            #----------------------------------------------
             elif (userInput in jsonObject['UPC']):
                 # Checking if limit has been reached - this inlcudes cafeteria and packages
                 if (userList[current_user].get_quantity(userInput) >= int(jsonObject['UPC'][str(userInput)]['limit'])):
@@ -168,51 +184,19 @@ def main():
                 if (userInput == jsonObject['UPC']['CAFETERIA']):
                     cafe_amount = raw_input("Enter amount for cafe: ")
                     userList[current_user].add_to_cafe(cafe_amount) # adding dollar amount to cafeteria balance
-
-                #yearbook
-                    #quarter ad
-                    #half ad
-                    # full ad
-                    # parking pass
-                # lanyard
-                # agenda
-                # service_club
-                    # cafeteria
-                    # pac dues
-
-                # uknight patron
-                # id badge
                 else:
                     userList[current_user].add_item(userInput) # adding item to user's cart
                     #userList[current_user].add_credit(userInput) # adding credit for item to user's cart
                     print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
 
 
-            # Checking if input is a student ID
-            elif (is_student(userInput)):
-
-                # Checking if user already exists in transaction
-                if userList.has_key(int(userInput)):
-                    print(Fore.MAGENTA + "user already exists" + Style.RESET_ALL)
-                    current_user = int(userInput)
-                    print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
-
-                # Adding new user since they don't already exist
-                else:
-                    current_user = int(userInput) # making new user the current user
-                    for row in cursor:
-                        print (row)
-                        fname = row[0]
-                        lname = row[1]
-                        propername = row[2]
-                        year = row[3]
-                        enrolled = row[4]
-                    entry = {current_user: User(current_user, fname, lname, propername, year, enrolled, jsonObject)} # creating new user
-                    userList.update(entry) # adding user to userList
-                    print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
-
+            #----------------------------------------------
+            # Must be invalid input
+            #----------------------------------------------
             else:
                 print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
+
+
 
 
         if (DEBUGGING):
