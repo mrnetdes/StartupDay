@@ -149,17 +149,18 @@ def main():
             #----------------------------------------------
             # Checking if input was integer (i.e student)
             #----------------------------------------------
-            elif (int(userInput)):
+            try:
+                userInput = int(userInput)
                 if (is_student(userInput)):
                     if userList.has_key(int(userInput)):
                         print(Fore.MAGENTA + "user already exists" + Style.RESET_ALL)
                         current_user = int(userInput)
-                        #print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
+                        print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
                     # Adding new user since they don't already exist
                     else:
                         current_user = int(userInput) # making new user the current user
                         for row in cursor:
-                            print (row)
+                            #print (row)
                             fname = row[0]
                             lname = row[1]
                             propername = row[2]
@@ -167,34 +168,35 @@ def main():
                             enrolled = row[4]
                         entry = {current_user: User(current_user, fname, lname, propername, year, enrolled, jsonObject)} # creating new user
                         userList.update(entry) # adding user to userList
-
-                print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
-
-            #----------------------------------------------
-            # Checking if input is an item in inventory
-            #----------------------------------------------
-            elif (userInput in jsonObject['UPC']):
-                # Checking if limit has been reached - this inlcudes cafeteria and packages
-                if (userList[current_user].get_quantity(userInput) >= int(jsonObject['UPC'][str(userInput)]['limit'])):
-                    print(Fore.YELLOW + "There is a limit of " + str(jsonObject['UPC'][str(userInput)]['limit']) + " for this item" + Style.RESET_ALL)
-
-                # Checking family based things
-                # Checking for cafeteria
-                """ This should handle negative amounts as well """
-                if (userInput == jsonObject['UPC']['CAFETERIA']):
-                    cafe_amount = raw_input("Enter amount for cafe: ")
-                    userList[current_user].add_to_cafe(cafe_amount) # adding dollar amount to cafeteria balance
+                        print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
                 else:
-                    userList[current_user].add_item(userInput) # adding item to user's cart
-                    #userList[current_user].add_credit(userInput) # adding credit for item to user's cart
-                    print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
-
+                    print(Fore.RED + "User does not exist" + Style.RESET_ALL)
 
             #----------------------------------------------
-            # Must be invalid input
+            # Input was not an integer
             #----------------------------------------------
-            else:
-                print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
+            except:
+                #----------------------------------------------
+                # Checking if input is an item in inventory
+                #----------------------------------------------
+                if (userInput in jsonObject['UPC']):
+                    # Checking if limit has been reached - this inlcudes cafeteria and packages
+                    if (userList[current_user].get_quantity(userInput) >= int(jsonObject['UPC'][str(userInput)]['limit'])):
+                        print(Fore.YELLOW + "There is a limit of " + str(jsonObject['UPC'][str(userInput)]['limit']) + " for this item" + Style.RESET_ALL)
+
+                    elif (userInput == jsonObject['UPC']['CAFETERIA']):
+                        cafe_amount = raw_input("Enter amount for cafe: ")
+                        userList[current_user].add_to_cafe(cafe_amount) # adding dollar amount to cafeteria balance
+                    else:
+                        userList[current_user].add_item(userInput) # adding item to user's cart
+                        #userList[current_user].add_credit(userInput) # adding credit for item to user's cart
+                        print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
+
+                #----------------------------------------------
+                # Must be invalid input
+                #----------------------------------------------
+                else:
+                    print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
 
 
 

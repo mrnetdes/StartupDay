@@ -123,39 +123,18 @@ def get_id(prompt):
 
 
 
-"""def get_item(prompt):
-    """
-    """
+def get_item(prompt):
+
     while True:
         userInput = raw_input(prompt)
 
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
             clean_shutdown()
-
-        # Exception handling for data type
-        try:
-            userInput = str(userInput)
-        except ValueError:
-            print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
-            continue
-
-        # Custom validation for item names
-        if userInput in jsonObject['UPC']:
-            break
         else:
-            if (userInput == 'break'):
-                break
-            # Trying to cast as int to see if input is a student number
-            try:
-                userInput = int(userInput)
-                userInput = get_id("Please SCAN Student Number: ")
-                break
-            except:
-                print(Fore.RED + "Could not find item\t" + str(userInput) + Style.RESET_ALL)
-                continue
+            break
 
-    return userInput"""
+    return userInput
 
 
 def get_payment_method(prompt):
