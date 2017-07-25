@@ -25,6 +25,16 @@ logging.basicConfig(filename='run.log',format='%(asctime)s %(levelname)s %(messa
 logging.info("-----Program Started-----")
 
 
+<<<<<<< HEAD
+=======
+def clean_shutdown():
+    """ Cleanly shuts down the program (replaces the use of control + C) """
+    lchs_test.close_connection()
+    logging.info("shutdown command was issued")
+    print(Back.RED + "shutting down..." + Style.RESET_ALL)
+    exit()
+
+>>>>>>> origin/master
 def show_total(userList):
     """ """
     SUBTOTAL = 0
@@ -64,6 +74,17 @@ def main():
     # Importing item list
     with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
         jsonObject = json.load(data_file) # parsing file
+<<<<<<< HEAD
+=======
+    #print json.dumps(jsonObject, indent=4, sort_keys=True)
+
+
+    # Opening MySQL connection
+    lchs_test = Customsql()
+
+    
+    # DEBUGGING
+>>>>>>> origin/master
     if (DEBUGGING):
         print json.dumps(jsonObject, indent=4, sort_keys=True)
         print(Fore.YELLOW + "WARNING: program is running in debug mode" + Style.RESET_ALL)
@@ -121,8 +142,12 @@ def main():
         #----------------------------------------------
         # Generating transaction number
         #----------------------------------------------
+<<<<<<< HEAD
         """ Number is based off of operator's initials and ... """
         transaction_number = 1234
+=======
+        transaction_number = str(operator_id) + "_" + str(time.time())
+>>>>>>> origin/master
         transaction(transaction_number)
 
         print(Fore.MAGENTA + "current user: " + str(userList[current_user].userid) + Style.RESET_ALL)
@@ -147,9 +172,16 @@ def main():
 
             # Checking if input is an item in inventory
             elif (userInput in jsonObject['UPC']):
-                #check if limit has been reached - this inlcudes cafeteria and packages
+                # Checking if limit has been reached - this inlcudes cafeteria and packages
                 if (userList[current_user].get_quantity(userInput) >= int(jsonObject['UPC'][str(userInput)]['limit'])):
                     print(Fore.YELLOW + "There is a limit of " + str(jsonObject['UPC'][str(userInput)]['limit']) + " for this item" + Style.RESET_ALL)
+                    
+                # Checking family based things
+                # Checking for cafeteria
+                """ This should handle negative amounts as well """
+                if (userInput == jsonObject['UPC']['CAFETERIA']):
+                    cafe_amount = raw_input("Enter amount for cafe: ")
+                    userList[current_user].add_to_cafe(cafe_amount) # adding dollar amount to cafeteria balance
 
                 #yearbook
                     #quarter ad
@@ -194,7 +226,7 @@ def main():
                     print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
 
             else:
-                print(Fore.RED + "invalid input" + Style.RESET_ALL)
+                print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
 
 
         if (DEBUGGING):
