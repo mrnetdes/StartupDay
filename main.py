@@ -104,7 +104,6 @@ def main():
         user_id = get_id("Please SCAN Student Number: ")
         # Iterating through cursor and getting results of sql query
         for row in cursor:
-            #print (row)
             fname = row[0]
             lname = row[1]
             propername = row[2]
@@ -135,6 +134,7 @@ def main():
         """ This loop allows the operator to scan items, or scan an id number and create a new user. """
         while True:
             userInput = get_item("\nPlease SCAN an item or student number: ")
+            
             # Checking for break command
             if (userInput == jsonObject['KILL_COMMANDS']['ready_for_payment']['name']): break
 
@@ -143,7 +143,9 @@ def main():
             #----------------------------------------------
             try:
                 userInput = int(userInput)
+                # Seeing if user exists 
                 if (is_student(userInput)):
+                    # Checking if the user already exists in the transaction
                     if userList.has_key(int(userInput)):
                         print(Fore.MAGENTA + "user already exists" + Style.RESET_ALL)
                         current_user = int(userInput)
@@ -152,7 +154,6 @@ def main():
                     else:
                         current_user = int(userInput) # making new user the current user
                         for row in cursor:
-                            #print (row)
                             fname = row[0]
                             lname = row[1]
                             propername = row[2]
@@ -161,6 +162,7 @@ def main():
                         entry = {current_user: User(current_user, fname, lname, propername, year, enrolled, jsonObject)} # creating new user
                         userList.update(entry) # adding user to userList
                         print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
+                # User does not exist
                 else:
                     print(Fore.RED + "User does not exist" + Style.RESET_ALL)
 
@@ -186,9 +188,7 @@ def main():
                         #userList[current_user].add_credit(userInput) # adding credit for item to user's cart
                         print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
 
-                #----------------------------------------------
                 # Must be invalid input
-                #----------------------------------------------
                 else:
                     print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
 
@@ -213,10 +213,11 @@ def main():
         #----------------------------------------------
         # Getting payment information
         #----------------------------------------------
+        """ """
         paymentInfo = [] # structure to hold the different payments' info
         outstanding = float(round(SUBTOTAL,2)) # the remaining balance due on the transaction
         print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
-        print(Fore.YELLOW + "True total may be up to $" + str(float(SUBTOTAL) * 1.03)+ Style.RESET_ALL)
+    
         while (outstanding > round(0.0,2)):
             pay_method = get_payment_method("Method of payment? ($" + str(outstanding) + " outstanding): ")
 
@@ -229,9 +230,6 @@ def main():
             # Checking for kill command
             if (amount == jsonObject['KILL_COMMANDS']['kill_session']['name']):
                 clean_shutdown()
-
-            # Checking for pay in full
-
 
             #----------------------------------------------
             # Determining payment method
