@@ -14,7 +14,7 @@ with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 
 # Connecting to Mysql database
-if (jsonObject['ENVIRONMENT'] == "local"):
+"""if (jsonObject['ENVIRONMENT'] == "local"):
     print(Fore.CYAN + 'env is local' + Style.RESET_ALL)
     lchs_test = Customsql()
 else:
@@ -22,7 +22,14 @@ else:
     pw = "Lch$Startup"
     host = "lchsweb.lexingtoncatholic.local"
     database = "lchsdb_test"
-    lchs_test = Customsql(user, pw, host, database)
+    lchs_test = Customsql(user, pw, host, database)"""
+
+def clean_shutdown():
+    """ """
+    logging.info("shutdown command was issued")
+    print(Back.RED + "shutting down..." + Style.RESET_ALL)
+    cursor.close()
+    exit()
 
 
 
@@ -67,7 +74,7 @@ def get_operator(prompt):
 
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            break
+            clean_shutdown()
 
         # Exception handling for string
         try:
@@ -77,11 +84,12 @@ def get_operator(prompt):
             continue
 
         # Checking that operator is in database
-        if (lchs_test.is_operator(userInput)):
-            break
-        else:
-            print(Fore.RED + "Invalid Operator" + Style.RESET_ALL)
+        if (len(userInput) > 4):
+            print(Fore.RED + "ID can only be 4 characters" + Style.RESET_ALL)
             continue
+        else:
+            break
+
 
     return userInput
 
@@ -95,7 +103,7 @@ def get_id(prompt):
 
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            break
+            clean_shutdown()
 
         # Exception handling for string
         try:
@@ -105,7 +113,7 @@ def get_id(prompt):
             continue
 
         # Custom validation for proper ID number - NOT DONE YE
-        if (lchs_test.is_student(userInput)):
+        if (is_student(userInput)):
             break
         else:
             print(Fore.RED + "STUDENT NUMBER NOT FOUND " + Style.RESET_ALL)

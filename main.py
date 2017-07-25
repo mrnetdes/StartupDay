@@ -4,8 +4,6 @@
 
 DEBUGGING = False
 
-
-
 # Importing all the custom packages
 from packages.header import *
 from packages.validation import *
@@ -27,13 +25,8 @@ logging.basicConfig(filename='run.log',format='%(asctime)s %(levelname)s %(messa
 logging.info("-----Program Started-----")
 
 
-def clean_shutdown():
-    lchs_test.close_connection()
-    logging.info("shutdown command was issued")
-    print(Back.RED + "shutting down..." + Style.RESET_ALL)
-    exit()
-
 def show_total(userList):
+    """ """
     SUBTOTAL = 0
     for person in userList:
         print("")
@@ -42,18 +35,14 @@ def show_total(userList):
     print("\nSUBTOTAL = " + str(SUBTOTAL))
 
 def dev_print(userList, paymentInfo):
+    """ """
     print("----DEV PRINT----")
-
-    # Printing all payment info
     print("-"*55)
     print("{0:25} {1:20} {2:7}".format("Payment", "Amount", "Comment"))
     print("-"*55)
     for x in paymentInfo:
         x.printInfo()
-
     print("")
-
-    # Printing all user information
     for x in userList:
         userList[x].print_info()
         print("")
@@ -72,19 +61,11 @@ def main():
     userList = None
     current_user = None
 
-
     # Importing item list
     with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
         jsonObject = json.load(data_file) # parsing file
-    #print json.dumps(jsonObject, indent=4, sort_keys=True)
-
-
-
-    # Opening MySQL connection
-    lchs_test = Customsql()
-
-    # DEBUGGING
     if (DEBUGGING):
+        print json.dumps(jsonObject, indent=4, sort_keys=True)
         print(Fore.YELLOW + "WARNING: program is running in debug mode" + Style.RESET_ALL)
         logging.debug('program is running in debugging mode')
 
@@ -92,10 +73,10 @@ def main():
 
     title() # Displaying program title
 
+    #----------------------------------------------
     # Getting a valid operator id - THIS CAN BE ANY 4 characters
-    operator_id = get_operator("Enter operator ID: ")
-    if (operator_id == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-        clean_shutdown()
+    #----------------------------------------------
+    operator_id = get_operator("Enter operator initals: ")
     print(Fore.GREEN + "Hello " + str(operator_id) + "!\n" + Style.RESET_ALL)
     logging.info("operator " + str(operator_id) + " signed in")
 
@@ -103,6 +84,7 @@ def main():
     #------------------------------------------------------------------
     # Main program loop
     #------------------------------------------------------------------
+    """ """
     while (exitFlag == False):
 
         #----------------------------------------------
@@ -117,27 +99,29 @@ def main():
         #----------------------------------------------
         # Getting a valid user id
         #----------------------------------------------
+        """ """
         user_id = get_id("Please SCAN Student Number: ")
-        # Checking for shutdown command
-        if (user_id == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            clean_shutdown()
-        fname = "Stephen" #debugging
-        lname = "Ritchie" #debugging
-        propername = "Stephen Frederick Ritchie" #debugging
-        year = "2020" #debugging
-        enrolled = "2016" #debugging
+        # Iterating through cursor and getting results of sql query
+        for row in cursor:
+            #print (row)
+            fname = row[0]
+            lname = row[1]
+            propername = row[2]
+            year = row[3]
+            enrolled = row[4]
 
         #----------------------------------------------
         # Creating initial user
         #----------------------------------------------
+        """ """
         current_user = int(user_id) # making new user the current user
         entry = {current_user: User(current_user, fname, lname, propername, year, enrolled, jsonObject)} # creating new user
         userList.update(entry) # adding user to userList
 
-
         #----------------------------------------------
         # Generating transaction number
         #----------------------------------------------
+        """ Number is based off of operator's initials and ... """
         transaction_number = 1234
         transaction(transaction_number)
 
@@ -187,7 +171,7 @@ def main():
 
 
             # Checking if input is a student ID
-            elif (lchs_test.is_student(userInput)):
+            elif (is_student(userInput)):
 
                 # Checking if user already exists in transaction
                 if userList.has_key(int(userInput)):
@@ -198,7 +182,14 @@ def main():
                 # Adding new user since they don't already exist
                 else:
                     current_user = int(userInput) # making new user the current user
-                    entry = {current_user: User(current_user, "fname", "lname", "propername", "year", "enrolled", jsonObject)} # creating new user
+                    for row in cursor:
+                        print (row)
+                        fname = row[0]
+                        lname = row[1]
+                        propername = row[2]
+                        year = row[3]
+                        enrolled = row[4]
+                    entry = {current_user: User(current_user, fname, lname, propername, year, enrolled, jsonObject)} # creating new user
                     userList.update(entry) # adding user to userList
                     print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
 
