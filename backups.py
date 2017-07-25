@@ -90,3 +90,33 @@ class Customsql(object):
         self.cursor.close()
         self.cnx.close()
         logging.info("MySQL: connection to " + str(self.host) + " was closed")
+
+
+
+
+
+
+
+# Card
+elif (pay_method == jsonObject['VALID_PAYMENT']['credit']['UPC']):
+    comment = last_four("\tLast four digits on card: ")
+    if (amount == jsonObject['VALID_PAYMENT']['pay_in_full']['UPC']):
+        upcharge = float(outstanding * 0.03)
+        amount = float(outstanding + upcharge)
+        outstanding = 0
+        print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
+        paymentInfo.append(Payment(pay_method, amount, comment))
+    else:
+        """
+        upcharge = float(amount * 0.03)
+        print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
+        outstanding -= amount
+        outstanding += round(upcharge,2)
+        paymentInfo.append(Payment(pay_method, amount, comment))
+        """
+        upcharge = float(amount * 0.03)
+        outstanding -= amount
+        #outstanding += round(upcharge,2)
+
+        paymentInfo.append(Payment(pay_method, amount, comment))
+        paymentInfo.append(Payment(str(comment) + "_fee", upcharge, comment))

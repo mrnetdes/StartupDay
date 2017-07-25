@@ -1,28 +1,12 @@
-
-# Getting pretty colors
-from packages.colorama import Fore, Back, Style
-
-# Support for json config file
-import json
-
-# Mysql Support
-from packages.customsql import *
+from packages.colorama import Fore, Back, Style# Getting pretty colors
+import json # Support for json config file
+from packages.customsql import * # Mysql Support
 
 
 # Importing config file
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 
-# Connecting to Mysql database
-"""if (jsonObject['ENVIRONMENT'] == "local"):
-    print(Fore.CYAN + 'env is local' + Style.RESET_ALL)
-    lchs_test = Customsql()
-else:
-    user = "startup"
-    pw = "Lch$Startup"
-    host = "lchsweb.lexingtoncatholic.local"
-    database = "lchsdb_test"
-    lchs_test = Customsql(user, pw, host, database)"""
 
 def clean_shutdown():
     """ """
@@ -30,9 +14,7 @@ def clean_shutdown():
     print(Back.RED + "shutting down..." + Style.RESET_ALL)
     cursor.close()
     exit()
-
-
-
+#-------------------------------------------------------------------------------
 
 
 def get_payment_amount(prompt):
@@ -66,9 +48,8 @@ def get_payment_amount(prompt):
 
 
 def get_operator(prompt):
-    '''
-    Ready for final review
-    '''
+    """
+    """
     while True:
         userInput = raw_input(prompt)
 
@@ -90,14 +71,12 @@ def get_operator(prompt):
         else:
             break
 
-
     return userInput
 
 
 def get_id(prompt):
-    '''
-    Ready for final review
-    '''
+    """
+    """
     while True:
         userInput = raw_input(prompt)
 
@@ -105,14 +84,14 @@ def get_id(prompt):
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
             clean_shutdown()
 
-        # Exception handling for string
+        # Exception handling for int
         try:
             userInput = int(userInput)
         except ValueError:
             print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
 
-        # Custom validation for proper ID number - NOT DONE YE
+        # Custom validation for proper ID number
         if (is_student(userInput)):
             break
         else:
@@ -122,9 +101,9 @@ def get_id(prompt):
     return userInput
 
 
-
 def get_item(prompt):
-
+    """
+    """
     while True:
         userInput = raw_input(prompt)
 
@@ -145,7 +124,7 @@ def get_payment_method(prompt):
 
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            break
+            clean_shutdown()
 
         # Custom validation for item names
         if userInput in jsonObject['VALID_PAYMENT']:
@@ -154,7 +133,7 @@ def get_payment_method(prompt):
             print(Fore.RED + "\tINVALID INPUT" + Style.RESET_ALL)
             continue
 
-    return userInput
+    return str(userInput)
 
 
 def get_yes_no(prompt):
@@ -165,7 +144,7 @@ def get_yes_no(prompt):
 
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            break
+            clean_shutdown()
 
         if (userInput == "y" or userInput == "n"):
             break
@@ -175,6 +154,7 @@ def get_yes_no(prompt):
 
     return str(userInput)
 
+
 def last_four(prompt):
     """
     """
@@ -183,7 +163,7 @@ def last_four(prompt):
 
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            break
+            clean_shutdown()
 
         # Exception handling for data type
         try:
@@ -199,3 +179,31 @@ def last_four(prompt):
             continue
 
     return int(userInput)
+
+def get_cafe(prompt):
+    """
+    """
+    while True:
+        userInput = raw_input(prompt)
+
+        # Checking for kill command
+        if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
+            clean_shutdown()
+
+        # Exception handling for data type
+        try:
+            userList = int(userInput)
+            break
+        except ValueError:
+            print(Fore.RED + "\tINVALID INPUT" + Style.RESET_ALL)
+            continue
+
+    return round(float(userInput),2)
+
+
+
+
+
+
+
+    #

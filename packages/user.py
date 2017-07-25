@@ -53,6 +53,16 @@ class User(object):
         """ """
         return int(self.cart[str(UPC)])
 
+    def add_to_cafe(self, amount, UPC):
+        """ """
+        # Check if amount will make negative cafeteria balance
+        # ...
+
+        self.cart[str(UPC)] += float(amount)
+
+
+    #----------------------------------------------------------
+
     def print_info(self):
         print("ID: " + str(self.userid))
         print("Name: " + str(self.propername))

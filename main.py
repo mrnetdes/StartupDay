@@ -17,7 +17,7 @@ init()
 from packages.colorama import Fore, Back, Style
 
 
-import json
+import json # Support for json config file
 import logging
 import time
 
@@ -64,13 +64,6 @@ def main():
     # Importing item list
     with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
         jsonObject = json.load(data_file) # parsing file
-
-    #print json.dumps(jsonObject, indent=4, sort_keys=True)
-
-
-
-
-    # DEBUGGING
 
     if (DEBUGGING):
         print json.dumps(jsonObject, indent=4, sort_keys=True)
@@ -145,7 +138,6 @@ def main():
             # Checking for break command
             if (userInput == jsonObject['KILL_COMMANDS']['ready_for_payment']['name']): break
 
-
             #----------------------------------------------
             # Checking if input was integer (i.e student)
             #----------------------------------------------
@@ -180,13 +172,15 @@ def main():
                 # Checking if input is an item in inventory
                 #----------------------------------------------
                 if (userInput in jsonObject['UPC']):
-                    # Checking if limit has been reached - this inlcudes cafeteria and packages
+                    #print(jsonObject['UPC']['CAFETERIA'])
+                    # Checking if limit has been reached
                     if (userList[current_user].get_quantity(userInput) >= int(jsonObject['UPC'][str(userInput)]['limit'])):
                         print(Fore.YELLOW + "There is a limit of " + str(jsonObject['UPC'][str(userInput)]['limit']) + " for this item" + Style.RESET_ALL)
 
-                    elif (userInput == jsonObject['UPC']['CAFETERIA']):
-                        cafe_amount = raw_input("Enter amount for cafe: ")
-                        userList[current_user].add_to_cafe(cafe_amount) # adding dollar amount to cafeteria balance
+                    # Checking for cafeteria
+                    elif (userInput == "CAFETERIA"):
+                        cafe_amount = get_cafe("Enter amount for cafe: ")
+                        userList[current_user].add_to_cafe(cafe_amount, userInput) # adding dollar amount to cafeteria balance
                     else:
                         userList[current_user].add_item(userInput) # adding item to user's cart
                         #userList[current_user].add_credit(userInput) # adding credit for item to user's cart
@@ -206,7 +200,6 @@ def main():
                 print(Fore.CYAN),
                 print(person, userList[person]),
                 print(Style.RESET_ALL)
-
         print(Fore.MAGENTA + "--------------------------------------------------------------" + Style.RESET_ALL)
 
         SUBTOTAL = 0
@@ -267,12 +260,14 @@ def main():
             # Card
             elif (pay_method == jsonObject['VALID_PAYMENT']['credit']['UPC']):
                 comment = last_four("\tLast four digits on card: ")
+
                 if (amount == jsonObject['VALID_PAYMENT']['pay_in_full']['UPC']):
                     upcharge = float(outstanding * 0.03)
-                    amount = float(outstanding + upcharge)
+                    amount = float(outstanding)
                     outstanding = 0
                     print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     paymentInfo.append(Payment(pay_method, amount, comment))
+                    paymentInfo.append(Payment("fee" , upcharge, comment))
                 else:
                     """
                     upcharge = float(amount * 0.03)
@@ -284,14 +279,14 @@ def main():
                     upcharge = float(amount * 0.03)
                     outstanding -= amount
                     #outstanding += round(upcharge,2)
-
+                    print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     paymentInfo.append(Payment(pay_method, amount, comment))
-                    paymentInfo.append(Payment(str(comment) + "_fee", upcharge, comment))
+                    paymentInfo.append(Payment("fee" , upcharge, comment))
 
 
         #print paymentInfo
         print("-"*55)
-        print("{0:25} {1:20} {2:7}".format("Payment", "Amount", "Comment"))
+        print("{0:25} {1:20} {2:7}".format("Payment", "Amount", "Memo"))
         print("-"*55)
         for x in paymentInfo:
             x.printInfo()
