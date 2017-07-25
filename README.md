@@ -15,3 +15,4 @@ python main.py
 
 
 https://gist.github.com/matteomattei/4a80294307e5d8075891
+https://stackoverflow.com/questions/15727420/using-python-logging-in-multiple-modules
