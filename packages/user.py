@@ -29,8 +29,9 @@ class User(object):
 
         # Adding items to cart and credits - initializing with 0 units for each item
         for item in self.jsonObject['UPC']:
-            self.cart[str(item)] = 0
-            self.credits[str(item)] = 0
+            item = str(item)
+            self.cart[item] = 0
+            self.credits[item] = 0
 
     def get_total(self):
         """ Gets the total of the items in the user's cart and their credits """
@@ -58,7 +59,7 @@ class User(object):
     def add_to_cafe(self, amount, UPC):
         """ """
         if ((self.cart[str(UPC)] += float(amount)) < 0):
-            print("Amount would make account balance negative and is being ignored"
+            print("Amount would make account balance negative and is being ignored")
         else:
             self.cart[str(UPC)] += float(amount)
 
