@@ -9,16 +9,22 @@ with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
 
 
 def clean_shutdown():
-    """ """
+    """
+    Args:
+    
+    Returns:
+    """
     logging.info("shutdown command was issued")
     print(Back.RED + "shutting down..." + Style.RESET_ALL)
     cursor.close()
     exit()
-#-------------------------------------------------------------------------------
-
 
 def get_payment_amount(prompt):
     """
+    Args:
+        prompt (str): contains the prompt that will be displayed to the screen
+    
+    Returns:
     """
     while True:
         userInput = raw_input(prompt)
@@ -49,6 +55,10 @@ def get_payment_amount(prompt):
 
 def get_operator(prompt):
     """
+    Args:
+        prompt (str): contains the prompt that will be displayed to the screen
+    
+    Returns:
     """
     while True:
         userInput = raw_input(prompt)
@@ -76,6 +86,10 @@ def get_operator(prompt):
 
 def get_id(prompt):
     """
+    Args:
+        prompt (str): contains the prompt that will be displayed to the screen
+    
+    Returns:
     """
     while True:
         userInput = raw_input(prompt)
@@ -103,6 +117,10 @@ def get_id(prompt):
 
 def get_item(prompt):
     """
+    Args:
+        prompt (str): contains the prompt that will be displayed to the screen
+    
+    Returns:
     """
     while True:
         userInput = raw_input(prompt)
@@ -118,6 +136,10 @@ def get_item(prompt):
 
 def get_payment_method(prompt):
     """
+    Args:
+        prompt (str): contains the prompt that will be displayed to the screen
+    
+    Returns:
     """
     while True:
         userInput = raw_input(prompt)
@@ -138,6 +160,10 @@ def get_payment_method(prompt):
 
 def get_yes_no(prompt):
     """
+    Args:
+        prompt (str): contains the prompt that will be displayed to the screen
+    
+    Returns:
     """
     while True:
         userInput = raw_input(prompt)
@@ -157,6 +183,10 @@ def get_yes_no(prompt):
 
 def last_four(prompt):
     """
+    Args:
+        prompt (str): contains the prompt that will be displayed to the screen
+    
+    Returns:
     """
     while True:
         userInput = raw_input(prompt)
@@ -182,6 +212,10 @@ def last_four(prompt):
 
 def get_cafe(prompt):
     """
+    Args:
+        prompt (str): contains the prompt that will be displayed to the screen
+    
+    Returns:
     """
     while True:
         userInput = raw_input(prompt)
@@ -201,9 +235,3 @@ def get_cafe(prompt):
     return round(float(userInput),2)
 
 
-
-
-
-
-
-    #
