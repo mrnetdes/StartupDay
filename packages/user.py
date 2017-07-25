@@ -27,16 +27,18 @@ class User(object):
         self.cart = {} # user's cart to hold item/amount information
         self.credits = {} #user's cart to hold item/amount of item credits
 
-        # Adding items to cart and credits- initializing with 0 units of each item
+        # Adding items to cart and credits - initializing with 0 units for each item
         for item in self.jsonObject['UPC']:
             self.cart[str(item)] = 0
             self.credits[str(item)] = 0
 
     def get_total(self):
-        """ Gets the total of the items in the user's cart minus their credits """
-        total = 0.0
+        """ Gets the total of the items in the user's cart and their credits """
+        total = 0.00 # resetting total to 0
+        # Adding all items in cart
         for item in self.cart:
             total += float(self.cart[item] * self.jsonObject['UPC'][item]['price'])
+        # Adding all items in credit
         for item in self.credits:
             total += float(self.credits[item] * self.jsonObject['UPC'][item]['credit_price'])
         return float(total)
@@ -55,15 +57,13 @@ class User(object):
 
     def add_to_cafe(self, amount, UPC):
         """ """
-        # Check if amount will make negative cafeteria balance
-        # ...
-
-        self.cart[str(UPC)] += float(amount)
-
-
-    #----------------------------------------------------------
+        if ((self.cart[str(UPC)] += float(amount)) < 0):
+            print("Amount would make account balance negative and is being ignored"
+        else:
+            self.cart[str(UPC)] += float(amount)
 
     def print_info(self):
+        """ """
         print("ID: " + str(self.userid))
         print("Name: " + str(self.propername))
         print("Year: " + str(self.year))
@@ -83,6 +83,7 @@ class User(object):
             print("{0:25} {1:20} {2:7}".format(name, quantity, price))
 
     def print_receipt(self):
+        """ """
         print("ID: " + str(self.userid)),
         print("Name: " + str(self.propername))
         print("Year: " + str(self.year))
