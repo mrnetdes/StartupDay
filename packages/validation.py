@@ -7,18 +7,20 @@ from packages.customsql import * # Mysql Support
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
     jsonObject = json.load(data_file) # parsing file
 
-
+# not done
 def clean_shutdown():
     """
     Args:
     
     Returns:
     """
-    logging.info("shutdown command was issued")
+    #logging.info("shutdown command was issued")
     print(Back.RED + "shutting down..." + Style.RESET_ALL)
-    cursor.close()
+    cursor.close() # closing mysql connection
+    # logging...
     exit()
 
+# not done
 def get_payment_amount(prompt):
     """
     Args:
@@ -52,7 +54,7 @@ def get_payment_amount(prompt):
 
     return float(round(userInput,2))
 
-
+# not done
 def get_operator(prompt):
     """
     Args:
@@ -83,7 +85,7 @@ def get_operator(prompt):
 
     return userInput
 
-
+# not done
 def get_id(prompt):
     """
     Args:
@@ -114,7 +116,7 @@ def get_id(prompt):
 
     return userInput
 
-
+# not done
 def get_item(prompt):
     """
     Args:
@@ -133,7 +135,7 @@ def get_item(prompt):
 
     return userInput
 
-
+# not done
 def get_payment_method(prompt):
     """
     Args:
@@ -166,12 +168,13 @@ def get_yes_no(prompt):
     Returns:
     """
     while True:
-        userInput = raw_input(prompt)
+        userInput = raw_input(prompt) # getting input from user
 
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
             clean_shutdown()
 
+        # Validating input is correct
         if (userInput == "y" or userInput == "n"):
             break
         else:
@@ -180,7 +183,7 @@ def get_yes_no(prompt):
 
     return str(userInput)
 
-
+# not done
 def last_four(prompt):
     """
     Args:
@@ -210,6 +213,7 @@ def last_four(prompt):
 
     return int(userInput)
 
+# not done
 def get_cafe(prompt):
     """
     Args:
