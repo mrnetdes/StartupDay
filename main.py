@@ -60,10 +60,14 @@ def main():
     entry = None
     userList = None
     current_user = None
-
-    # Importing item list
-    with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
-        jsonObject = json.load(data_file) # parsing file
+    
+     # Importing item list
+    try:
+        with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
+            jsonObject = json.load(data_file) # parsing file
+    except IOError:
+        print(Fore.RED + "Something went horribly wrong. Please show this message to you System Administrator" + Style.RESET_ALL)
+        clean_shutown()
 
     if (DEBUGGING):
         print json.dumps(jsonObject, indent=4, sort_keys=True)
