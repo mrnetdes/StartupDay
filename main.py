@@ -25,16 +25,6 @@ logging.basicConfig(filename='run.log',format='%(asctime)s %(levelname)s %(messa
 logging.info("-----Program Started-----")
 
 
-<<<<<<< HEAD
-=======
-def clean_shutdown():
-    """ Cleanly shuts down the program (replaces the use of control + C) """
-    lchs_test.close_connection()
-    logging.info("shutdown command was issued")
-    print(Back.RED + "shutting down..." + Style.RESET_ALL)
-    exit()
-
->>>>>>> origin/master
 def show_total(userList):
     """ """
     SUBTOTAL = 0
@@ -82,7 +72,7 @@ def main():
     # Opening MySQL connection
     lchs_test = Customsql()
 
-    
+
     # DEBUGGING
 >>>>>>> origin/master
     if (DEBUGGING):
@@ -142,12 +132,8 @@ def main():
         #----------------------------------------------
         # Generating transaction number
         #----------------------------------------------
-<<<<<<< HEAD
         """ Number is based off of operator's initials and ... """
         transaction_number = 1234
-=======
-        transaction_number = str(operator_id) + "_" + str(time.time())
->>>>>>> origin/master
         transaction(transaction_number)
 
         print(Fore.MAGENTA + "current user: " + str(userList[current_user].userid) + Style.RESET_ALL)
@@ -175,7 +161,7 @@ def main():
                 # Checking if limit has been reached - this inlcudes cafeteria and packages
                 if (userList[current_user].get_quantity(userInput) >= int(jsonObject['UPC'][str(userInput)]['limit'])):
                     print(Fore.YELLOW + "There is a limit of " + str(jsonObject['UPC'][str(userInput)]['limit']) + " for this item" + Style.RESET_ALL)
-                    
+
                 # Checking family based things
                 # Checking for cafeteria
                 """ This should handle negative amounts as well """
