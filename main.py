@@ -61,7 +61,9 @@ def main():
     userList = None
     current_user = None
     
-     # Importing item list
+    #----------------------------------------------
+    # Importing item list
+    #----------------------------------------------
     try:
         with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
             jsonObject = json.load(data_file) # parsing file
