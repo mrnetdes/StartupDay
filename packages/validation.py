@@ -2,6 +2,8 @@ from packages.colorama import Fore, Back, Style# Getting pretty colors
 import json # Support for json config file
 from packages.customsql import * # Mysql Support
 
+import logging
+
 
 # Importing config file
 with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
@@ -11,10 +13,10 @@ with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
 def clean_shutdown():
     """
     Args:
-    
+
     Returns:
     """
-    #logging.info("shutdown command was issued")
+    logging.info("shutdown command was issued")
     print(Back.RED + "shutting down..." + Style.RESET_ALL)
     cursor.close() # closing mysql connection
     # logging...
@@ -25,7 +27,7 @@ def get_payment_amount(prompt):
     """
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-    
+
     Returns:
     """
     while True:
@@ -59,7 +61,7 @@ def get_operator(prompt):
     """
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-    
+
     Returns:
     """
     while True:
@@ -90,7 +92,7 @@ def get_id(prompt):
     """
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-    
+
     Returns:
     """
     while True:
@@ -121,7 +123,7 @@ def get_item(prompt):
     """
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-    
+
     Returns:
     """
     while True:
@@ -140,7 +142,7 @@ def get_payment_method(prompt):
     """
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-    
+
     Returns:
     """
     while True:
@@ -164,7 +166,7 @@ def get_yes_no(prompt):
     """
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-    
+
     Returns:
     """
     while True:
@@ -188,7 +190,7 @@ def last_four(prompt):
     """
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-    
+
     Returns:
     """
     while True:
@@ -218,7 +220,7 @@ def get_cafe(prompt):
     """
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-    
+
     Returns:
     """
     while True:
@@ -237,5 +239,3 @@ def get_cafe(prompt):
             continue
 
     return round(float(userInput),2)
-
-

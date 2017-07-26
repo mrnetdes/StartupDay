@@ -21,7 +21,9 @@ import json # Support for json config file
 import logging
 import time
 
-logging.basicConfig(filename='run.log',format='%(asctime)s %(levelname)s %(message)s', level=logging.INFO)
+
+
+logging.basicConfig(filename='run.log',format='%(asctime)s %(levelname)s: %(message)s', level=logging.DEBUG)
 logging.info("-----Program Started-----")
 
 
@@ -34,18 +36,21 @@ def show_total(userList):
         SUBTOTAL += userList[person].get_total()
     print("\nSUBTOTAL = " + str(SUBTOTAL))
 
-def dev_print(userList, paymentInfo):
+def dev_print(userList, paymentInfo, transaction_number):
     """ """
+    print(Fore.CYAN)
     print("----DEV PRINT----")
+    print("Transaction: " + str(transaction_number))
+    print("")
     print("-"*55)
     print("{0:25} {1:20} {2:7}".format("Payment", "Amount", "Comment"))
     print("-"*55)
     for x in paymentInfo:
         x.printInfo()
-    print("")
     for x in userList:
-        userList[x].print_info()
         print("")
+        userList[x].print_info()
+    print(Style.RESET_ALL)
 
 
 def main():
@@ -75,6 +80,9 @@ def main():
         print json.dumps(jsonObject, indent=4, sort_keys=True)
         print(Fore.YELLOW + "WARNING: program is running in debug mode" + Style.RESET_ALL)
         logging.debug('program is running in debugging mode')
+    else:
+        logging.info('program is running in production mode')
+
 
     exitFlag = False # boolean to control exiting of main program loop
 
@@ -128,8 +136,10 @@ def main():
         # Generating transaction number
         #----------------------------------------------
         """ Number is based off of operator's initials and ... """
-        transaction_number = str(time.time())
-        transaction(transaction_number + "-" + str(operator_id))
+        epoch_time = str(time.time())
+        epoch_time = epoch_time[:-3]
+        transaction_number = epoch_time + "-" + str(operator_id)
+        transaction(transaction_number)
 
         print(Fore.MAGENTA + "current user: " + str(userList[current_user].userid) + Style.RESET_ALL)
 
@@ -180,15 +190,38 @@ def main():
                 # Checking if input is an item in inventory
                 #----------------------------------------------
                 if (userInput in jsonObject['UPC']):
-                    #print(jsonObject['UPC']['CAFETERIA'])
+
                     # Checking if limit has been reached
                     if (userList[current_user].get_quantity(userInput) >= int(jsonObject['UPC'][str(userInput)]['limit'])):
                         print(Fore.YELLOW + "There is a limit of " + str(jsonObject['UPC'][str(userInput)]['limit']) + " for this item" + Style.RESET_ALL)
 
-                    # Checking for cafeteria
+                    # Checking for cafeteria _ NEED TO ADD FAMILY RULE
                     elif (userInput == "CAFETERIA"):
+                        # if ...
                         cafe_amount = get_cafe("Enter amount for cafe: ")
                         userList[current_user].add_to_cafe(cafe_amount, userInput) # adding dollar amount to cafeteria balance
+
+                    # NEED PAC FAMILY RULE
+                    # ...
+
+                    # Senior ADs rules
+                    elif (int(jsonObject['UPC'][str(userInput)]['senior_only']) == 1 and userList[current_user].year != str(jsonObject["CURRENT_GRADUATION_YEAR"])):
+                        print(Fore.YELLOW + 'this item available for seniors only' + Style.RESET_ALL)
+
+                    # Senior yearbook rule
+                    elif (userInput == jsonObject["UPC"]["YEARBOOK"]["UPC"] and userList[current_user].year == str(jsonObject["CURRENT_GRADUATION_YEAR"])):
+                        # Checking if user already has a yearbok
+                        if (userList[current_user].get_quantity(userInput) == 0):
+                            print(Fore.GREEN + "First yearbook is free for seniors!" + Style.RESET_ALL)
+                            userList[current_user].add_item(userInput) # adding item to user's cart
+                            userList[current_user].add_credit(userInput) # adding item to user's credit
+                        # Must already have at least one yearbook
+                        else:
+                            userList[current_user].add_item(userInput) # adding item to user's cart
+                        print(Fore.GREEN + userInput + " added to " + str(userList[current_user].propername) + " cart" + Style.RESET_ALL)
+
+
+                    # Must be regular item
                     else:
                         userList[current_user].add_item(userInput) # adding item to user's cart
                         #userList[current_user].add_credit(userInput) # adding credit for item to user's cart
@@ -206,7 +239,7 @@ def main():
                 print(Fore.CYAN),
                 print(person, userList[person]),
                 print(Style.RESET_ALL)
-        print(Fore.MAGENTA + "--------------------------------------------------------------" + Style.RESET_ALL)
+        print(Fore.MAGENTA + "--------------------------------------------------------------------" + Style.RESET_ALL)
 
         SUBTOTAL = 0
         for person in userList:
@@ -288,29 +321,29 @@ def main():
                     paymentInfo.append(Payment("fee" , upcharge, comment))
 
 
-        #print paymentInfo
+        #----------------------------------------------
+        # Making sure charges are correct
+        #----------------------------------------------
         print("-"*55)
         print("{0:25} {1:20} {2:7}".format("Payment", "Amount", "Memo"))
         print("-"*55)
         for x in paymentInfo:
             x.printInfo()
-
-
         ready_to_finish = get_yes_no("\nDo the above charges look correct?: ")
         if (ready_to_finish == "n"):
             clean_shutdown()
-        # Checking for kill command
-        if (ready_to_finish == jsonObject['KILL_COMMANDS']['kill_session']['name']):
-            clean_shutdown()
 
-
+        #----------------------------------------------
         # Printing Receipt
+        #----------------------------------------------
+        # ...
         print(Fore.MAGENTA + "Printing receipt..." + Style.RESET_ALL)
 
-
+        # This should be all the info I need to send to the cloud
         transaction_end(transaction_number)
-        dev_print(userList, paymentInfo)
-        print("\n\n\n\n")
+        dev_print(userList, paymentInfo, transaction_number)
+
+        break
 
 if __name__ == '__main__':
     main()

@@ -67,7 +67,6 @@ class User(object):
             self.cart[str(UPC)] += int(amount)
             print(Fore.GREEN + str(amount) + " added to account " + str(self.userid) + Style.RESET_ALL)
 
-
     def print_info(self):
         """ """
         print("ID: " + str(self.userid))
@@ -105,7 +104,7 @@ class User(object):
         for x in self.credits:
             if (self.credits[x] > 0):
                 name = str("cred: ") + str(self.jsonObject['UPC'][x]['name'])
-                price = str(self.cart[x] * self.jsonObject['UPC'][x]['credit_price'])
+                price = str(self.credits[x] * self.jsonObject['UPC'][x]['credit_price'])
                 quantity = str(self.credits[x])
                 print("{0:20} {1:20} {2:10}".format(name, quantity, price))
         print("SUBTOTAL = " + str(self.get_total()))
