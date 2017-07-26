@@ -5,17 +5,23 @@ import sys
 import json
 import logging
 
-user = "root"
-pw = "root"
-host = "localhost"
-port = 3306
+#user = "root"
+#pw = "root"
+#host = "localhost"
+#port = 3306
+#database = "lchsdb_test"
+
+user = "startup"
+pw = "Lch$startup"
+host = "lchsweb.lexingtoncatholic.local"
+#port = 3306
 database = "lchsdb_test"
 
 config = {
     'user': user,
     'password': pw,
     'host': host,
-    'port': port,
+#    'port': port,
     'database': database
 }
 
