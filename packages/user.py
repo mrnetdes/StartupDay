@@ -1,3 +1,5 @@
+from packages.colorama import Fore, Back, Style# Getting pretty colors
+
 class User(object):
     """Users have the following properties:
     Attributes:
@@ -58,10 +60,13 @@ class User(object):
 
     def add_to_cafe(self, amount, UPC):
         """ """
-        if ((self.cart[str(UPC)] += float(amount)) < 0):
-            print("Amount would make account balance negative and is being ignored")
+        potential_amount = int(amount + self.cart[str(UPC)])
+        if (potential_amount < 0):
+            print (Fore.RED + "Amount results in negative balance. Please try again." + Style.RESET_ALL)
         else:
-            self.cart[str(UPC)] += float(amount)
+            self.cart[str(UPC)] += int(amount)
+            print(Fore.GREEN + str(amount) + " added to account " + str(self.userid) + Style.RESET_ALL)
+
 
     def print_info(self):
         """ """

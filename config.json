@@ -40,7 +40,7 @@
       "name": "Cafeteria",
       "description": "cafeteria account",
       "rules": "put up note that they only need to add it to the first student but can do them all if they want to - all goes to the same account)",
-      "price": 0,
+      "price": 1,
       "credit_price": 0,
       "first_free": 0,
       "limit": 99999

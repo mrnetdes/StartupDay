@@ -60,7 +60,7 @@ def main():
     entry = None
     userList = None
     current_user = None
-    
+
     #----------------------------------------------
     # Importing item list
     #----------------------------------------------
@@ -128,8 +128,8 @@ def main():
         # Generating transaction number
         #----------------------------------------------
         """ Number is based off of operator's initials and ... """
-        transaction_number = 1234
-        transaction(transaction_number)
+        transaction_number = str(time.time())
+        transaction(transaction_number + "-" + str(operator_id))
 
         print(Fore.MAGENTA + "current user: " + str(userList[current_user].userid) + Style.RESET_ALL)
 
@@ -140,7 +140,7 @@ def main():
         """ This loop allows the operator to scan items, or scan an id number and create a new user. """
         while True:
             userInput = get_item("\nPlease SCAN an item or student number: ")
-            
+
             # Checking for break command
             if (userInput == jsonObject['KILL_COMMANDS']['ready_for_payment']['name']): break
 
@@ -149,7 +149,7 @@ def main():
             #----------------------------------------------
             try:
                 userInput = int(userInput)
-                # Seeing if user exists 
+                # Seeing if user exists
                 if (is_student(userInput)):
                     # Checking if the user already exists in the transaction
                     if userList.has_key(int(userInput)):
@@ -223,7 +223,7 @@ def main():
         paymentInfo = [] # structure to hold the different payments' info
         outstanding = float(round(SUBTOTAL,2)) # the remaining balance due on the transaction
         print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
-    
+
         while (outstanding > round(0.0,2)):
             pay_method = get_payment_method("Method of payment? ($" + str(outstanding) + " outstanding): ")
 
