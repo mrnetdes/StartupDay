@@ -5,7 +5,7 @@ This tool was commisioned to myself by Lexington Catholic High School to be used
 ## Installation
 This program must be started from the command prompt. However, below are instructions for creating a Desktop icon to launch the program.
 #### Running from the Command Prompt
-From within a command prompt, run the following command:
+From within a command prompt, run the following command from inside the /StartupDay project folder:
 ```bash
 python main.py
 ```
