@@ -5,6 +5,10 @@ import sys
 import json
 import logging
 
+# Importing config file
+with open('config.json', "r") as data_file: # Reading in JSON file to be parsed
+    jsonObject = json.load(data_file) # parsing file
+
 # Determining which db to connect to based on the set environment
 if (jsonObject['ENVIRONMENT'] == "local"):
     user = "root"
