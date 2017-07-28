@@ -5,26 +5,22 @@ import sys
 import json
 import logging
 
-#user = "root"
-#pw = "root"
-#host = "localhost"
-#port = 3306
-#database = "lchsdb_test"
+# Determining which db to connect to based on the set environment
+if (jsonObject['ENVIRONMENT'] == "local"):
+    user = "root"
+    pw = "root"
+    host = "localhost"
+    port = 3306
+    database = "lchsdb_test"
+    config = {'user': user, 'password': pw, 'host': host, 'port': port, 'database': database}
+else:
+    user = "startup"
+    pw = "Lch$startup"
+    host = "lchsweb.lexingtoncatholic.local"
+    database = "lchsdb_test"
+    config = {'user': user, 'password': pw, 'host': host, 'database': database}
 
-user = "startup"
-pw = "Lch$startup"
-host = "lchsweb.lexingtoncatholic.local"
-#port = 3306
-database = "lchsdb_test"
-
-config = {
-    'user': user,
-    'password': pw,
-    'host': host,
-#    'port': port,
-    'database': database
-}
-
+# Attempting to open connection to specified db
 try:
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor(buffered=True)
@@ -48,7 +44,7 @@ except mysql.connector.Error as err:
 
 def is_student(id):
     '''
-    Returns True if the given id is a valid operator - returns False otherwise
+    Returns True if the given id is a valid operator - returns False otherwise. If true then info about the user is stored in the cursor.
     '''
     query = "SELECT Fname, Lname, Pname, GradClass, EnrollYear FROM PEOPLE WHERE IDNum=" + str(id) + " AND Status=\"Active\""
     #query = "SELECT COUNT(*) FROM People WHERE IDNum=" + str(id) + " AND Status=\"Active\""
