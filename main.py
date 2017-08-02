@@ -351,6 +351,7 @@ def main():
         # Sending info to the cloud
         #----------------------------------------------
         # Payment Table
+        logging.info('loading info into paymentTbl')
         for x in paymentInfo:
             add_receipt = ("INSERT INTO paymentTbl "
                            "(paymentType, payment, fee, extended_payment, info, transactionID) "
@@ -359,6 +360,7 @@ def main():
             cursor.execute(add_receipt, data_receipt)
 
         # Item Table - not done; need to add credits
+        logging.info('loading info into itemTbl')
         for x in userList:
             for y in userList[x].cart:
                 if (userList[x].cart[y] > 0):
@@ -376,6 +378,7 @@ def main():
                     cursor.execute(add_receipt, data_receipt)
 
         # Transaction Table
+        logging.info('loading info into transactionTbl')
         add_receipt = ("INSERT INTO transactionTbl "
                      "(transactionID, VOIDED, cashier, schoolyear, total_extended_cost) "
                      "VALUES (%s, %s, %s, %s, %s)")
