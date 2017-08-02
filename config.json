@@ -24,6 +24,7 @@
     },
     "QUARTER_AD": {
       "name": "Quarter Ad",
+      "UPC": "QUARTER_AD",
       "description": "yearbook AD - quarter page",
       "rules": "only seniors can order",
       "price": 25,
@@ -34,6 +35,7 @@
     },
     "HALF_AD": {
       "name": "Half Ad",
+      "UPC": "HALF_AD",
       "description": "yearbook AD - half page",
       "rules": "only seniors can order",
       "price": 50,
@@ -43,7 +45,8 @@
       "senior_only": 1
     },
     "FULL_AD": {
-      "name": "Half Ad",
+      "name": "Full Ad",
+      "UPC": "FULL_AD",
       "description": "yearbook AD - full page",
       "rules": "only seniors can order",
       "price": 100,
@@ -54,6 +57,7 @@
     },
     "LANYARD": {
       "name": "Lanyard",
+      "UPC": "LANYARD",
       "description": "lanyard",
       "rules": "first is free for freshman and new students only* - all others pay",
       "price": 10,
@@ -64,6 +68,7 @@
     },
     "AGENDA": {
       "name": "Agenda",
+      "UPC": "AGENDA",
       "description": "agenda",
       "rules": "first is free for all students",
       "price": 10,
@@ -74,6 +79,7 @@
     },
     "PARKING_PASS": {
       "name": "Parking Pass",
+      "UPC": "PARKING_PASS",
       "description": "parking lot pass",
       "rules": "1 per student/only seniors can order",
       "price": 30,
@@ -84,6 +90,7 @@
     },
     "SERVICE_CLUB": {
       "name": "Service Club",
+      "UPC": "SERVICE_CLUB",
       "description": "service club dues",
       "rules": "1 per student",
       "price": 20,
@@ -94,6 +101,7 @@
     },
     "PAC_DUES": {
       "name": "Parent Action",
+      "UPC": "PAC_DUES",
       "description": "parent action corp dues",
       "rules": "1 per family so only needs to be done on one kid",
       "price": 40,
@@ -104,6 +112,7 @@
     },
     "UKNIGHTPATRON": {
       "name": "UKnight Patron",
+      "UPC": "UKNIGHTPATRON",
       "description": "Hoagie sales voucher",
       "rules": "1 per student",
       "price": 0,
@@ -114,6 +123,7 @@
     },
     "IDBADGE": {
       "name": "ID",
+      "UPC": "IDBADGE",
       "description": "ID badge made",
       "rules": "1 per student",
       "price": 0,
@@ -146,5 +156,6 @@
     }
   },
   "ENVIRONMENT": "production",
-  "CURRENT_GRADUATION_YEAR": "ClassOf2018"
+  "CURRENT_GRADUATION_YEAR": "ClassOf2018",
+  "CURRENT_SCHOOL_YEAR": "2017"
 }

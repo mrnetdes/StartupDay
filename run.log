@@ -6,3 +6,183 @@
 2017-07-25 23:37:41,215 INFO: program is running in production mode
 2017-07-28 16:51:48,013 INFO: -----Program Started-----
 2017-07-28 16:51:48,015 INFO: program is running in production mode
+2017-08-01 15:15:42,693 INFO: -----Program Started-----
+2017-08-01 15:15:42,696 INFO: program is running in production mode
+2017-08-01 15:15:43,809 INFO: operator SR signed in
+2017-08-01 15:22:44,544 INFO: -----Program Started-----
+2017-08-01 15:22:44,546 INFO: program is running in production mode
+2017-08-01 15:22:45,100 INFO: operator SR signed in
+2017-08-01 15:23:11,317 INFO: -----Program Started-----
+2017-08-01 15:23:11,318 INFO: program is running in production mode
+2017-08-01 15:23:11,932 INFO: operator SR signed in
+2017-08-01 15:23:48,325 INFO: -----Program Started-----
+2017-08-01 15:23:48,326 INFO: program is running in production mode
+2017-08-01 15:23:48,701 INFO: operator SR signed in
+2017-08-01 15:25:08,054 INFO: -----Program Started-----
+2017-08-01 15:25:08,055 INFO: program is running in production mode
+2017-08-01 15:25:08,426 INFO: operator SR signed in
+2017-08-01 15:26:04,056 INFO: -----Program Started-----
+2017-08-01 15:26:04,057 INFO: program is running in production mode
+2017-08-01 15:26:04,458 INFO: operator SR signed in
+2017-08-01 15:26:28,681 INFO: -----Program Started-----
+2017-08-01 15:26:28,682 INFO: program is running in production mode
+2017-08-01 15:26:29,681 INFO: operator SR signed in
+2017-08-01 15:27:32,728 INFO: -----Program Started-----
+2017-08-01 15:27:32,729 INFO: program is running in production mode
+2017-08-01 15:27:33,127 INFO: operator SR signed in
+2017-08-01 15:28:00,101 INFO: -----Program Started-----
+2017-08-01 15:28:00,102 INFO: program is running in production mode
+2017-08-01 15:28:00,366 INFO: operator SR signed in
+2017-08-01 15:29:23,222 INFO: -----Program Started-----
+2017-08-01 15:29:23,223 INFO: program is running in production mode
+2017-08-01 15:29:24,030 INFO: operator SR signed in
+2017-08-01 15:29:31,767 INFO: shutdown command was issued
+2017-08-01 15:36:30,257 INFO: -----Program Started-----
+2017-08-01 15:36:30,260 INFO: program is running in production mode
+2017-08-01 15:36:31,792 INFO: operator SR signed in
+2017-08-01 15:42:18,352 INFO: -----Program Started-----
+2017-08-01 15:42:18,352 INFO: program is running in production mode
+2017-08-01 15:42:18,825 INFO: operator SR signed in
+2017-08-01 15:48:40,764 INFO: shutdown command was issued
+2017-08-01 22:07:05,582 INFO: -----Program Started-----
+2017-08-01 22:07:05,583 INFO: program is running in production mode
+2017-08-01 22:07:06,555 INFO: operator SR signed in
+2017-08-01 22:07:25,796 INFO: -----Program Started-----
+2017-08-01 22:07:25,798 INFO: program is running in production mode
+2017-08-01 22:07:26,387 INFO: operator SR signed in
+2017-08-01 22:07:53,945 INFO: -----Program Started-----
+2017-08-01 22:07:53,946 INFO: program is running in production mode
+2017-08-01 22:07:54,354 INFO: operator SR signed in
+2017-08-01 22:08:52,491 INFO: -----Program Started-----
+2017-08-01 22:08:52,493 INFO: program is running in production mode
+2017-08-01 22:08:52,900 INFO: operator SR signed in
+2017-08-01 22:09:25,099 INFO: -----Program Started-----
+2017-08-01 22:09:25,100 INFO: program is running in production mode
+2017-08-01 22:09:25,458 INFO: operator SR signed in
+2017-08-01 22:36:27,526 INFO: -----Program Started-----
+2017-08-01 22:36:27,529 INFO: program is running in production mode
+2017-08-01 22:36:28,068 INFO: operator SR signed in
+2017-08-01 22:41:01,323 INFO: -----Program Started-----
+2017-08-01 22:41:01,325 INFO: program is running in production mode
+2017-08-01 22:41:01,775 INFO: operator SR signed in
+2017-08-01 22:42:06,325 INFO: -----Program Started-----
+2017-08-01 22:42:06,327 INFO: program is running in production mode
+2017-08-01 22:42:06,689 INFO: operator SR signed in
+2017-08-01 22:42:36,126 INFO: -----Program Started-----
+2017-08-01 22:42:36,128 INFO: program is running in production mode
+2017-08-01 22:42:36,408 INFO: operator SR signed in
+2017-08-01 22:43:10,596 INFO: -----Program Started-----
+2017-08-01 22:43:10,597 INFO: program is running in production mode
+2017-08-01 22:43:10,970 INFO: operator SR signed in
+2017-08-01 22:43:38,658 INFO: -----Program Started-----
+2017-08-01 22:43:38,660 INFO: program is running in production mode
+2017-08-01 22:43:39,034 INFO: operator SR signed in
+2017-08-01 22:45:31,179 INFO: -----Program Started-----
+2017-08-01 22:45:31,180 INFO: program is running in production mode
+2017-08-01 22:45:31,546 INFO: operator SR signed in
+2017-08-01 22:46:13,201 INFO: -----Program Started-----
+2017-08-01 22:46:13,203 INFO: program is running in production mode
+2017-08-01 22:46:13,536 INFO: operator SR signed in
+2017-08-01 22:47:28,809 INFO: -----Program Started-----
+2017-08-01 22:47:28,810 INFO: program is running in production mode
+2017-08-01 22:47:29,138 INFO: operator SR signed in
+2017-08-01 22:49:48,205 INFO: -----Program Started-----
+2017-08-01 22:49:48,207 INFO: program is running in production mode
+2017-08-01 22:49:48,708 INFO: operator SR signed in
+2017-08-01 22:50:26,767 INFO: -----Program Started-----
+2017-08-01 22:50:26,768 INFO: program is running in production mode
+2017-08-01 22:50:27,042 INFO: operator SR signed in
+2017-08-01 22:51:01,964 INFO: -----Program Started-----
+2017-08-01 22:51:01,966 INFO: program is running in production mode
+2017-08-01 22:51:02,258 INFO: operator SR signed in
+2017-08-01 22:52:18,787 INFO: -----Program Started-----
+2017-08-01 22:52:18,789 INFO: program is running in production mode
+2017-08-01 22:52:19,017 INFO: operator SR signed in
+2017-08-01 22:52:44,853 INFO: -----Program Started-----
+2017-08-01 22:52:44,854 INFO: program is running in production mode
+2017-08-01 22:52:45,152 INFO: operator SR signed in
+2017-08-01 22:54:32,578 INFO: -----Program Started-----
+2017-08-01 22:54:32,579 INFO: program is running in production mode
+2017-08-01 22:54:33,254 INFO: operator SR signed in
+2017-08-01 23:00:51,223 INFO: -----Program Started-----
+2017-08-01 23:00:51,224 INFO: program is running in production mode
+2017-08-01 23:00:51,935 INFO: operator SR signed in
+2017-08-01 23:01:27,559 INFO: -----Program Started-----
+2017-08-01 23:01:27,560 INFO: program is running in production mode
+2017-08-01 23:01:27,870 INFO: operator SR signed in
+2017-08-01 23:02:32,222 INFO: -----Program Started-----
+2017-08-01 23:02:32,223 INFO: program is running in production mode
+2017-08-01 23:02:32,471 INFO: operator SR signed in
+2017-08-01 23:02:45,435 INFO: shutdown command was issued
+2017-08-01 23:03:09,690 INFO: -----Program Started-----
+2017-08-01 23:03:09,692 INFO: program is running in production mode
+2017-08-01 23:03:10,144 INFO: operator SR signed in
+2017-08-01 23:03:50,775 INFO: shutdown command was issued
+2017-08-01 23:23:28,251 INFO: -----Program Started-----
+2017-08-01 23:23:28,254 INFO: program is running in production mode
+2017-08-01 23:23:35,267 INFO: operator SR signed in
+2017-08-01 23:24:18,311 INFO: -----Program Started-----
+2017-08-01 23:24:18,313 INFO: program is running in production mode
+2017-08-01 23:24:18,625 INFO: operator SR signed in
+2017-08-01 23:24:27,727 INFO: shutdown command was issued
+2017-08-01 23:25:25,908 INFO: -----Program Started-----
+2017-08-01 23:25:25,909 INFO: program is running in production mode
+2017-08-01 23:25:26,210 INFO: operator SR signed in
+2017-08-01 23:25:35,259 INFO: shutdown command was issued
+2017-08-01 23:26:57,530 INFO: -----Program Started-----
+2017-08-01 23:26:57,531 INFO: program is running in production mode
+2017-08-01 23:26:57,785 INFO: operator Sr signed in
+2017-08-01 23:27:06,411 INFO: shutdown command was issued
+2017-08-01 23:28:15,947 INFO: -----Program Started-----
+2017-08-01 23:28:15,949 INFO: program is running in production mode
+2017-08-01 23:28:16,389 INFO: operator SR signed in
+2017-08-01 23:28:27,391 INFO: shutdown command was issued
+2017-08-01 23:28:45,760 INFO: -----Program Started-----
+2017-08-01 23:28:45,762 INFO: program is running in production mode
+2017-08-01 23:28:46,004 INFO: operator SR signed in
+2017-08-01 23:30:44,015 INFO: -----Program Started-----
+2017-08-01 23:30:44,016 INFO: program is running in production mode
+2017-08-01 23:30:44,496 INFO: operator SR signed in
+2017-08-01 23:33:31,202 INFO: -----Program Started-----
+2017-08-01 23:33:31,203 INFO: program is running in production mode
+2017-08-01 23:33:31,501 INFO: operator SR signed in
+2017-08-01 23:34:16,843 INFO: -----Program Started-----
+2017-08-01 23:34:16,845 INFO: program is running in production mode
+2017-08-01 23:34:17,105 INFO: operator Sr signed in
+2017-08-01 23:35:00,962 INFO: -----Program Started-----
+2017-08-01 23:35:00,964 INFO: program is running in production mode
+2017-08-01 23:35:01,252 INFO: operator SR signed in
+2017-08-01 23:35:55,924 INFO: -----Program Started-----
+2017-08-01 23:35:55,925 INFO: program is running in production mode
+2017-08-01 23:35:56,263 INFO: operator SR signed in
+2017-08-01 23:37:47,995 INFO: -----Program Started-----
+2017-08-01 23:37:47,996 INFO: program is running in production mode
+2017-08-01 23:37:48,335 INFO: operator SR signed in
+2017-08-01 23:38:15,099 INFO: -----Program Started-----
+2017-08-01 23:38:15,101 INFO: program is running in production mode
+2017-08-01 23:38:15,569 INFO: operator SR signed in
+2017-08-01 23:40:20,330 INFO: -----Program Started-----
+2017-08-01 23:40:20,332 INFO: program is running in production mode
+2017-08-01 23:40:20,664 INFO: operator SR signed in
+2017-08-01 23:40:58,518 INFO: -----Program Started-----
+2017-08-01 23:40:58,519 INFO: program is running in production mode
+2017-08-01 23:40:58,881 INFO: operator SR signed in
+2017-08-01 23:49:48,965 INFO: -----Program Started-----
+2017-08-01 23:49:48,966 INFO: program is running in production mode
+2017-08-01 23:49:49,377 INFO: operator SR signed in
+2017-08-01 23:50:22,867 INFO: -----Program Started-----
+2017-08-01 23:50:22,868 INFO: program is running in production mode
+2017-08-01 23:50:23,137 INFO: operator SR signed in
+2017-08-01 23:50:47,325 INFO: -----Program Started-----
+2017-08-01 23:50:47,328 INFO: program is running in production mode
+2017-08-01 23:50:48,824 INFO: operator SrSR signed in
+2017-08-01 23:51:13,195 INFO: -----Program Started-----
+2017-08-01 23:51:13,196 INFO: program is running in production mode
+2017-08-01 23:51:13,759 INFO: operator SR signed in
+2017-08-01 23:52:24,925 INFO: -----Program Started-----
+2017-08-01 23:52:24,926 INFO: program is running in production mode
+2017-08-01 23:52:25,307 INFO: operator SR signed in
+2017-08-01 23:52:37,772 INFO: shutdown command was issued
+2017-08-01 23:52:53,852 INFO: -----Program Started-----
+2017-08-01 23:52:53,853 INFO: program is running in production mode
+2017-08-01 23:52:55,096 INFO: operator SR signed in

@@ -18,7 +18,9 @@ def clean_shutdown():
     """
     logging.info("shutdown command was issued")
     print(Back.RED + "shutting down..." + Style.RESET_ALL)
-    cursor.close() # closing mysql connection
+    cnx.rollback()
+    cursor.close()
+    cnx.close()  # closing mysql connection
     # logging...
     exit()
 

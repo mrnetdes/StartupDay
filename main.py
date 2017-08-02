@@ -67,6 +67,11 @@ def main():
     current_user = None
 
     #----------------------------------------------
+    # Starting a MySQL transaction
+    #----------------------------------------------
+    cnx.start_transaction()
+
+    #----------------------------------------------
     # Importing item list
     #----------------------------------------------
     try:
@@ -275,63 +280,121 @@ def main():
             #----------------------------------------------
             # Cash
             if (pay_method == jsonObject['VALID_PAYMENT']['cash']['UPC']):
+                info = "n/a"
+                payment = amount
+                fee = 0
+                extended_payment = amount
+
                 if (str(amount) == jsonObject['VALID_PAYMENT']['pay_in_full']['UPC']):
                     amount = float(outstanding)
+                    payment = outstanding
                     outstanding = 0
-                    paymentInfo.append(Payment(pay_method, amount))
                 else:
                     outstanding = float(outstanding) - float(round(amount,2))
-                    paymentInfo.append(Payment(pay_method, amount))
+
+                paymentInfo.append(Payment(pay_method, payment, fee, extended_payment, info))
 
             # Check
             elif (pay_method == jsonObject['VALID_PAYMENT']['check']['UPC']):
-                comment = raw_input("\tCheck number: ")
+                info = raw_input("\tCheck number: ")
+                payment = amount
+                fee = 0
+                extended_payment = amount
+
                 if (amount == jsonObject['VALID_PAYMENT']['pay_in_full']['UPC']):
                     amount = float(outstanding)
+                    payment = outstanding
+                    extended_payment = outstanding
                     outstanding = 0
-                    paymentInfo.append(Payment(pay_method, amount))
                 else:
                     outstanding = outstanding - float((round(amount,2)))
-                    paymentInfo.append(Payment(pay_method, amount, comment))
+
+                paymentInfo.append(Payment(pay_method, payment, fee, extended_payment, info))
 
             # Card
             elif (pay_method == jsonObject['VALID_PAYMENT']['credit']['UPC']):
-                comment = last_four("\tLast four digits on card: ")
+                info = last_four("\tLast four digits on card: ")
 
                 if (amount == jsonObject['VALID_PAYMENT']['pay_in_full']['UPC']):
                     upcharge = float(outstanding * 0.03)
+                    print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     amount = float(outstanding)
+                    payment = outstanding
+                    fee = upcharge
+                    extended_payment = round(outstanding, 2)
                     outstanding = 0
-                    print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
-                    paymentInfo.append(Payment(pay_method, amount, comment))
-                    paymentInfo.append(Payment("fee" , upcharge, comment))
                 else:
-                    """
                     upcharge = float(amount * 0.03)
                     print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
+                    payment = amount
+                    fee = upcharge
+                    extended_payment = amount + upcharge
+                    extended_payment = round(extended_payment, 2)
                     outstanding -= amount
-                    outstanding += round(upcharge,2)
-                    paymentInfo.append(Payment(pay_method, amount, comment))
-                    """
-                    upcharge = float(amount * 0.03)
-                    outstanding -= amount
-                    #outstanding += round(upcharge,2)
-                    print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
-                    paymentInfo.append(Payment(pay_method, amount, comment))
-                    paymentInfo.append(Payment("fee" , upcharge, comment))
+
+                paymentInfo.append(Payment(pay_method, payment, fee, extended_payment, info))
 
 
         #----------------------------------------------
         # Making sure charges are correct
         #----------------------------------------------
-        print("-"*55)
-        print("{0:25} {1:20} {2:7}".format("Payment", "Amount", "Memo"))
-        print("-"*55)
+        print("-"*75)
+        print("{0:15} {1:15} {2:15} {3:15} {4:15}".format("PaymentType", "Payment", "Fee", "extended_payment", "info"))
+        print("-"*75)
         for x in paymentInfo:
             x.printInfo()
         ready_to_finish = get_yes_no("\nDo the above charges look correct?: ")
         if (ready_to_finish == "n"):
             clean_shutdown()
+
+        #----------------------------------------------
+        # Sending info to the cloud
+        #----------------------------------------------
+        # Payment Table
+        for x in paymentInfo:
+            add_receipt = ("INSERT INTO paymentTbl "
+                           "(paymentType, payment, fee, extended_payment, info, transactionID) "
+                           "VALUES (%s, %s, %s, %s, %s, %s)")
+            data_receipt = (x.paymentType, x.payment, x.fee, x.extended_payment, x.info, transaction_number)
+            cursor.execute(add_receipt, data_receipt)
+
+        # Item Table - not done; need to add credits
+        for x in userList:
+            for y in userList[x].cart:
+                if (userList[x].cart[y] > 0):
+                    add_receipt = ("INSERT INTO itemTbl "
+                                 "(IDNum, barcode, unitcost, units, extended_cost, transactionID) "
+                                 "VALUES (%s, %s, %s, %s, %s, %s)")
+
+                    IDNum = userList[x].userid
+                    barcode = jsonObject['UPC'][y]['UPC']
+                    unitcost = jsonObject['UPC'][y]['price']
+                    units = userList[x].cart[y]
+                    extended_cost = float(userList[x].cart[y] * jsonObject['UPC'][y]['price'])
+
+                    data_receipt = (str(IDNum), barcode, unitcost, units, extended_cost, transaction_number)
+                    cursor.execute(add_receipt, data_receipt)
+
+        # Transaction Table
+        add_receipt = ("INSERT INTO transactionTbl "
+                     "(transactionID, VOIDED, cashier, schoolyear, total_extended_cost) "
+                     "VALUES (%s, %s, %s, %s, %s)")
+        data_receipt = (transaction_number, 0, operator_id, jsonObject['CURRENT_SCHOOL_YEAR'], 99999)
+        cursor.execute(add_receipt, data_receipt)
+
+
+
+
+
+        cnx.commit()
+        # add userlist info...
+        # add paymentInfo info...
+
+        #----------------------------------------------
+        # Pulling receipt from the cloud
+        #----------------------------------------------
+        dev_print(userList, paymentInfo, transaction_number)
+
 
         #----------------------------------------------
         # Printing Receipt
@@ -340,9 +403,14 @@ def main():
         print(Fore.MAGENTA + "Printing receipt..." + Style.RESET_ALL)
 
         # This should be all the info I need to send to the cloud
-        transaction_end(transaction_number)
-        dev_print(userList, paymentInfo, transaction_number)
 
+
+        #----------------------------------------------
+        # Committing to MySQL
+        #----------------------------------------------
+
+        transaction_end(transaction_number)
+        #clean_shutdown()
         break
 
 if __name__ == '__main__':
