@@ -117,7 +117,7 @@ def main():
         transaction_number = None # used to hold a unique transaction value
         user_id = None #
         entry = None #
-        userList = {}
+        userList = {} # this should make sure the userlist is recycled on each transaction
 
         #----------------------------------------------
         # Getting a valid user id
@@ -149,7 +149,7 @@ def main():
         transaction_number = epoch_time + "-" + str(operator_id)
         transaction(transaction_number)
 
-        print(Fore.MAGENTA + "current user: " + str(userList[current_user].userid) + Style.RESET_ALL)
+        print(Fore.MAGENTA + "current user: " + str(userList[current_user].pname) + str(userList[current_user].lname) + Style.RESET_ALL)
 
 
         #------------------------------------------------------------------
