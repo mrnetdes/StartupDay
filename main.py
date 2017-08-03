@@ -169,12 +169,16 @@ def main():
                 userInput = int(userInput)
                 # Seeing if user exists
                 if (is_student(userInput)):
+                    #----------------------------------------------
                     # Checking if the user already exists in the transaction
+                    #----------------------------------------------
                     if userList.has_key(int(userInput)):
                         print(Fore.MAGENTA + "user already exists" + Style.RESET_ALL)
                         current_user = int(userInput)
                         print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
+                    #----------------------------------------------
                     # Adding new user since they don't already exist
+                    #----------------------------------------------
                     else:
                         current_user = int(userInput) # making new user the current user
                         for row in cursor:
