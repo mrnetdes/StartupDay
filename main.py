@@ -16,8 +16,8 @@ from packages.colorama import init
 init()
 from packages.colorama import Fore, Back, Style
 
-
-import json # Support for json config file
+# Importing standard modules
+import json 
 import logging
 import time
 
@@ -56,6 +56,7 @@ def dev_print(userList, paymentInfo, transaction_number):
 def main():
 
     # Variables initialization
+    """ """
     jsonObject = None
     lchs_test = None
     exitFlag = None
@@ -69,6 +70,7 @@ def main():
     #----------------------------------------------
     # Starting a MySQL transaction
     #----------------------------------------------
+    """ This means that changes arent written to disk unless .commit() is invoked. These temporary changes can be discarded by .rollback() at any point before .commit() """
     cnx.start_transaction()
 
     #----------------------------------------------
@@ -79,15 +81,16 @@ def main():
             jsonObject = json.load(data_file) # parsing file
     except IOError:
         print(Fore.RED + "Something went horribly wrong. Please show this message to you System Administrator" + Style.RESET_ALL)
+        print("error opening/parsing config file:" + str(IOError))
         clean_shutown()
-
+        
+    # Debugging
     if (DEBUGGING):
         print json.dumps(jsonObject, indent=4, sort_keys=True)
         print(Fore.YELLOW + "WARNING: program is running in debug mode" + Style.RESET_ALL)
         logging.debug('program is running in debugging mode')
     else:
         logging.info('program is running in production mode')
-
 
     exitFlag = False # boolean to control exiting of main program loop
 
