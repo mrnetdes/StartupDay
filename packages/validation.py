@@ -89,40 +89,38 @@ def get_operator(prompt):
 
     return userInput
 
-# not done
+
 def get_id(prompt):
-    """
+    """ Prompts user until they enter a valid student id
+    
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-
     Returns:
+        userInput (int): a valid student id
     """
     while True:
         userInput = raw_input(prompt)
-
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
             clean_shutdown()
-
         # Exception handling for int
         try:
             userInput = int(userInput)
         except ValueError:
             print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
             continue
-
         # Custom validation for proper ID number
         if (is_student(userInput)):
             break
         else:
-            print(Fore.RED + "STUDENT NUMBER NOT FOUND " + Style.RESET_ALL)
+            print(Fore.RED + "STUDENT NUMBER " + str(userInput) + " NOT FOUND" + Style.RESET_ALL)
             continue
-
     return userInput
 
 # not done
 def get_item(prompt):
-    """
+    """ 
+    
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
 
@@ -165,56 +163,50 @@ def get_payment_method(prompt):
 
 
 def get_yes_no(prompt):
-    """
+    """ Gets a y or no from user
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-
     Returns:
+        userInput (str): contains either 'y' or 'n'
     """
     while True:
         userInput = raw_input(prompt) # getting input from user
-
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
             clean_shutdown()
-
         # Validating input is correct
         if (userInput == "y" or userInput == "n"):
             break
         else:
-            print(Fore.RED + "Invalid Input" + Style.RESET_ALL)
+            print(Fore.RED + "INVALID INPUT (must be y/n)" + Style.RESET_ALL)
             continue
-
     return str(userInput)
 
-# not done
+
 def last_four(prompt):
-    """
+    """ Gets 4 digits from user; to be used to get last 4 of credit/debit card or check
+    
     Args:
         prompt (str): contains the prompt that will be displayed to the screen
-
     Returns:
+        userInput (int): contains 4 integers
     """
     while True:
         userInput = raw_input(prompt)
-
         # Checking for kill command
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
             clean_shutdown()
-
         # Exception handling for data type
         try:
             userInput = int(userInput)
         except ValueError:
             print(Fore.RED + "\tINVALID INPUT" + Style.RESET_ALL)
             continue
-
         if (len(str(userInput)) == 4):
             break
         else:
-            print(Fore.RED + "\tINVALID INPUT" + Style.RESET_ALL)
+            print(Fore.RED + "\tINPUT IS INVALID LENGTH (must be 4 digits)" + Style.RESET_ALL)
             continue
-
     return int(userInput)
 
 # not done
