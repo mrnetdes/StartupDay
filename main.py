@@ -17,7 +17,7 @@ init()
 from packages.colorama import Fore, Back, Style
 
 # Importing standard modules
-import json 
+import json
 import logging
 import time
 
@@ -42,15 +42,90 @@ def dev_print(userList, paymentInfo, transaction_number):
     print("----DEV PRINT----")
     print("Transaction: " + str(transaction_number))
     print("")
-    print("-"*55)
-    print("{0:25} {1:20} {2:7}".format("Payment", "Amount", "Comment"))
-    print("-"*55)
+    print("-"*75)
+    print("{0:15} {1:15} {2:15} {3:15} {4:15}".format("PaymentType", "Payment", "Fee", "extended_payment", "info"))
+    print("-"*75)
     for x in paymentInfo:
         x.printInfo()
     for x in userList:
         print("")
         userList[x].print_info()
     print(Style.RESET_ALL)
+
+def pull_receipt(transaction_number, jsonObject):
+    """ """
+
+    filename = "logs/" + str(transaction_number) + ".txt"
+    infile = open(filename, "w")
+    curA = cnx.cursor(buffered = True)
+
+    #--------------------------------
+    # Getting header info
+    #--------------------------------
+    queryTran = ("SELECT AddDate, cashier, total_extended_cost "
+                 "FROM transactionTbl WHERE transactionID=%s "
+                 "AND VOIDED=0;")
+    curA.execute(queryTran, (transaction_number,))
+    if (curA.rowcount == 0):
+        print("INVALID TRANSACTION")
+        print(queryTran)
+        return
+    rowA = curA.fetchone()
+    rcptDate = rowA[0]
+    rcptCashier = rowA[1]
+    rcptTotal = rowA[2]
+    infile.write("--LCHS STARTUP DAY-- \n" + str(rcptDate) + "\nCASHIER " + str(rcptCashier) + "\n" + str(transaction_number) + "\n\n")
+
+    #--------------------------------
+    # Getting body info
+    #--------------------------------
+    queryItem = ("SELECT IDNum, barcode, unitcost, units, extended_cost "
+                 "FROM itemTbl WHERE transactionID=%s "
+                 "ORDER BY IDNum;")
+    curA.execute(queryItem, (transaction_number, ))
+    #infile.write("{0:10} {1:4} {2:>6}\n".format("Item", "Qty", "Cost"))
+    #infile.write("-"*18 + "\n")
+
+    oldNum = None
+    id_subtotal = 0.0
+    for (IDNum, barcode, unitcost, units, extended_cost) in curA:
+        if (barcode[-7:] == "-CREDIT"):
+            barcode = barcode[:-7]
+
+        if (oldNum == None):
+            infile.write("\nStudent: {0:11d}\n".format(IDNum))
+        if ((IDNum != oldNum) and (oldNum != None)):
+            infile.write("-"*18 + "\n")
+            infile.write("Subtotal ${0:6.2f}\n".format(id_subtotal))
+            id_subtotal = 0.0
+            infile.write("\nStudent: {0:11d}\n".format(IDNum))
+        name = jsonObject['UPC'][barcode]['name']
+        infile.write("{0:10} {1:4d} {2:6.2f}\n".format(name, units, extended_cost))
+        id_subtotal = id_subtotal + float(extended_cost)
+        oldNum = IDNum
+    infile.write("-"*18 + "\n")
+    infile.write("Subtotal ${0:6.2f}\n".format(id_subtotal))
+
+    #--------------------------------
+    # Getting footer info
+    #--------------------------------
+    queryPayment = ("SELECT paymentType, payment, fee, extended_payment, info "
+                    "FROM paymentTbl WHERE transactionID=%s "
+                    "ORDER by paymentType;")
+    curA.execute(queryPayment, (transaction_number, ))
+    infile.write("\n\n{0:8} {1:3}".format("TOTAL", "not done yet"))
+    for (paymentType, payment, fee, extended_payment, info) in curA:
+        if (paymentType == "CASH"):
+            infile.write("\n{0:4} {1:6}".format(paymentType + " TEND", extended_payment))
+        else:
+            infile.write("\n{0:4} {1:4} {2:6}".format(paymentType + " TEND", info, extended_payment))
+
+    infile.close()
+    curA.close()
+
+
+
+
 
 
 def main():
@@ -83,7 +158,7 @@ def main():
         print(Fore.RED + "Something went horribly wrong. Please show this message to you System Administrator" + Style.RESET_ALL)
         print("error opening/parsing config file:" + str(IOError))
         clean_shutown()
-        
+
     # Debugging
     if (DEBUGGING):
         print json.dumps(jsonObject, indent=4, sort_keys=True)
@@ -149,7 +224,7 @@ def main():
         transaction_number = epoch_time + "-" + str(operator_id)
         transaction(transaction_number)
 
-        print(Fore.MAGENTA + "current user: " + str(userList[current_user].pname) + str(userList[current_user].lname) + Style.RESET_ALL)
+        print(Fore.MAGENTA + "current user: " + str(userList[current_user].propername) + str(userList[current_user].lname) + Style.RESET_ALL)
 
 
         #------------------------------------------------------------------
@@ -328,7 +403,8 @@ def main():
                     amount = float(outstanding)
                     payment = outstanding
                     fee = upcharge
-                    extended_payment = round(outstanding, 2)
+                    extended_payment = outstanding + fee
+                    extended_payment = round(extended_payment, 2)
                     outstanding = 0
                 else:
                     upcharge = float(amount * 0.03)
@@ -358,22 +434,23 @@ def main():
         # Sending info to the cloud
         #----------------------------------------------
         # Payment Table
-        logging.info('loading info into paymentTbl')
+        #logging.info('loading info into paymentTbl')
         for x in paymentInfo:
             add_receipt = ("INSERT INTO paymentTbl "
                            "(paymentType, payment, fee, extended_payment, info, transactionID) "
-                           "VALUES (%s, %s, %s, %s, %s, %s)")
+                           "VALUES (%s, %s, %s, %s, %s, %s);")
             data_receipt = (x.paymentType, x.payment, x.fee, x.extended_payment, x.info, transaction_number)
             cursor.execute(add_receipt, data_receipt)
+            cnx.commit()
 
         # Item Table - not done; need to add credits
-        logging.info('loading info into itemTbl')
+        #logging.info('loading info into itemTbl')
         for x in userList:
             for y in userList[x].cart:
                 if (userList[x].cart[y] > 0):
                     add_receipt = ("INSERT INTO itemTbl "
                                  "(IDNum, barcode, unitcost, units, extended_cost, transactionID) "
-                                 "VALUES (%s, %s, %s, %s, %s, %s)")
+                                 "VALUES (%s, %s, %s, %s, %s, %s);")
 
                     IDNum = userList[x].userid
                     barcode = jsonObject['UPC'][y]['UPC']
@@ -383,34 +460,47 @@ def main():
 
                     data_receipt = (str(IDNum), barcode, unitcost, units, extended_cost, transaction_number)
                     cursor.execute(add_receipt, data_receipt)
+                    cnx.commit()
 
         # Transaction Table
-        logging.info('loading info into transactionTbl')
+        #logging.info('loading info into transactionTbl')
         add_receipt = ("INSERT INTO transactionTbl "
                      "(transactionID, VOIDED, cashier, schoolyear, total_extended_cost) "
-                     "VALUES (%s, %s, %s, %s, %s)")
+                     "VALUES (%s, %s, %s, %s, %s);")
         data_receipt = (transaction_number, 0, operator_id, jsonObject['CURRENT_SCHOOL_YEAR'], 99999)
+        #data_receipt = ("1234", 0, "test", 2017, 99999)
         cursor.execute(add_receipt, data_receipt)
 
-
-
-
-
         cnx.commit()
+
+
+
+
+
         # add userlist info...
         # add paymentInfo info...
 
         #----------------------------------------------
         # Pulling receipt from the cloud
         #----------------------------------------------
-        dev_print(userList, paymentInfo, transaction_number)
-
+        if (DEBUGGING): dev_print(userList, paymentInfo, transaction_number)
+        #pull_receipt("10010-KNX", jsonObject)
+        pull_receipt(transaction_number, jsonObject)
+        filename = "logs/" + str(transaction_number) + ".txt"
+        try:
+            outfile = open(filename, "r")
+            print(Fore.CYAN)
+            print outfile.read()
+            print(Style.RESET_ALL)
+            outfile.close()
+        except IOError:
+            print("Something went wrong: " + str(IOError))
 
         #----------------------------------------------
         # Printing Receipt
         #----------------------------------------------
         # ...
-        print(Fore.MAGENTA + "Printing receipt..." + Style.RESET_ALL)
+        print(Fore.MAGENTA + "Printing receipt...NOT WORKING YET" + Style.RESET_ALL)
 
         # This should be all the info I need to send to the cloud
 
@@ -421,6 +511,7 @@ def main():
 
         transaction_end(transaction_number)
         #clean_shutdown()
+        cnx.close()
         break
 
 if __name__ == '__main__':

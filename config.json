@@ -155,7 +155,7 @@
       "name": "break"
     }
   },
-  "ENVIRONMENT": "production",
+  "ENVIRONMENT": "local",
   "CURRENT_GRADUATION_YEAR": "ClassOf2018",
   "CURRENT_SCHOOL_YEAR": "2017"
 }

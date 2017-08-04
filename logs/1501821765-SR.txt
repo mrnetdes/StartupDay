@@ -1,0 +1,14 @@
+--LCHS STARTUP DAY-- 
+2017-08-04 00:42:52
+CASHIER SR
+1501821765-SR
+
+
+Student:       99999
+Yearbook      1 100.00
+------------------
+Subtotal $100.00
+
+
+TOTAL    not done yet
+cash TEND n/a  100.00

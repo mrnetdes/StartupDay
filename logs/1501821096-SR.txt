@@ -1,0 +1,20 @@
+--LCHS STARTUP DAY-- 
+2017-08-04 00:31:56
+CASHIER SR
+1501821096-SR
+
+Item       Qty    Cost
+------------------
+Student:       21689
+Yearbook      2 200.00
+------------------
+Subtotal $200.00
+Student:       99999
+Yearbook      1 100.00
+------------------
+Subtotal $100.00
+
+
+TOTAL    not done yet
+cash TEND n/a   50.00
+check TEND 1063 150.00

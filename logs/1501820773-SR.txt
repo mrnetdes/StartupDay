@@ -1,0 +1,19 @@
+--LCHS STARTUP DAY-- 
+2017-08-04 00:26:33
+CASHIER SR
+1501820773-SR
+
+Item       Qty    Cost
+------------------
+Student:       21689
+Parking Pass    1  30.00
+------------------
+Subtotal $ 30.00
+Student:       99999
+Yearbook      1 100.00
+------------------
+Subtotal $100.00
+
+
+TOTAL    400
+cash TEND n/a  130.00

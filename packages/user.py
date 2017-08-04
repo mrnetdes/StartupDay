@@ -107,5 +107,5 @@ class User(object):
                 price = str(self.credits[x] * self.jsonObject['UPC'][x]['credit_price'])
                 quantity = str(self.credits[x])
                 print("{0:20} {1:20} {2:10}".format(name, quantity, price))
-        #print("SUBTOTAL = " + str(self.get_total()))
-        print("{0:20} {1:20} {2:10}".format("", "SUBTOTAL", self.get_total()))
+        print "-"*50
+        print("{0:20} {1:20} {2:5}".format("", "", self.get_total()))

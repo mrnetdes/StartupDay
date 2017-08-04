@@ -1,0 +1,16 @@
+--LCHS STARTUP DAY-- 
+2017-08-04 00:27:54
+CASHIER SR
+1501820860-SR
+
+Item       Qty    Cost
+------------------
+Student:       99999
+Parent Action    1  40.00
+------------------
+Subtotal $ 40.00
+
+
+TOTAL    400
+cash TEND n/a   20.00
+check TEND 1063  20.00
