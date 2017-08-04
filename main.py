@@ -142,11 +142,7 @@ def main():
     userList = None
     current_user = None
 
-    #----------------------------------------------
-    # Starting a MySQL transaction
-    #----------------------------------------------
-    """ This means that changes arent written to disk unless .commit() is invoked. These temporary changes can be discarded by .rollback() at any point before .commit() """
-    cnx.start_transaction()
+    
 
     #----------------------------------------------
     # Importing item list
@@ -433,18 +429,20 @@ def main():
         #----------------------------------------------
         # Sending info to the cloud
         #----------------------------------------------
+        cnx.start_transaction() """ This means that changes arent written to disk unless .commit() is invoked. These temporary changes can be discarded by .rollback() at any point before .commit() """
+        
         # Payment Table
-        #logging.info('loading info into paymentTbl')
+        logging.info('loading info into paymentTbl')
         for x in paymentInfo:
             add_receipt = ("INSERT INTO paymentTbl "
                            "(paymentType, payment, fee, extended_payment, info, transactionID) "
                            "VALUES (%s, %s, %s, %s, %s, %s);")
             data_receipt = (x.paymentType, x.payment, x.fee, x.extended_payment, x.info, transaction_number)
             cursor.execute(add_receipt, data_receipt)
-            cnx.commit()
+            
 
         # Item Table - not done; need to add credits
-        #logging.info('loading info into itemTbl')
+        logging.info('loading info into itemTbl')
         for x in userList:
             for y in userList[x].cart:
                 if (userList[x].cart[y] > 0):
@@ -460,15 +458,14 @@ def main():
 
                     data_receipt = (str(IDNum), barcode, unitcost, units, extended_cost, transaction_number)
                     cursor.execute(add_receipt, data_receipt)
-                    cnx.commit()
+                    
 
         # Transaction Table
-        #logging.info('loading info into transactionTbl')
+        logging.info('loading info into transactionTbl')
         add_receipt = ("INSERT INTO transactionTbl "
                      "(transactionID, VOIDED, cashier, schoolyear, total_extended_cost) "
                      "VALUES (%s, %s, %s, %s, %s);")
         data_receipt = (transaction_number, 0, operator_id, jsonObject['CURRENT_SCHOOL_YEAR'], 99999)
-        #data_receipt = ("1234", 0, "test", 2017, 99999)
         cursor.execute(add_receipt, data_receipt)
 
         cnx.commit()
