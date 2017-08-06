@@ -142,20 +142,29 @@
     },
     "check": {
       "UPC": "check"
-    },
+    }
+  },
+  "VALID_AMOUNT":{
     "pay_in_full": {
-      "UPC": "pay_in_full"
+        "UPC": "pay_in_full"
     }
   },
   "KILL_COMMANDS":{
     "kill_session":{
       "name": "kill"
     },
+    "cancel_trans":{
+      "name": "cancel_trans"
+   },
     "ready_for_payment":{
       "name": "break"
+    },
+    "view_totals":{
+      "name": "TOTAL"
     }
   },
-  "ENVIRONMENT": "local",
+  "ENVIRONMENT": "production",
+  "RCPT_DIR": "./receipts",
   "CURRENT_GRADUATION_YEAR": "ClassOf2018",
   "CURRENT_SCHOOL_YEAR": "2017"
 }

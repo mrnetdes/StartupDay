@@ -1,0 +1,43 @@
+--LCHS STARTUP DAY-- 
+2017-08-04 21:16:59 
+Cashier: mar
+Tran 1501895715-mar 
+
+Student:       22500
+McCarty             
+Carrie              
+ClassOf2018---------
+Agenda     1   10.00
+Cafeteri 150  150.00
+Yearbook   1 -100.00
+Parent A   1   40.00
+Yearbook   1  100.00
+--------------------
+SUBTOTAL    $ 200.00
+
+Student:       99999
+Student             
+LCHS                
+ClassOf2020---------
+Cafeteri  50   50.00
+Agenda     1   10.00
+Yearbook   1  100.00
+--------------------
+SUBTOTAL    $ 160.00
+
+
+
+TOTAL       $ 360.00
+CC Fee  1234    4.50
+CC Fee  8211    4.50
+AMT DUE     $ 369.00
+
+Payments
+cash    n/a    60.00
+card    1234  154.50
+card    8211  154.50
+--------------------
+AMT PAID    $ 369.00
+
+     THANK YOU      
+    Go Knights!     

@@ -8,24 +8,29 @@ DEBUGGING = False
 from packages.header import *
 from packages.validation import *
 from packages.user import *
-from packages.customsql import *
+#from packages.customsql import *
+from packages.marksql import *
 from packages.payment import *
+from packages.customprint import *
+
 
 # Getting the pretty colors set up
 from packages.colorama import init
 init()
 from packages.colorama import Fore, Back, Style
 
-# Importing standard modules
-import json
+
+import json # Support for json config file
 import logging
 import time
-
+import os, sys
+#if (os.name != "posix"): import win32print
 
 
 logging.basicConfig(filename='run.log',format='%(asctime)s %(levelname)s: %(message)s', level=logging.DEBUG)
 logging.info("-----Program Started-----")
 
+printer_name = None
 
 def show_total(userList):
     """ """
@@ -42,9 +47,9 @@ def dev_print(userList, paymentInfo, transaction_number):
     print("----DEV PRINT----")
     print("Transaction: " + str(transaction_number))
     print("")
-    print("-"*75)
-    print("{0:15} {1:15} {2:15} {3:15} {4:15}".format("PaymentType", "Payment", "Fee", "extended_payment", "info"))
-    print("-"*75)
+    print("-"*55)
+    print("{0:25} {1:20} {2:7}".format("Payment", "Amount", "Comment"))
+    print("-"*55)
     for x in paymentInfo:
         x.printInfo()
     for x in userList:
@@ -52,86 +57,10 @@ def dev_print(userList, paymentInfo, transaction_number):
         userList[x].print_info()
     print(Style.RESET_ALL)
 
-def pull_receipt(transaction_number, jsonObject):
-    """ """
-
-    filename = "logs/" + str(transaction_number) + ".txt"
-    infile = open(filename, "w")
-    curA = cnx.cursor(buffered = True)
-
-    #--------------------------------
-    # Getting header info
-    #--------------------------------
-    queryTran = ("SELECT AddDate, cashier, total_extended_cost "
-                 "FROM transactionTbl WHERE transactionID=%s "
-                 "AND VOIDED=0;")
-    curA.execute(queryTran, (transaction_number,))
-    if (curA.rowcount == 0):
-        print("INVALID TRANSACTION")
-        print(queryTran)
-        return
-    rowA = curA.fetchone()
-    rcptDate = rowA[0]
-    rcptCashier = rowA[1]
-    rcptTotal = rowA[2]
-    infile.write("--LCHS STARTUP DAY-- \n" + str(rcptDate) + "\nCASHIER " + str(rcptCashier) + "\n" + str(transaction_number) + "\n\n")
-
-    #--------------------------------
-    # Getting body info
-    #--------------------------------
-    queryItem = ("SELECT IDNum, barcode, unitcost, units, extended_cost "
-                 "FROM itemTbl WHERE transactionID=%s "
-                 "ORDER BY IDNum;")
-    curA.execute(queryItem, (transaction_number, ))
-    #infile.write("{0:10} {1:4} {2:>6}\n".format("Item", "Qty", "Cost"))
-    #infile.write("-"*18 + "\n")
-
-    oldNum = None
-    id_subtotal = 0.0
-    for (IDNum, barcode, unitcost, units, extended_cost) in curA:
-        if (barcode[-7:] == "-CREDIT"):
-            barcode = barcode[:-7]
-
-        if (oldNum == None):
-            infile.write("\nStudent: {0:11d}\n".format(IDNum))
-        if ((IDNum != oldNum) and (oldNum != None)):
-            infile.write("-"*18 + "\n")
-            infile.write("Subtotal ${0:6.2f}\n".format(id_subtotal))
-            id_subtotal = 0.0
-            infile.write("\nStudent: {0:11d}\n".format(IDNum))
-        name = jsonObject['UPC'][barcode]['name']
-        infile.write("{0:10} {1:4d} {2:6.2f}\n".format(name, units, extended_cost))
-        id_subtotal = id_subtotal + float(extended_cost)
-        oldNum = IDNum
-    infile.write("-"*18 + "\n")
-    infile.write("Subtotal ${0:6.2f}\n".format(id_subtotal))
-
-    #--------------------------------
-    # Getting footer info
-    #--------------------------------
-    queryPayment = ("SELECT paymentType, payment, fee, extended_payment, info "
-                    "FROM paymentTbl WHERE transactionID=%s "
-                    "ORDER by paymentType;")
-    curA.execute(queryPayment, (transaction_number, ))
-    infile.write("\n\n{0:8} {1:3}".format("TOTAL", "not done yet"))
-    for (paymentType, payment, fee, extended_payment, info) in curA:
-        if (paymentType == "CASH"):
-            infile.write("\n{0:4} {1:6}".format(paymentType + " TEND", extended_payment))
-        else:
-            infile.write("\n{0:4} {1:4} {2:6}".format(paymentType + " TEND", info, extended_payment))
-
-    infile.close()
-    curA.close()
-
-
-
-
-
 
 def main():
 
     # Variables initialization
-    """ """
     jsonObject = None
     lchs_test = None
     exitFlag = None
@@ -142,7 +71,6 @@ def main():
     userList = None
     current_user = None
 
-    
 
     #----------------------------------------------
     # Importing item list
@@ -152,16 +80,15 @@ def main():
             jsonObject = json.load(data_file) # parsing file
     except IOError:
         print(Fore.RED + "Something went horribly wrong. Please show this message to you System Administrator" + Style.RESET_ALL)
-        print("error opening/parsing config file:" + str(IOError))
         clean_shutown()
 
-    # Debugging
     if (DEBUGGING):
         print json.dumps(jsonObject, indent=4, sort_keys=True)
         print(Fore.YELLOW + "WARNING: program is running in debug mode" + Style.RESET_ALL)
         logging.debug('program is running in debugging mode')
     else:
         logging.info('program is running in production mode')
+
 
     exitFlag = False # boolean to control exiting of main program loop
 
@@ -188,7 +115,7 @@ def main():
         transaction_number = None # used to hold a unique transaction value
         user_id = None #
         entry = None #
-        userList = {} # this should make sure the userlist is recycled on each transaction
+        userList = {}
 
         #----------------------------------------------
         # Getting a valid user id
@@ -220,7 +147,7 @@ def main():
         transaction_number = epoch_time + "-" + str(operator_id)
         transaction(transaction_number)
 
-        print(Fore.MAGENTA + "current user: " + str(userList[current_user].propername) + str(userList[current_user].lname) + Style.RESET_ALL)
+        print(Fore.MAGENTA + "current user: " + str(userList[current_user].userid) + Style.RESET_ALL)
 
 
         #------------------------------------------------------------------
@@ -231,7 +158,20 @@ def main():
             userInput = get_item("\nPlease SCAN an item or student number: ")
 
             # Checking for break command
-            if (userInput == jsonObject['KILL_COMMANDS']['ready_for_payment']['name']): break
+            if (userInput == jsonObject['KILL_COMMANDS']['ready_for_payment']['name']):break
+            
+            # Checking for cancel transaction command
+            # Note, we also need to check for cancel_trans in the outer loop
+            if (userInput == jsonObject['KILL_COMMANDS']['cancel_trans']['name']): break
+ 
+            if (userInput == jsonObject['KILL_COMMANDS']['view_totals']['name']):
+               SUBTOTAL = 0
+               for person in userList:
+                 userList[person].print_receipt()
+                 SUBTOTAL += userList[person].get_total()
+                 print("\nTOTAL = " + str(SUBTOTAL))
+               continue
+
 
             #----------------------------------------------
             # Checking if input was integer (i.e student)
@@ -240,16 +180,12 @@ def main():
                 userInput = int(userInput)
                 # Seeing if user exists
                 if (is_student(userInput)):
-                    #----------------------------------------------
                     # Checking if the user already exists in the transaction
-                    #----------------------------------------------
                     if userList.has_key(int(userInput)):
                         print(Fore.MAGENTA + "user already exists" + Style.RESET_ALL)
                         current_user = int(userInput)
                         print(Fore.MAGENTA + "current user changed to:" + str(userList[current_user].userid) + Style.RESET_ALL)
-                    #----------------------------------------------
                     # Adding new user since they don't already exist
-                    #----------------------------------------------
                     else:
                         current_user = int(userInput) # making new user the current user
                         for row in cursor:
@@ -313,9 +249,9 @@ def main():
                 # Must be invalid input
                 else:
                     print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
-
-
-
+          # End except block
+          
+        # End if While True Main Scanning loop
 
         if (DEBUGGING):
             for person in userList:
@@ -324,18 +260,20 @@ def main():
                 print(Style.RESET_ALL)
         print(Fore.MAGENTA + "--------------------------------------------------------------------" + Style.RESET_ALL)
 
-        SUBTOTAL = 0
-        for person in userList:
-            print("")
-            userList[person].print_receipt()
-            SUBTOTAL += userList[person].get_total()
-        print("\nTOTAL = " + str(SUBTOTAL))
-
-
         #----------------------------------------------
         # Getting payment information
         #----------------------------------------------
         """ """
+        # Check for cancel_transaction
+        if (userInput == jsonObject['KILL_COMMANDS']['cancel_trans']['name']):
+          print(Fore.RED+"Restarting transaction, all data discarded"+Style.RESET_ALL)
+          continue
+        # Calculate the total in case they did not view the totals
+        SUBTOTAL = 0
+        for person in userList:
+          #userList[person].print_receipt()
+          SUBTOTAL += userList[person].get_total()
+        
         paymentInfo = [] # structure to hold the different payments' info
         outstanding = float(round(SUBTOTAL,2)) # the remaining balance due on the transaction
         print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
@@ -347,7 +285,7 @@ def main():
             if (pay_method == jsonObject['KILL_COMMANDS']['kill_session']['name']):
                 clean_shutdown()
 
-            amount = get_payment_amount("\tamount: ")
+            amount = get_payment_amount("\tamount: ",outstanding) # MAR
 
             # Checking for kill command
             if (amount == jsonObject['KILL_COMMANDS']['kill_session']['name']):
@@ -363,9 +301,10 @@ def main():
                 fee = 0
                 extended_payment = amount
 
-                if (str(amount) == jsonObject['VALID_PAYMENT']['pay_in_full']['UPC']):
+                if (str(amount) == jsonObject['VALID_AMOUNT']['pay_in_full']['UPC']):
                     amount = float(outstanding)
                     payment = outstanding
+                    extended_payment = outstanding  # MAR
                     outstanding = 0
                 else:
                     outstanding = float(outstanding) - float(round(amount,2))
@@ -379,7 +318,7 @@ def main():
                 fee = 0
                 extended_payment = amount
 
-                if (amount == jsonObject['VALID_PAYMENT']['pay_in_full']['UPC']):
+                if (amount == jsonObject['VALID_AMOUNT']['pay_in_full']['UPC']):
                     amount = float(outstanding)
                     payment = outstanding
                     extended_payment = outstanding
@@ -393,18 +332,18 @@ def main():
             elif (pay_method == jsonObject['VALID_PAYMENT']['credit']['UPC']):
                 info = last_four("\tLast four digits on card: ")
 
-                if (amount == jsonObject['VALID_PAYMENT']['pay_in_full']['UPC']):
+                if (amount == jsonObject['VALID_AMOUNT']['pay_in_full']['UPC']):
                     upcharge = float(outstanding * 0.03)
                     print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     amount = float(outstanding)
                     payment = outstanding
                     fee = upcharge
-                    extended_payment = outstanding + fee
+                    extended_payment = amount + upcharge  # MAR 08/04/2017 issue 13
                     extended_payment = round(extended_payment, 2)
                     outstanding = 0
                 else:
                     upcharge = float(amount * 0.03)
-                    print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
+                    # print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     payment = amount
                     fee = upcharge
                     extended_payment = amount + upcharge
@@ -412,104 +351,117 @@ def main():
                     outstanding -= amount
 
                 paymentInfo.append(Payment(pay_method, payment, fee, extended_payment, info))
-
+                    
+        # End of While outstanding > 0 loop
 
         #----------------------------------------------
         # Making sure charges are correct
         #----------------------------------------------
         print("-"*75)
-        print("{0:15} {1:15} {2:15} {3:15} {4:15}".format("PaymentType", "Payment", "Fee", "extended_payment", "info"))
+        print("{0:15} {1:15} {2:15} {3:16} {4:15}".format("PaymentType", "Payment", "Fee", "extended_payment", "info"))
         print("-"*75)
         for x in paymentInfo:
             x.printInfo()
-        ready_to_finish = get_yes_no("\nDo the above charges look correct?: ")
+        ready_to_finish = get_yes_no("\nDo the above payments look correct?: ")
         if (ready_to_finish == "n"):
-            clean_shutdown()
+            print(Fore.RED+"Restarting transaction, all data discarded"+Style.RESET_ALL)
+            continue
 
         #----------------------------------------------
         # Sending info to the cloud
+        # Accumulate transaction total, including payment fees
         #----------------------------------------------
-        cnx.start_transaction() """ This means that changes arent written to disk unless .commit() is invoked. These temporary changes can be discarded by .rollback() at any point before .commit() """
         
+        #----------------------------------------------
+        # Starting a MySQL transaction
+        #----------------------------------------------
+        #cnx.start_transaction()
+    
         # Payment Table
         logging.info('loading info into paymentTbl')
+        add_paymentTbl = ("INSERT INTO paymentTbl "
+                          "(paymentType,payment,fee,extended_payment,info,transactionID) "
+                          "VALUES (%s, %s, %s, %s, %s, %s)" )
+        TRANS_TOTAL = 0.0
         for x in paymentInfo:
-            add_receipt = ("INSERT INTO paymentTbl "
-                           "(paymentType, payment, fee, extended_payment, info, transactionID) "
-                           "VALUES (%s, %s, %s, %s, %s, %s);")
             data_receipt = (x.paymentType, x.payment, x.fee, x.extended_payment, x.info, transaction_number)
-            cursor.execute(add_receipt, data_receipt)
-            
+            cursor.execute(add_paymentTbl, data_receipt)
+            TRANS_TOTAL += float(x.fee)
 
         # Item Table - not done; need to add credits
+        # Credits and TRANS_TOTAL added MAR 08/04/17
+        add_itemTbl = ("INSERT INTO itemTbl "
+                       "(IDNum,barcode,unitcost,units,extended_cost,transactionID) "
+                       "VALUES (%s, %s, %s, %s, %s, %s)")
         logging.info('loading info into itemTbl')
         for x in userList:
             for y in userList[x].cart:
                 if (userList[x].cart[y] > 0):
-                    add_receipt = ("INSERT INTO itemTbl "
-                                 "(IDNum, barcode, unitcost, units, extended_cost, transactionID) "
-                                 "VALUES (%s, %s, %s, %s, %s, %s);")
-
                     IDNum = userList[x].userid
                     barcode = jsonObject['UPC'][y]['UPC']
                     unitcost = jsonObject['UPC'][y]['price']
                     units = userList[x].cart[y]
-                    extended_cost = float(userList[x].cart[y] * jsonObject['UPC'][y]['price'])
+                    extended_cost = float(units * unitcost)
+                    TRANS_TOTAL += float(extended_cost)
 
                     data_receipt = (str(IDNum), barcode, unitcost, units, extended_cost, transaction_number)
-                    cursor.execute(add_receipt, data_receipt)
+                    cursor.execute(add_itemTbl, data_receipt)
+                # Add credits to itemTbl with a negative cost
+                if (userList[x].credits[y] > 0):
+                    IDNum = userList[x].userid
+                    barcode = jsonObject['UPC'][y]['UPC']
+                    unitcost = jsonObject['UPC'][y]['credit_price']
+                    units = userList[x].credits[y]
+                    extended_cost = float(units * unitcost)
+                    TRANS_TOTAL += float(extended_cost)
                     
+                    data_receipt = (str(IDNum), barcode, unitcost, units, extended_cost, transaction_number)
+                    cursor.execute(add_itemTbl, data_receipt)
+             # End of for y loop
+        # End of for x loop
 
-        # Transaction Table
+        # Transaction Table  MAR 08/04/17 replaced 99999 with TRANS_TOTAL for total_extended_cost
         logging.info('loading info into transactionTbl')
         add_receipt = ("INSERT INTO transactionTbl "
                      "(transactionID, VOIDED, cashier, schoolyear, total_extended_cost) "
-                     "VALUES (%s, %s, %s, %s, %s);")
-        data_receipt = (transaction_number, 0, operator_id, jsonObject['CURRENT_SCHOOL_YEAR'], 99999)
+                     "VALUES (%s, %s, %s, %s, %s)")
+        data_receipt = (transaction_number, 0, operator_id, jsonObject['CURRENT_SCHOOL_YEAR'], TRANS_TOTAL)
         cursor.execute(add_receipt, data_receipt)
+        #----------------------------------------------
+        # Committing to MySQL
+        #----------------------------------------------
 
         cnx.commit()
-
-
-
-
-
-        # add userlist info...
-        # add paymentInfo info...
-
         #----------------------------------------------
         # Pulling receipt from the cloud
         #----------------------------------------------
-        if (DEBUGGING): dev_print(userList, paymentInfo, transaction_number)
-        #pull_receipt("10010-KNX", jsonObject)
-        pull_receipt(transaction_number, jsonObject)
-        filename = "logs/" + str(transaction_number) + ".txt"
-        try:
-            outfile = open(filename, "r")
-            print(Fore.CYAN)
-            print outfile.read()
-            print(Style.RESET_ALL)
-            outfile.close()
-        except IOError:
-            print("Something went wrong: " + str(IOError))
+        #dev_print(userList, paymentInfo, transaction_number)
 
-        #----------------------------------------------
-        # Printing Receipt
-        #----------------------------------------------
-        # ...
-        print(Fore.MAGENTA + "Printing receipt...NOT WORKING YET" + Style.RESET_ALL)
 
-        # This should be all the info I need to send to the cloud
 
 
         #----------------------------------------------
         # Committing to MySQL
         #----------------------------------------------
 
+        cnx.commit()
         transaction_end(transaction_number)
+        create_receipt(transaction_number, jsonObject)
+        
+        #----------------------------------------------
+        # Printing Receipt
+        #----------------------------------------------
+        # ...
+        print(Fore.MAGENTA + "Printing first receipt..." + Style.RESET_ALL)
+        
+        print_receipt(transaction_number,printer_name,jsonObject)
+        userInput = raw_input("Press Enter to print second receipt")
+        print(Fore.MAGENTA+"Printing second receipt..."+Style.RESET_ALL)
+        print_receipt(transaction_number,printer_name,jsonObject)
+
+
         #clean_shutdown()
-        cnx.close()
-        break
+        #break
 
 if __name__ == '__main__':
     main()

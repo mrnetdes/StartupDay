@@ -22,4 +22,4 @@ class Payment(object):
 
     def printInfo(self):
         """ Prints out the attributes of the object """
-        print("{0:15} {1:15} {2:15} {3:15} {4:15}".format(str(self.paymentType), str(self.payment), str(self.fee), str(self.extended_payment), str(self.info),))
+        print("{0:15} {1:15} {2:15} {3:16} {4:15}".format(str(self.paymentType), str(self.payment), str(self.fee), str(self.extended_payment), str(self.info),))

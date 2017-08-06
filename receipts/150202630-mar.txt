@@ -1,0 +1,30 @@
+--LCHS STARTUP DAY-- 
+2017-08-06 09:32:32 
+Cashier: mar
+Tran 150202630-mar  
+
+Student:       22500
+McCarty             
+Carrie              
+ClassOf2018---------
+Parent A   1   40.00
+Yearbook   1 -100.00
+Yearbook   1  100.00
+--------------------
+SUBTOTAL    $  40.00
+
+
+
+TOTAL       $  40.00
+CC Fee  1234    0.60
+CC Fee  8888    0.60
+AMT DUE     $  41.20
+
+Payments
+card    1234   20.60
+card    8888   20.60
+--------------------
+AMT PAID    $  41.20
+
+     THANK YOU      
+    Go Knights!     

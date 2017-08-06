@@ -69,6 +69,7 @@ class User(object):
 
     def print_info(self):
         """ """
+        print(str(self.lname))
         print(str(self.propername))
         print("student number: " + str(self.userid))
         print(str(self.year))
@@ -100,12 +101,11 @@ class User(object):
                 name = str(self.jsonObject['UPC'][x]['name'])
                 price = str(self.cart[x] * self.jsonObject['UPC'][x]['price'])
                 quantity = str(self.cart[x])
-                print("{0:20} {1:20} {2:10}".format(name, quantity, price))
+                print("{0:20} {1:20} {2:7.2f}".format(name, quantity,float(price)))
         for x in self.credits:
             if (self.credits[x] > 0):
                 name = str("cred: ") + str(self.jsonObject['UPC'][x]['name'])
                 price = str(self.credits[x] * self.jsonObject['UPC'][x]['credit_price'])
                 quantity = str(self.credits[x])
-                print("{0:20} {1:20} {2:10}".format(name, quantity, price))
-        print "-"*50
-        print("{0:20} {1:20} {2:5}".format("", "", self.get_total()))
+                print("{0:20} {1:20} {2:7.2f}".format(name, quantity,float(price)))
+        print("{0:20} {1:20} {2:7.2f}".format("SUBTOTAL"," ", float(self.get_total())))
