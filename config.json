@@ -1,7 +1,7 @@
 {
   "UPC": {
     "CAFETERIA": {
-      "name": "Cafeteria",
+      "name": "Cafe",
       "UPC": "CAFETERIA",
       "description": "cafeteria account",
       "rules": "put up note that they only need to add it to the first student but can do them all if they want to - all goes to the same account)",
@@ -22,9 +22,9 @@
       "limit": 99999,
       "senior_only": 0
     },
-    "QUARTER_AD": {
-      "name": "Quarter Ad",
-      "UPC": "QUARTER_AD",
+    "QUARTER AD": {
+      "name": "Qtr Ad",
+      "UPC": "QUARTER AD",
       "description": "yearbook AD - quarter page",
       "rules": "only seniors can order",
       "price": 25,
@@ -33,9 +33,9 @@
       "limit": 99999,
       "senior_only": 1
     },
-    "HALF_AD": {
+    "HALF AD": {
       "name": "Half Ad",
-      "UPC": "HALF_AD",
+      "UPC": "HALF AD",
       "description": "yearbook AD - half page",
       "rules": "only seniors can order",
       "price": 50,
@@ -44,9 +44,9 @@
       "limit": 99999,
       "senior_only": 1
     },
-    "FULL_AD": {
+    "FULL AD": {
       "name": "Full Ad",
-      "UPC": "FULL_AD",
+      "UPC": "FULL AD",
       "description": "yearbook AD - full page",
       "rules": "only seniors can order",
       "price": 100,
@@ -77,9 +77,9 @@
       "limit": 99999,
       "senior_only": 0
     },
-    "PARKING_PASS": {
-      "name": "Parking Pass",
-      "UPC": "PARKING_PASS",
+    "PARKING PASS": {
+      "name": "Parking",
+      "UPC": "PARKING PASS",
       "description": "parking lot pass",
       "rules": "1 per student/only seniors can order",
       "price": 30,
@@ -88,9 +88,9 @@
       "limit": 1,
       "senior_only": 1
     },
-    "SERVICE_CLUB": {
-      "name": "Service Club",
-      "UPC": "SERVICE_CLUB",
+    "SERVICE CLUB": {
+      "name": "Srv Club",
+      "UPC": "SERVICE CLUB",
       "description": "service club dues",
       "rules": "1 per student",
       "price": 20,
@@ -99,9 +99,9 @@
       "limit": 1,
       "senior_only": 0
     },
-    "PAC_DUES": {
-      "name": "Parent Action",
-      "UPC": "PAC_DUES",
+    "PAC DUES": {
+      "name": "PAC Dues",
+      "UPC": "PAC DUES",
       "description": "parent action corp dues",
       "rules": "1 per family so only needs to be done on one kid",
       "price": 40,
@@ -111,7 +111,7 @@
       "senior_only": 0
     },
     "UKNIGHTPATRON": {
-      "name": "UKnight Patron",
+      "name": "UKnight",
       "UPC": "UKNIGHTPATRON",
       "description": "Hoagie sales voucher",
       "rules": "1 per student",
@@ -122,7 +122,7 @@
       "senior_only": 0
     },
     "IDBADGE": {
-      "name": "ID",
+      "name": "ID Badge",
       "UPC": "IDBADGE",
       "description": "ID badge made",
       "rules": "1 per student",
@@ -134,30 +134,30 @@
     }
   },
   "VALID_PAYMENT":{
-    "cash": {
-      "UPC": "cash"
+    "CASH": {
+      "UPC": "CASH"
     },
-    "credit": {
-      "UPC": "credit"
+    "CREDIT": {
+      "UPC": "CREDIT"
     },
-    "check": {
-      "UPC": "check"
+    "CHECK": {
+      "UPC": "CHECK"
     }
   },
   "VALID_AMOUNT":{
-    "pay_in_full": {
-        "UPC": "pay_in_full"
+    "PAY IN FULL": {
+        "UPC": "PAY IN FULL"
     }
   },
   "KILL_COMMANDS":{
     "kill_session":{
-      "name": "kill"
+      "name": "KILL"
     },
     "cancel_trans":{
-      "name": "cancel_trans"
+      "name": "CANCEL"
    },
     "ready_for_payment":{
-      "name": "break"
+      "name": "PAY NOW"
     },
     "view_totals":{
       "name": "TOTAL"

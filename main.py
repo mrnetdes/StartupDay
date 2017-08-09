@@ -2,7 +2,6 @@
 # Date: 06/07/2017
 # Version: Pre-Alpha 1.0
 
-DEBUGGING = False
 
 import json # Support for json config file
 import logging
@@ -13,6 +12,9 @@ import os, sys
 
 logging.basicConfig(filename='run.log',format='%(asctime)s %(levelname)s: %(message)s', level=logging.DEBUG)
 logging.info("-----Program Started-----")
+
+printer_name = None
+DEBUGGING = False
 
 # Importing all the custom packages
 from packages.header import *
@@ -29,7 +31,7 @@ from packages.colorama import init
 init()
 from packages.colorama import Fore, Back, Style
 
-printer_name = None
+
 
 def show_total(userList):
     """ """
@@ -158,11 +160,11 @@ def main():
 
             # Checking for break command
             if (userInput == jsonObject['KILL_COMMANDS']['ready_for_payment']['name']):break
-            
+
             # Checking for cancel transaction command
             # Note, we also need to check for cancel_trans in the outer loop
             if (userInput == jsonObject['KILL_COMMANDS']['cancel_trans']['name']): break
- 
+
             if (userInput == jsonObject['KILL_COMMANDS']['view_totals']['name']):
                SUBTOTAL = 0
                for person in userList:
@@ -214,13 +216,23 @@ def main():
                         print(Fore.YELLOW + "There is a limit of " + str(jsonObject['UPC'][str(userInput)]['limit']) + " for this item" + Style.RESET_ALL)
 
                     # Checking for cafeteria _ NEED TO ADD FAMILY RULE
-                    elif (userInput == "CAFETERIA"):
+                    elif (userInput == jsonObject["UPC"]["CAFETERIA"]["UPC"]):
                         # if ...
-                        cafe_amount = get_cafe("Enter amount for cafe: ")
+                        cafe_amount = get_cafe("Enter amount for cafertia account: ")
                         userList[current_user].add_to_cafe(cafe_amount, userInput) # adding dollar amount to cafeteria balance
 
                     # NEED PAC FAMILY RULE
                     # ...
+                    elif (userInput == jsonObject["UPC"]["PAC DUES"]["UPC"]):
+                        found1 = False
+                        for person in userList:
+                            if (userList[person].is_in_cart("PAC DUES")):
+                                print("PAC_DUES already exists in this transaction")
+                                if (get_yes_no("Do you want to add another PAC_DUES ") == 'n'):
+                                    found1 = True
+                        if not found1 :
+                            userList[current_user].add_item(userInput)
+                            print(Fore.GREEN+userInput+" added to "+str(userList[current_user].propername)+" cart"+Style.RESET_ALL)
 
                     # Senior ADs rules
                     elif (int(jsonObject['UPC'][str(userInput)]['senior_only']) == 1 and userList[current_user].year != str(jsonObject["CURRENT_GRADUATION_YEAR"])):
@@ -249,7 +261,7 @@ def main():
                 else:
                     print(Fore.RED + "INVALID INPUT" + Style.RESET_ALL)
           # End except block
-          
+
         # End if While True Main Scanning loop
 
         if (DEBUGGING):
@@ -272,7 +284,7 @@ def main():
         for person in userList:
           #userList[person].print_receipt()
           SUBTOTAL += userList[person].get_total()
-        
+
         paymentInfo = [] # structure to hold the different payments' info
         outstanding = float(round(SUBTOTAL,2)) # the remaining balance due on the transaction
         print(Fore.YELLOW + "\nWARNING: a 3% fee will be applied to credit card purchases!" + Style.RESET_ALL) # cc surcharge warning
@@ -294,13 +306,13 @@ def main():
             # Determining payment method
             #----------------------------------------------
             # Cash
-            if (pay_method == jsonObject['VALID_PAYMENT']['cash']['UPC']):
+            if (pay_method == jsonObject['VALID_PAYMENT']['CASH']['UPC']):
                 info = "n/a"
                 payment = amount
                 fee = 0
                 extended_payment = amount
 
-                if (str(amount) == jsonObject['VALID_AMOUNT']['pay_in_full']['UPC']):
+                if (str(amount) == jsonObject['VALID_AMOUNT']['PAY IN FULL']['UPC']):
                     amount = float(outstanding)
                     payment = outstanding
                     extended_payment = outstanding  # MAR
@@ -311,13 +323,13 @@ def main():
                 paymentInfo.append(Payment(pay_method, payment, fee, extended_payment, info))
 
             # Check
-            elif (pay_method == jsonObject['VALID_PAYMENT']['check']['UPC']):
+            elif (pay_method == jsonObject['VALID_PAYMENT']['CHECK']['UPC']):
                 info = raw_input("\tCheck number: ")
                 payment = amount
                 fee = 0
                 extended_payment = amount
 
-                if (amount == jsonObject['VALID_AMOUNT']['pay_in_full']['UPC']):
+                if (amount == jsonObject['VALID_AMOUNT']['PAY IN FULL']['UPC']):
                     amount = float(outstanding)
                     payment = outstanding
                     extended_payment = outstanding
@@ -328,10 +340,10 @@ def main():
                 paymentInfo.append(Payment(pay_method, payment, fee, extended_payment, info))
 
             # Card
-            elif (pay_method == jsonObject['VALID_PAYMENT']['credit']['UPC']):
+            elif (pay_method == jsonObject['VALID_PAYMENT']['CREDIT']['UPC']):
                 info = last_four("\tLast four digits on card: ")
 
-                if (amount == jsonObject['VALID_AMOUNT']['pay_in_full']['UPC']):
+                if (amount == jsonObject['VALID_AMOUNT']['PAY IN FULL']['UPC']):
                     upcharge = float(outstanding * 0.03)
                     print(Fore.YELLOW + "\t3% charge of $" + str(upcharge) + " being applied" + Style.RESET_ALL)
                     amount = float(outstanding)
@@ -350,7 +362,7 @@ def main():
                     outstanding -= amount
 
                 paymentInfo.append(Payment(pay_method, payment, fee, extended_payment, info))
-                    
+
         # End of While outstanding > 0 loop
 
         #----------------------------------------------
@@ -370,12 +382,12 @@ def main():
         # Sending info to the cloud
         # Accumulate transaction total, including payment fees
         #----------------------------------------------
-        
+
         #----------------------------------------------
         # Starting a MySQL transaction
         #----------------------------------------------
         #cnx.start_transaction()
-    
+
         # Payment Table
         logging.info('loading info into paymentTbl')
         add_paymentTbl = ("INSERT INTO paymentTbl "
@@ -413,7 +425,7 @@ def main():
                     units = userList[x].credits[y]
                     extended_cost = float(units * unitcost)
                     TRANS_TOTAL += float(extended_cost)
-                    
+
                     data_receipt = (str(IDNum), barcode, unitcost, units, extended_cost, transaction_number)
                     cursor.execute(add_itemTbl, data_receipt)
              # End of for y loop
@@ -446,13 +458,13 @@ def main():
         cnx.commit()
         transaction_end(transaction_number)
         create_receipt(transaction_number, jsonObject)
-        
+
         #----------------------------------------------
         # Printing Receipt
         #----------------------------------------------
         # ...
         print(Fore.MAGENTA + "Printing first receipt..." + Style.RESET_ALL)
-        
+
         print_receipt(transaction_number,printer_name,jsonObject)
         userInput = raw_input("Press Enter to print second receipt")
         print(Fore.MAGENTA+"Printing second receipt..."+Style.RESET_ALL)

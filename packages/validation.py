@@ -41,7 +41,7 @@ def get_payment_amount(prompt, max_amount):
         if (userInput == jsonObject['KILL_COMMANDS']['kill_session']['name']):
             return
 
-        if (userInput == jsonObject['VALID_AMOUNT']['pay_in_full']['UPC']):
+        if (userInput == jsonObject['VALID_AMOUNT']['PAY IN FULL']['UPC']):
             return str(userInput)
 
         # Exception handling for float

@@ -1,30 +1,6 @@
-2017-08-07 19:34:58,695 DEBUG:  This is debug
-2017-08-07 19:34:58,695 INFO:  This is info
-2017-08-07 19:34:58,696 WARNING:  This is a warning
-2017-08-07 19:39:55,544 DEBUG:  This is debug
-2017-08-07 19:39:55,544 INFO:  This is info
-2017-08-07 19:39:55,544 WARNING:  This is a warning
-2017-08-07 19:54:23,857 DEBUG:  This is debug
-2017-08-07 19:54:23,857 INFO:  This is info
-2017-08-07 19:54:23,857 WARNING:  This is a warning
-2017-08-07 19:55:12,165 DEBUG:  This is debug
-2017-08-07 19:55:12,165 INFO:  This is info
-2017-08-07 19:55:12,166 WARNING:  This is a warning
-2017-08-07 19:57:43,587 DEBUG:  This is debug
-2017-08-07 19:57:43,587 INFO:  This is info
-2017-08-07 19:57:43,587 WARNING:  This is a warning
-2017-08-07 21:29:57,850 DEBUG:  This is debug
-2017-08-07 21:29:57,852 INFO:  This is info
-2017-08-07 21:29:57,852 WARNING:  This is a warning
-2017-08-07 21:32:21,646 DEBUG:  This is debug
-2017-08-07 21:32:21,647 INFO:  This is info
-2017-08-07 21:32:21,647 WARNING:  This is a warning
-2017-08-07 21:35:10,873 DEBUG:  This is debug
-2017-08-07 21:35:10,873 INFO:  This is info
-2017-08-07 21:35:10,874 WARNING:  This is a warning
-2017-08-07 21:36:24,065 DEBUG:  This is debug
-2017-08-07 21:36:24,065 INFO:  This is info
-2017-08-07 21:36:24,065 WARNING:  This is a warning
-2017-08-07 21:41:42,580 DEBUG:  This is debug
-2017-08-07 21:41:42,581 INFO:  This is info
-2017-08-07 21:41:42,581 WARNING:  This is a warning
+2017-08-07 16:42:03,751 DEBUG:  This is debug
+2017-08-07 16:42:03,751 INFO:  This is info
+2017-08-07 16:42:03,751 WARNING:  This is a warning
+2017-08-07 16:42:37,999 DEBUG:  This is debug
+2017-08-07 16:42:37,999 INFO:  This is info
+2017-08-07 16:42:38,000 WARNING:  This is a warning

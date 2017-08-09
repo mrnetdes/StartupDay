@@ -5,9 +5,9 @@ from datetime import datetime
 import sys
 import json
 import logging
-import os
+import os, sys
 
-log = logging.getLogger(__name__)
+
 # Importing config file
 with open('mysql.json', "r") as mysql_file: # Reading in JSON file to be parsed
     jsonObjectSQL = json.load(mysql_file) # parsing file
@@ -21,15 +21,15 @@ database = jsonObjectSQL['DATABASE']
 config = {'user': user, 'password': pw, 'host': host, 'port': port, 'database': database}
 
 # Attempting to open connection to specified db
+logging.info("MySQL: Connecting to "+str(database)+" on "+str(host))
 try:
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor(buffered=True)
-    print("Connecting to "+str(database))
-    log.info("MySQL: connection to "+str(database)+" on " + str(host))
+    logging.info("MySQL: connected to "+str(database)+" on " + str(host))
 except mysql.connector.Error as err:
     print("Uh oh :( Please show this message to your IT Administrator")
     print(str(err))
-    #logging.exception("MySQL: attempting to connect to " + str(self.host))
+    logging.error("MySQL: " + str(err))
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
         #print(str(errorcode.ER_ACCESS_DENIED_ERROR))
         #logging.exception(str(errorcode.ER_ACCESS_DENIED_ERROR))
@@ -47,7 +47,7 @@ def is_student(id):
     '''
     Returns True if the given id is a valid operator - returns False otherwise. If true then info about the user is stored in the cursor.
     '''
-    query = "SELECT Fname, Lname, Pname, GradClass, EnrollYear FROM PEOPLE WHERE IDNum=" + str(id) + " AND Status=\"Active\""
+    query = "SELECT Fname, Lname, Pname, GradClass, EnrollYear FROM People WHERE IDNum=" + str(id) + " AND Status=\"Active\""
     #query = "SELECT COUNT(*) FROM People WHERE IDNum=" + str(id) + " AND Status=\"Active\""
     cursor.execute(query)
     #rows = cursor.fetchone()[0]
@@ -128,7 +128,10 @@ def create_receipt(transactionID, jsonObject):
         f1.write("{0:-<20}\n".format(gradclass))
      
       name = jsonObject['UPC'][barcode]['name']
-      f1.write("{0:8.8} {1:3d} {2:7.2f}\n".format(name, units, extended_cost))
+      if (barcode == "CAFETERIA"):
+        f1.write("{0:8.8} {1:3} {2:7.2f}\n".format(name," ",extended_cost))
+      else:
+        f1.write("{0:8.8} {1:3d} {2:7.2f}\n".format(name, units, extended_cost))
       id_subtotal = id_subtotal + float(extended_cost)
       oldNum = IDNum
    # print out last IDNum subtotal
@@ -153,8 +156,8 @@ def create_receipt(transactionID, jsonObject):
    pay_total = 0.0
    curA.execute(queryPay, (transactionID, ))
    for (paymentType, extended_payment, info) in curA:
-       if(paymentType == "credit"): paymentType = "card"
-       f1.write("{0:7.7} {1:5.5} {2:6.2f}\n".format(paymentType,info,float(extended_payment)))
+       if(paymentType == "CREDIT"): paymentType = "CARD"
+       f1.write("{0:6.6} {1:5.5} {2:7.2f}\n".format(paymentType,info,float(extended_payment)))
        pay_total = pay_total + float(extended_payment)
 
    f1.write("-"*20+"\n")

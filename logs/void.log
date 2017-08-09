@@ -1,0 +1,4 @@
+2017-08-09 07:33:42,080 INFO: MySQL: Connecting to lchsdb_test on localhost
+2017-08-09 07:33:42,089 INFO: MySQL: connected to lchsdb_test on localhost
+2017-08-09 07:33:42,090 INFO: ==== void_transaction Start
+2017-08-09 07:33:51,395 INFO: ==== void_transaction End

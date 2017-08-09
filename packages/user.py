@@ -67,6 +67,11 @@ class User(object):
             self.cart[str(UPC)] += int(amount)
             print(Fore.GREEN + str(amount) + " added to account " + str(self.userid) + Style.RESET_ALL)
 
+    def is_in_cart(self, UPC):
+        """ """
+        if (self.cart[str(UPC)] > 0): return True
+        return False
+        
     def print_info(self):
         """ """
         print(str(self.lname))

@@ -10,12 +10,13 @@ if (os.name != "posix"): import win32print
 
 def print_receipt(transactionID, printer_name, jsonObject):
   basedir = jsonObject["RCPT_DIR"]
-  if (printer_name == ""):
-    printer_name = win32print.GetDefaultPrinter()
 
   if (os.name != "posix"):
+    printer_name = win32print.GetDefaultPrinter()
     hPrinter = win32print.OpenPrinter(printer_name)
-    f2 = open(os.path.join(basedir,transaction_number),"r")
+    f2name = os.path.join(basedir,transactionID)
+    f2name = f2name+".txt"
+    f2 = open(f2name,"r")
     text_data = f2.read()
     f2.close()
     # Open a doc, open a page, wirte the page and close page and doc
