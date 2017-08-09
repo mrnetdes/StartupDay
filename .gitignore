@@ -102,3 +102,6 @@ ENV/
 # logs and receipts
 /logs
 /receipts
+.log
+.txt
+*.log

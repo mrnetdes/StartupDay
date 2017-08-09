@@ -31,3 +31,14 @@ ProgrammingError: 1045 (28000): Access denied for user 'userid'@'localhost' (usi
 2017-08-08 22:05:20,090 INFO: operator mar signed in
 2017-08-08 22:05:22,422 INFO: ====== Start Transaction 1502244322-mar ======
 2017-08-08 22:05:42,329 INFO: shutdown command was issued
+2017-08-09 09:50:16,600 INFO: -----Program Started-----
+2017-08-09 09:50:16,928 INFO: MySQL: Connecting to lchsdb_test on localhost
+2017-08-09 09:50:16,992 INFO: MySQL: connected to lchsdb_test on localhost
+2017-08-09 09:50:16,996 INFO: program is running in production mode
+2017-08-09 09:50:19,248 INFO: operator mar signed in
+2017-08-09 09:50:22,324 INFO: ====== Start Transaction 1502286622-mar ======
+2017-08-09 09:50:51,423 INFO: loading info into paymentTbl
+2017-08-09 09:50:51,492 INFO: loading info into itemTbl
+2017-08-09 09:50:51,494 INFO: loading info into transactionTbl
+2017-08-09 09:50:51,509 INFO: ====== End Transaction 1502286622-mar ======
+2017-08-09 09:50:56,135 INFO: shutdown command was issued
