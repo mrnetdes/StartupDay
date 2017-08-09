@@ -24,7 +24,7 @@ config = {'user': user, 'password': pw, 'host': host, 'port': port, 'database': 
 try:
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor(buffered=True)
-    #logging.info("MySQL: connection was opened on " + str(host))
+    logging.info("MySQL: connection was opened on " + str(host))
 except mysql.connector.Error as err:
     print("Uh oh :( Please show this message to your IT Administrator")
     print(str(err))

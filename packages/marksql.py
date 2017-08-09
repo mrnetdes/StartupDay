@@ -5,9 +5,9 @@ from datetime import datetime
 import sys
 import json
 import logging
-import os, sys
+import os
 
-
+log = logging.getLogger(__name__)
 # Importing config file
 with open('mysql.json', "r") as mysql_file: # Reading in JSON file to be parsed
     jsonObjectSQL = json.load(mysql_file) # parsing file
@@ -24,7 +24,8 @@ config = {'user': user, 'password': pw, 'host': host, 'port': port, 'database': 
 try:
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor(buffered=True)
-    logging.info("MySQL: connection to "+str(database)+" on " + str(host))
+    print("Connecting to "+str(database))
+    log.info("MySQL: connection to "+str(database)+" on " + str(host))
 except mysql.connector.Error as err:
     print("Uh oh :( Please show this message to your IT Administrator")
     print(str(err))

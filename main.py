@@ -4,6 +4,16 @@
 
 DEBUGGING = False
 
+import json # Support for json config file
+import logging
+import time
+import os, sys
+#if (os.name != "posix"): import win32print
+
+
+logging.basicConfig(filename='run.log',format='%(asctime)s %(levelname)s: %(message)s', level=logging.DEBUG)
+logging.info("-----Program Started-----")
+
 # Importing all the custom packages
 from packages.header import *
 from packages.validation import *
@@ -18,17 +28,6 @@ from packages.customprint import *
 from packages.colorama import init
 init()
 from packages.colorama import Fore, Back, Style
-
-
-import json # Support for json config file
-import logging
-import time
-import os, sys
-#if (os.name != "posix"): import win32print
-
-
-logging.basicConfig(filename='run.log',format='%(asctime)s %(levelname)s: %(message)s', level=logging.DEBUG)
-logging.info("-----Program Started-----")
 
 printer_name = None
 

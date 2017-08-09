@@ -718,3 +718,12 @@
 2017-08-05 22:02:36,966 INFO: loading info into itemTbl
 2017-08-05 22:02:36,967 INFO: loading info into transactionTbl
 2017-08-05 22:06:42,739 INFO: shutdown command was issued
+2017-08-07 19:58:11,934 INFO: -----Program Started-----
+2017-08-07 19:58:11,936 INFO: program is running in production mode
+2017-08-07 19:58:13,127 INFO: operator mar signed in
+2017-08-07 19:58:31,222 INFO: shutdown command was issued
+2017-08-08 10:00:11,030 INFO: -----Program Started-----
+2017-08-08 10:00:11,090 INFO: MySQL: connection to lchsdb_test on 192.168.0.167
+2017-08-08 10:00:11,092 INFO: program is running in production mode
+2017-08-08 10:00:14,260 INFO: operator mar signed in
+2017-08-08 10:00:22,075 INFO: shutdown command was issued
